@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meowthority - Premium Mod APKs</title>
+    <title>Meowthority - Mod APKs</title>
     <meta name="description" content="Download Premium Mod APKs, Games, and Apps for Free at Meowthority.">
     <meta name="theme-color" content="#0d0d12">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ANTI COPY TEXT & GLOBAL */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; outline: none; }
         body { background-color: #0d0d12; color: #e0e0e0; overflow-x: hidden; scroll-behavior: smooth; display: flex; flex-direction: column; min-height: 100vh; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
         
-        /* HEADER LAYOUT */
         header { background-color: rgba(13, 13, 18, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 76, 76, 0.15); padding: 15px 20px; position: sticky; top: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; gap: 15px; }
         .top-bar { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 1200px; }
         .logo-area { display: flex; align-items: center; gap: 10px; cursor: pointer; }
@@ -34,9 +32,6 @@
         .auth-btn { background: linear-gradient(135deg, #ff4c4c, #b30000); color: white; border: none; padding: 10px 18px; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 13px; transition: 0.3s; box-shadow: 0 4px 15px rgba(255, 76, 76, 0.3); display: flex; align-items: center; gap: 8px; }
         .auth-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 76, 76, 0.5); }
 
-        @media (max-width: 480px) { .logo-area h1 { font-size: 18px; } .action-bar { flex-direction: column-reverse; align-items: flex-end; } .search-bar { max-width: 100%; } }
-
-        /* HERO SLIDER */
         .hero-slider-container { width: 100%; max-width: 1200px; margin: 20px auto 0; position: relative; overflow: hidden; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: none; }
         .hero-slider { display: flex; transition: transform 0.5s ease-in-out; width: 300%; }
         .hero-slide { width: 33.333%; position: relative; height: 250px; cursor: pointer; }
@@ -48,13 +43,10 @@
         .slider-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 3; }
         .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.3); border-radius: 50%; cursor: pointer; transition: 0.3s; }
         .dot.active { background: #ff4c4c; transform: scale(1.2); }
-        @media (min-width: 768px) { .hero-slide { height: 350px; } .hero-content h2 { font-size: 32px; } }
 
-        /* MOD GRID & ANIMASI TEKS BERJALAN */
         main { flex: 1; margin-top: 15px; width: 100%;}
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .mod-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; padding: 20px; max-width: 1200px; margin: auto; }
-        @media (max-width: 480px) { .mod-grid { grid-template-columns: 1fr; } }
         
         .mod-card { position: relative; display: flex; align-items: center; background: #16161e; border-radius: 16px; padding: 15px; border: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.3s; animation: fadeInUp 0.4s ease backwards; overflow: hidden;}
         .mod-card:hover { transform: translateY(-3px); border-color: rgba(255, 76, 76, 0.4); background: #1a1a24; }
@@ -64,10 +56,8 @@
         
         .mod-info { margin-left: 15px; flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: center;}
         
-        /* JUDUL STATIS (DIPERBAIKI) */
         .mod-title { font-size: 15px; color: #fff; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; display: block;} 
         
-        /* SCROLL TEKS (Hanya untuk fitur mod) */
         .scroll-box { width: 100%; overflow: hidden; white-space: nowrap; position: relative; margin-bottom: 2px;}
         .scroll-text { display: inline-block; animation: scrollBackForth 4s ease-in-out infinite alternate; padding-right: 20px;}
         .mod-card:hover .scroll-text { animation-play-state: paused; }
@@ -77,17 +67,14 @@
         .mod-features { font-size: 11px; color: #ff4c4c; background: rgba(255, 76, 76, 0.08); padding: 4px 8px; border-radius: 6px;}
         .mod-stats { font-size: 11px; color: #aaa; margin: 4px 0; display: flex; gap: 15px; font-weight: 500; align-items: center;}
 
-        /* SKELETON LOADING UI */
         .skeleton { background: #22222e; background-image: linear-gradient(90deg, #22222e 0px, #2a2a35 40px, #22222e 80px); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
         @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
         .skeleton-card { display: flex; align-items: center; background: #16161e; border-radius: 16px; padding: 15px; border: 1px solid rgba(255,255,255,0.05); }
 
-        /* LOAD MORE BUTTON */
         .load-more-container { text-align: center; padding: 10px 20px 40px; }
         .btn-load-more { background: #16161e; color: #fff; border: 1px solid rgba(255,255,255,0.1); padding: 12px 30px; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: 600; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px;}
         .btn-load-more:hover { background: #ff4c4c; border-color: #ff4c4c; box-shadow: 0 4px 15px rgba(255, 76, 76, 0.3); transform: translateY(-2px);}
 
-        /* FOOTER */
         footer { border-top: 1px solid rgba(255,255,255,0.05); background: #121218; padding: 30px 20px; text-align: center; margin-top: auto; }
         footer h3 { font-size: 16px; color: #fff; margin-bottom: 15px; font-weight: 600; }
         .social-links { display: flex; justify-content: center; gap: 20px; }
@@ -96,28 +83,21 @@
         .social-links a.youtube:hover { background: #FF0000; border-color: #FF0000; color: #fff; transform: translateY(-3px);}
         footer p { margin-top: 20px; font-size: 12px; color: #666; }
 
-        /* MODALS */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: flex-end; z-index: 1000; opacity: 0; transition: opacity 0.3s ease; }
-        @media (min-width: 768px) { .modal-overlay { align-items: center; padding: 20px; } }
         .modal-overlay.active { display: flex; opacity: 1; }
         .modal-content { background: #121218; width: 100%; max-width: 800px; max-height: 90vh; overflow-y: auto; border-radius: 20px 20px 0 0; position: relative; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1); box-shadow: 0 -10px 40px rgba(0,0,0,0.8); padding-bottom: 20px; }
-        @media (min-width: 768px) { .modal-content { border-radius: 20px; border: 1px solid rgba(255, 76, 76, 0.2); transform: scale(0.9); } }
         .modal-overlay.active .modal-content { transform: translateY(0); }
-        @media (min-width: 768px) { .modal-overlay.active .modal-content { transform: scale(1); } }
-        .close-btn { position: absolute; top: 15px; right: 15px; font-size: 20px; color: #aaa; cursor: pointer; background: rgba(255,255,255,0.05); border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; transition: 0.3s; z-index: 10; }
-        .close-btn:hover { background: rgba(255, 76, 76, 0.2); color: #ff4c4c; transform: rotate(90deg); }
-
-        /* APP DETAILS MODAL */
-        .ps-header { padding: 30px 20px 15px; display: flex; gap: 15px; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); position: relative;}
-        .ps-icon { width: 80px; height: 80px; border-radius: 18px; object-fit: cover; box-shadow: 0 5px 15px rgba(0,0,0,0.5); pointer-events: none;}
-        @media (min-width: 768px) { .ps-icon { width: 100px; height: 100px; border-radius: 22px; } }
-        .ps-info { flex: 1; padding-right: 30px; }
-        .ps-title { font-size: 20px; color: #fff; font-weight: 700; line-height: 1.2; -webkit-user-select: text; user-select: text;}
-        @media (min-width: 768px) { .ps-title { font-size: 24px; } }
+        
+        .ps-header { padding: 30px 20px 20px; display: flex; flex-direction: row; gap: 15px; align-items: flex-start; border-bottom: 1px solid rgba(255,255,255,0.05); position: relative; }
+        .ps-icon { width: 85px; height: 85px; border-radius: 20px; object-fit: cover; box-shadow: 0 5px 15px rgba(0,0,0,0.5); pointer-events: none; flex-shrink: 0; }
+        .ps-info { flex: 1; display: flex; flex-direction: column; justify-content: center; margin-top: 8px; padding-right: 40px; }
+        .ps-title { font-size: 22px; color: #fff; font-weight: 700; line-height: 1.2; -webkit-user-select: text; user-select: text;}
         .ps-dev { font-size: 13px; color: #888; margin-top: 5px; }
 
-        /* BOOKMARK BTN (DIPERBAIKI) */
-        .btn-bookmark { position: absolute; right: 20px; bottom: 15px; background: transparent; border: none; font-size: 24px; color: #444; cursor: pointer; transition: 0.3s; }
+        .close-btn { position: absolute; top: 20px; right: 20px; font-size: 18px; color: #ff4c4c; cursor: pointer; background: rgba(255, 76, 76, 0.15); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; transition: 0.3s; z-index: 10; }
+        .close-btn:hover { background: rgba(255, 76, 76, 0.3); transform: scale(1.05); }
+
+        .btn-bookmark { position: absolute; right: 25px; bottom: 20px; background: transparent; border: none; font-size: 24px; color: #444; cursor: pointer; transition: 0.3s; }
         .btn-bookmark:hover { transform: scale(1.1); color: #ff4c4c; }
         .btn-bookmark.active { color: #ff4c4c; }
         
@@ -131,7 +111,6 @@
         .ps-features { color: #fff; font-size: 13px; background: rgba(255, 76, 76, 0.1); padding: 15px; border-radius: 12px; border-left: 4px solid #ff4c4c; margin-bottom: 20px; font-weight: 500; line-height: 1.5; }
         .modal-desc { color: #bbb; font-size: 13px; line-height: 1.6; white-space: pre-wrap; margin-bottom: 20px; -webkit-user-select: text; user-select: text;}
 
-        /* MULTI-LINK BUTTONS */
         .download-btn-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
         .big-download-btn { display: flex; justify-content: center; align-items: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #ff4c4c, #990000); color: white; padding: 15px; border-radius: 12px; font-size: 14px; font-weight: 600; text-transform: uppercase; border: none; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); letter-spacing: 0.5px; text-decoration: none;}
         .big-download-btn:active { transform: scale(0.98); box-shadow: none; }
@@ -155,7 +134,6 @@
         .stars span { transition: 0.2s; }
         .stars span:hover, .stars span.active { color: #ffcc00; transform: scale(1.15); text-shadow: 0 0 15px rgba(255, 204, 0, 0.4); }
         
-        /* RELATED APPS */
         .related-section { margin-top: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px;}
         .related-section h3 { font-size: 15px; color: #fff; margin-bottom: 15px; }
         .related-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
@@ -163,9 +141,7 @@
         .related-card:hover { transform: translateY(-3px); border-color: #ff4c4c; background: #1a1a24; }
         .related-card img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; margin-bottom: 8px;}
         .related-card h4 { font-size: 11px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; font-weight: 500;}
-        @media (max-width: 480px) { .related-grid { grid-template-columns: repeat(2, 1fr); } }
 
-        /* COMMENTS & REPLIES */
         .comment-section { margin-top: 20px; }
         .comment-section h3 { font-size: 15px; color: #fff; margin-bottom: 15px; }
         .comment-box, .reply-box { display: flex; gap: 10px; background: #16161e; padding: 10px 15px; border-radius: 16px; align-items: center; margin-bottom: 20px; border: 1px solid transparent; transition: 0.3s;}
@@ -193,7 +169,6 @@
         .reply-item h4 { font-size: 12px; color: #fff; margin-bottom: 2px; }
         .reply-item p { font-size: 11px; color: #aaa; line-height: 1.4; }
 
-        /* FILTER & SORT MODAL */
         .filter-subtitle { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin: 15px 0 10px; font-weight: 600;}
         .category-grid { display: flex; flex-wrap: wrap; gap: 8px; }
         .cat-btn { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 14px; border: 1px solid rgba(255,255,255,0.05); background-color: #16161e; color: #888; cursor: pointer; border-radius: 12px; font-weight: 500; font-size: 12px; transition: 0.3s; flex-grow: 1; text-align: center;}
@@ -202,7 +177,6 @@
         .cat-btn.active i { transform: scale(1.1); color: #ff4c4c; }
         .sort-group .cat-btn { flex-basis: 45%; }
 
-        /* CUSTOM ALERT MODAL */
         .custom-alert { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 9999; opacity: 0; transition: 0.3s; }
         .custom-alert.active { display: flex; opacity: 1; }
         .custom-alert-box { background: #1a1a24; width: 90%; max-width: 320px; padding: 25px; border-radius: 20px; text-align: center; border: 1px solid rgba(255, 76, 76, 0.3); transform: scale(0.8); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
@@ -216,9 +190,65 @@
         .alert-btns { display: flex; gap: 10px; justify-content: center;}
         .alert-btns button { flex: 1; }
         .btn-cancel { background: #333 !important; }
+
+        @media (min-width: 768px) { 
+            .hero-slide { height: 350px; } .hero-content h2 { font-size: 32px; } 
+            .modal-overlay { align-items: center; padding: 20px; }
+            .modal-content { border-radius: 20px; border: 1px solid rgba(255, 76, 76, 0.2); transform: scale(0.9); }
+            .modal-overlay.active .modal-content { transform: scale(1); }
+            .ps-icon { width: 100px; height: 100px; }
+            .ps-title { font-size: 26px; }
+        }
+        @media (max-width: 480px) { 
+            .logo-area h1 { font-size: 18px; } 
+            .action-bar { flex-direction: column-reverse; align-items: stretch; } 
+            .search-bar { max-width: 100%; } 
+            .mod-grid { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); padding: 15px; } 
+            header { padding: 10px 15px; }
+            .auth-btn { padding: 8px 12px; font-size: 12px; }
+            .hero-slide { height: 200px; }
+            .hero-content h2 { font-size: 18px; }
+            .custom-alert-box { width: 95%; padding: 20px; }
+            .modal-content { max-height: 85vh; }
+        }
+        @media (max-width: 350px) {
+            .action-row { flex-direction: column; } 
+            .action-btn { width: 100%; }
+        }
+        .related-grid { grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); }
+
+        #adblock-wall {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(13, 13, 18, 0.98); backdrop-filter: blur(10px);
+            z-index: 9999999; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 20px; color: #fff;
+        }
+        .adblock-box {
+            background: #16161e; border: 1px solid #ff4c4c; padding: 30px; border-radius: 20px;
+            max-width: 400px; width: 100%; box-shadow: 0 10px 40px rgba(255, 76, 76, 0.2);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .adblock-box i.fa-shield-halved { font-size: 60px; color: #ff4c4c; margin-bottom: 15px; }
+        .adblock-box h2 { font-size: 22px; margin-bottom: 10px; }
+        .adblock-box p { font-size: 14px; color: #aaa; margin-bottom: 20px; line-height: 1.5; }
+        .adblock-box button {
+            background: linear-gradient(135deg, #ff4c4c, #990000); color: #fff; border: none;
+            padding: 12px 25px; font-size: 14px; font-weight: 600; border-radius: 12px; cursor: pointer; width: 100%;
+        }
     </style>
 </head>
 <body>
+
+    <div id="adblock-wall">
+        <div class="adblock-box">
+            <i class="fa-solid fa-shield-halved"></i>
+            <h2>AdBlock Detected!</h2>
+            <p>This website remains free thanks to ad support.</p>
+            <p><strong>Please disable your AdGuard/AdBlock, or whitelist this site to continue.</strong></p>
+            <button onclick="location.reload()"><i class="fa-solid fa-rotate-right"></i> I Have Disabled It</button>
+        </div>
+    </div>
 
     <header>
         <div class="top-bar">
@@ -242,7 +272,6 @@
         </div>
     </header>
 
-    <!-- HERO SLIDER -->
     <div class="hero-slider-container" id="heroSliderContainer">
         <div class="hero-slider" id="heroSlider"></div>
         <div class="slider-dots" id="sliderDots"></div>
@@ -250,7 +279,6 @@
 
     <main>
         <div class="mod-grid" id="modContainer">
-            <!-- Data or Skeletons will load here -->
         </div>
         <div class="load-more-container" id="loadMoreContainer" style="display: none;">
             <button class="btn-load-more" onclick="loadApps(true)"><i class="fa-solid fa-angles-down"></i> Load More Apps</button>
@@ -266,10 +294,9 @@
         <p>&copy; 2026 Meowthority. All rights reserved.</p>
     </footer>
 
-    <!-- MODAL FILTER & SORT -->
     <div class="modal-overlay" id="filterModal">
         <div class="modal-content" style="max-width: 500px;">
-            <div class="close-btn" onclick="closeFilterModal()"><i class="fa-solid fa-xmark"></i></div>
+            <div class="close-btn" style="top: 15px; right: 15px;" onclick="closeFilterModal()"><i class="fa-solid fa-xmark"></i></div>
             <div class="ps-header" style="border-bottom: none; padding-bottom: 0;">
                 <h2 class="ps-title" style="font-size: 18px;"><i class="fa-solid fa-filter" style="color: #ff4c4c; margin-right: 8px;"></i> Filter & Sort</h2>
             </div>
@@ -302,7 +329,6 @@
         </div>
     </div>
 
-    <!-- MODAL DETAILS APP -->
     <div class="modal-overlay" id="appModal">
         <div class="modal-content">
             <div class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></div>
@@ -313,7 +339,6 @@
                     <h2 class="ps-title" id="modalTitle">Game Title</h2>
                     <div class="ps-dev" id="modalDev">Developer Name</div>
                 </div>
-                <!-- BOOKMARK BUTTON -->
                 <button class="btn-bookmark" id="btnBookmark" onclick="toggleBookmark()"><i class="fa-regular fa-heart"></i></button>
             </div>
 
@@ -340,7 +365,6 @@
                 <div class="ps-features" id="modalFeatures"><i class="fa-solid fa-wand-magic-sparkles"></i> Mod Features</div>
                 
                 <div class="download-btn-container" id="modalDownloadContainer">
-                    <!-- Buttons Rendered via JS -->
                 </div>
 
                 <div class="action-row">
@@ -349,7 +373,6 @@
                     <button class="action-btn" onclick="reportError()"><i class="fa-solid fa-flag"></i> Report Error</button>
                 </div>
                 
-                <!-- ADSTERRA BANNER -->
                 <div class="ad-banner-box">
                     <span class="ad-label">Advertisement</span>
                     <script type="text/javascript">
@@ -361,7 +384,7 @@
                             'params' : {}
                         };
                     </script>
-                    <script type="text/javascript" src="https://matcheshonoraryunderwater.com/cd861e42a459dcd39dc79dbeb1171cf2/invoke.js"></script>
+                    <script type="text/javascript" src="https://matcheshonoraryunderwater.com/cd861e42a459dcd39dc79dbeb1171cf2/invoke.js" onerror="detectAdblock()"></script>
                 </div>
                 
                 <div class="modal-desc" id="modalDesc"></div>
@@ -395,25 +418,27 @@
         </div>
     </div>
 
-    <!-- CUSTOM ALERT MODAL -->
     <div class="custom-alert" id="customAlert">
         <div class="custom-alert-box">
             <div class="custom-alert-icon" id="customAlertIcon"><i class="fa-solid fa-circle-exclamation icon-warn"></i></div>
             <h3 id="customAlertTitle">Notice</h3>
-            <p id="customAlertMessage">Message goes here.</p>
+            <p id="customAlertMessage"></p>
             <div class="alert-btns" id="customAlertBtns">
                 <button onclick="closeAlert()">Understood</button>
             </div>
         </div>
     </div>
 
-    <!-- SCRIPT FIREBASE -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
-        // ANTI INSPECT ELEMENT
+        function detectAdblock() {
+            document.getElementById('adblock-wall').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; 
+        }
+
         document.addEventListener('contextmenu', event => event.preventDefault()); 
         document.onkeydown = function(e) {
             if(e.keyCode == 123) return false; 
@@ -423,7 +448,6 @@
             if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; 
         }
 
-        // FUNGSI ALERT & UTILS
         function showAlert(msg, type = "warning", customTitle = null) {
             document.getElementById('customAlertMessage').innerText = msg;
             let iconHTML = '<i class="fa-solid fa-circle-exclamation icon-warn"></i>';
@@ -455,7 +479,6 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth(), db = firebase.database(), provider = new firebase.auth.GoogleAuthProvider();
 
-        // GLOBAL VARS
         let allMods = [], currentUser = null, currentAppId = null;
         let userBookmarks = [];
         let isLoggingIn = false;
@@ -495,7 +518,6 @@
             container.innerHTML = html;
         }
 
-        // LOAD APPS
         function loadApps(isLoadMore = false) {
             if (isFetching || (!hasMoreData && isLoadMore)) return;
             isFetching = true;
@@ -534,7 +556,7 @@
                         }
                     }
                 } else {
-                    if (!isLoadMore) container.innerHTML = '<div style="color:#666; grid-column:1/-1; text-align:center; padding: 50px;"><i class="fa-solid fa-box-open" style="font-size:30px; margin-bottom:10px;"></i><br>Database empty.</div>';
+                    if (!isLoadMore) container.innerHTML = '<div style="color:#666; grid-column:1/-1; text-align:center; padding: 50px;"><i class="fa-solid fa-box-open" style="font-size:30px; margin-bottom:10px;"></i><br>App not found.</div>';
                     hasMoreData = false;
                 }
                 updateLoadMoreButton();
@@ -543,7 +565,6 @@
 
         loadApps();
 
-        // HERO SLIDER
         let heroSlideIndex = 0; let heroInterval;
         function initHeroSlider() {
             const container = document.getElementById('heroSliderContainer');
@@ -573,7 +594,6 @@
             const dots = document.querySelectorAll('.dot'); dots.forEach(d => d.classList.remove('active')); if(dots[index]) dots[index].classList.add('active');
         }
 
-        // BOOKMARK SYSTEM (FIXED DENGAN OPTIMISTIC UI)
         function loadBookmarks() {
             if(!currentUser) return;
             db.ref('bookmarks/' + currentUser.uid).on('value', snap => {
@@ -591,14 +611,14 @@
             
             if(userBookmarks.includes(currentAppId)) { 
                 ref.remove(); 
-                userBookmarks = userBookmarks.filter(id => id !== currentAppId); // Langsung update UI agar terasa cepat
+                userBookmarks = userBookmarks.filter(id => id !== currentAppId); 
                 btn.classList.remove('active');
                 btn.innerHTML = '<i class="fa-regular fa-heart"></i>';
                 showAlert("Removed from Favorites", "success"); 
             } 
             else { 
                 ref.set(true); 
-                userBookmarks.push(currentAppId); // Langsung update UI
+                userBookmarks.push(currentAppId); 
                 btn.classList.add('active');
                 btn.innerHTML = '<i class="fa-solid fa-heart"></i>';
                 showAlert("Saved to Favorites", "success"); 
@@ -628,7 +648,6 @@
             return num;
         }
 
-        // FILTER & SORTING
         function setFilter(cat) { 
             if(cat === 'Favorites' && !currentUser) return showAlert("Please login to view favorites.", "warning");
             currentCat = cat; closeFilterModal(); applyFilterAndSort(); updateFilterUI(); 
@@ -661,7 +680,6 @@
 
         document.getElementById('searchInput').addEventListener('keyup', () => applyFilterAndSort());
 
-        // DISPLAY MODS DI BERANDA
         function displayMods(mods) {
             const container = document.getElementById('modContainer'); container.innerHTML = ''; 
             if (mods.length === 0) return container.innerHTML = '<div style="color:#666; grid-column:1/-1; text-align:center; padding: 50px;"><i class="fa-solid fa-box-open" style="font-size:30px; margin-bottom:10px;"></i><br>App not found.</div>'; 
@@ -690,7 +708,6 @@
             });
             updateLoadMoreButton();
 
-            // Fetch Ratings Asinkron agar tidak lag
             mods.forEach(mod => {
                 db.ref('ratings/' + mod.id).once('value').then(snap => {
                     let rSpan = document.getElementById('home-rating-' + mod.id);
@@ -758,7 +775,6 @@
         function loadAllRatings() { updateStarUI(0); db.ref('ratings/' + currentAppId).on('value', snapshot => { let total = 0, count = 0, myRating = 0; snapshot.forEach(child => { total += child.val().score; count++; if(currentUser && child.key === currentUser.uid) myRating = child.val().score; }); const avg = count === 0 ? "0.0" : (total / count).toFixed(1); document.getElementById('modalAvgRating').innerHTML = `${avg} <i class="fa-solid fa-star" style="color:#ffcc00;"></i>`; if(myRating > 0) updateStarUI(myRating); }); }
         function updateStarUI(score) { const stars = document.getElementById('starContainer').children; for(let i=0; i<5; i++) { if(i < score) { stars[i].querySelector('i').style.color = "#ffcc00"; stars[i].querySelector('i').style.textShadow = "0 0 10px rgba(255,204,0,0.5)"; } else { stars[i].querySelector('i').style.color = "#333"; stars[i].querySelector('i').style.textShadow = "none"; } } }
 
-        // SISTEM KOMENTAR & REPLY
         let editingCommentId = null;
         function postComment() {
             if(!currentUser) return showAlert("Please login to review.", "warning");
@@ -790,7 +806,6 @@
                         let actionBtns = `<button onclick="toggleReplyBox('${child.key}')"><i class="fa-solid fa-reply"></i> Reply</button>`;
                         if(isMine) { const plainTextForJS = c.text.replace(/'/g, "\\'").replace(/"/g, '&quot;'); actionBtns += `<button onclick="startEditComment('${child.key}', '${plainTextForJS}')"><i class="fa-solid fa-pen"></i> Edit</button><button class="del" onclick="deleteCommentConfirm('${child.key}')"><i class="fa-solid fa-trash"></i> Delete</button>`; }
                         
-                        // REPLIES
                         let repliesHTML = '';
                         if(c.replies) {
                             Object.keys(c.replies).forEach(rKey => {
@@ -830,8 +845,7 @@
         function closeFilterModal() { const modal = document.getElementById('filterModal'); modal.classList.remove('active'); setTimeout(() => modal.style.display = 'none', 300); }
     </script>
 
-    <!-- EXTERNAL SCRIPTS (ADSTERRA) -->
-    <script type="text/javascript" src="https://pl28930186.effectivegatecpm.com/65/51/c6/6551c6360c8db904ce55655ee44a646e.js"></script>
-    <script type="text/javascript" src="https://matcheshonoraryunderwater.com/d3/7a/df/d37adf0ece18704d379f3eb14cab55a7.js"></script>
+    <script type="text/javascript" src="https://pl28930186.effectivegatecpm.com/65/51/c6/6551c6360c8db904ce55655ee44a646e.js" onerror="detectAdblock()"></script>
+    <script type="text/javascript" src="https://matcheshonoraryunderwater.com/d3/7a/df/d37adf0ece18704d379f3eb14cab55a7.js" onerror="detectAdblock()"></script>
 </body>
-  </html>
+    </html>
