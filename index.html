@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meowthority - Premium Mod APKs</title>
+    <meta name="description" content="Download Premium Mod APKs, Games, and Apps for Free at Meowthority.">
+    <meta name="theme-color" content="#0d0d12">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ANTI COPY TEXT & GLOBAL */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; outline: none; }
+        body { background-color: #0d0d12; color: #e0e0e0; overflow-x: hidden; scroll-behavior: smooth; display: flex; flex-direction: column; min-height: 100vh; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+        
+        /* HEADER LAYOUT */
+        header { background-color: rgba(13, 13, 18, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255, 76, 76, 0.15); padding: 15px 20px; position: sticky; top: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .top-bar { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 1200px; }
+        .logo-area { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .logo-area img { width: 40px; height: 40px; object-fit: contain; }
+        .logo-area h1 { font-weight: 800; font-size: 22px; letter-spacing: 1px; text-transform: uppercase; background: linear-gradient(to right, #ff4c4c, #700000, #ff4c4c); background-size: 200% auto; color: transparent; -webkit-background-clip: text; background-clip: text; animation: shineRed 3s linear infinite; }
+        @keyframes shineRed { to { background-position: 200% center; } }
+        
+        .action-bar { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1200px; gap: 15px; }
+        .search-bar { width: 100%; flex: 1; max-width: 600px; position: relative; display: flex; align-items: center; }
+        .search-bar input { padding: 12px 50px 12px 40px; width: 100%; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); background-color: #1a1a24; color: white; transition: 0.3s; font-size: 14px; }
+        .search-bar input:focus { border-color: #ff4c4c; box-shadow: 0 0 15px rgba(255, 76, 76, 0.15); background-color: #22222e; }
+        .search-icon { position: absolute; left: 15px; color: #888; font-size: 14px; }
+        .filter-btn { position: absolute; right: 15px; background: transparent; border: none; color: #ff4c4c; font-size: 16px; cursor: pointer; transition: 0.3s; padding: 5px; }
+        .filter-btn:hover { color: #fff; transform: scale(1.1); }
+
+        .auth-area { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+        .auth-area img { width: 35px; height: 35px; border-radius: 50%; border: 2px solid #ff4c4c; display: none; object-fit: cover;}
+        .auth-btn { background: linear-gradient(135deg, #ff4c4c, #b30000); color: white; border: none; padding: 10px 18px; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 13px; transition: 0.3s; box-shadow: 0 4px 15px rgba(255, 76, 76, 0.3); display: flex; align-items: center; gap: 8px; }
+        .auth-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 76, 76, 0.5); }
+
+        @media (max-width: 480px) { .logo-area h1 { font-size: 18px; } .action-bar { flex-direction: column-reverse; align-items: flex-end; } .search-bar { max-width: 100%; } }
+
+        /* HERO SLIDER */
+        .hero-slider-container { width: 100%; max-width: 1200px; margin: 20px auto 0; position: relative; overflow: hidden; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: none; }
+        .hero-slider { display: flex; transition: transform 0.5s ease-in-out; width: 300%; }
+        .hero-slide { width: 33.333%; position: relative; height: 250px; cursor: pointer; }
+        .hero-slide img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); }
+        .hero-content { position: absolute; bottom: 20px; left: 20px; right: 20px; z-index: 2; }
+        .hero-content h2 { font-size: 24px; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.8); margin-bottom: 5px; font-weight: 800; }
+        .hero-content p { font-size: 13px; color: #ddd; text-shadow: 0 1px 5px rgba(0,0,0,0.8); max-width: 600px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 10px; }
+        .hero-badge { background: #ff4c4c; color: white; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: bold; display: inline-block; margin-bottom: 8px; }
+        .slider-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 3; }
+        .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.3); border-radius: 50%; cursor: pointer; transition: 0.3s; }
+        .dot.active { background: #ff4c4c; transform: scale(1.2); }
+        @media (min-width: 768px) { .hero-slide { height: 350px; } .hero-content h2 { font-size: 32px; } }
+
+        /* MOD GRID & ANIMASI TEKS BERJALAN */
+        main { flex: 1; margin-top: 15px; width: 100%;}
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .mod-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; padding: 20px; max-width: 1200px; margin: auto; }
+        @media (max-width: 480px) { .mod-grid { grid-template-columns: 1fr; } }
+        
+        .mod-card { position: relative; display: flex; align-items: center; background: #16161e; border-radius: 16px; padding: 15px; border: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.3s; animation: fadeInUp 0.4s ease backwards; overflow: hidden;}
+        .mod-card:hover { transform: translateY(-3px); border-color: rgba(255, 76, 76, 0.4); background: #1a1a24; }
+        .mod-card img { width: 70px; height: 70px; border-radius: 14px; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.3); flex-shrink: 0; pointer-events: none;}
+        
+        .badge-new { position: absolute; top: 12px; right: 12px; background: rgba(74, 222, 128, 0.15); color: #4ade80; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 12px; letter-spacing: 0.5px; border: 1px solid rgba(74, 222, 128, 0.3); z-index: 10; display: flex; align-items: center; gap: 4px; backdrop-filter: blur(5px);}
+        
+        .mod-info { margin-left: 15px; flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: center;}
+        
+        /* JUDUL STATIS (DIPERBAIKI) */
+        .mod-title { font-size: 15px; color: #fff; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; display: block;} 
+        
+        /* SCROLL TEKS (Hanya untuk fitur mod) */
+        .scroll-box { width: 100%; overflow: hidden; white-space: nowrap; position: relative; margin-bottom: 2px;}
+        .scroll-text { display: inline-block; animation: scrollBackForth 4s ease-in-out infinite alternate; padding-right: 20px;}
+        .mod-card:hover .scroll-text { animation-play-state: paused; }
+        @keyframes scrollBackForth { 0%, 15% { transform: translateX(0); } 85%, 100% { transform: translateX(-15%); } }
+
+        .mod-dev { font-size: 11px; color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .mod-features { font-size: 11px; color: #ff4c4c; background: rgba(255, 76, 76, 0.08); padding: 4px 8px; border-radius: 6px;}
+        .mod-stats { font-size: 11px; color: #aaa; margin: 4px 0; display: flex; gap: 15px; font-weight: 500; align-items: center;}
+
+        /* SKELETON LOADING UI */
+        .skeleton { background: #22222e; background-image: linear-gradient(90deg, #22222e 0px, #2a2a35 40px, #22222e 80px); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .skeleton-card { display: flex; align-items: center; background: #16161e; border-radius: 16px; padding: 15px; border: 1px solid rgba(255,255,255,0.05); }
+
+        /* LOAD MORE BUTTON */
+        .load-more-container { text-align: center; padding: 10px 20px 40px; }
+        .btn-load-more { background: #16161e; color: #fff; border: 1px solid rgba(255,255,255,0.1); padding: 12px 30px; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: 600; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px;}
+        .btn-load-more:hover { background: #ff4c4c; border-color: #ff4c4c; box-shadow: 0 4px 15px rgba(255, 76, 76, 0.3); transform: translateY(-2px);}
+
+        /* FOOTER */
+        footer { border-top: 1px solid rgba(255,255,255,0.05); background: #121218; padding: 30px 20px; text-align: center; margin-top: auto; }
+        footer h3 { font-size: 16px; color: #fff; margin-bottom: 15px; font-weight: 600; }
+        .social-links { display: flex; justify-content: center; gap: 20px; }
+        .social-links a { color: #888; font-size: 26px; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; width: 45px; height: 45px; background: rgba(255,255,255,0.05); border-radius: 50%; text-decoration: none;}
+        .social-links a.discord:hover { background: #5865F2; border-color: #5865F2; color: #fff; transform: translateY(-3px);}
+        .social-links a.youtube:hover { background: #FF0000; border-color: #FF0000; color: #fff; transform: translateY(-3px);}
+        footer p { margin-top: 20px; font-size: 12px; color: #666; }
+
+        /* MODALS */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); display: none; justify-content: center; align-items: flex-end; z-index: 1000; opacity: 0; transition: opacity 0.3s ease; }
+        @media (min-width: 768px) { .modal-overlay { align-items: center; padding: 20px; } }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-content { background: #121218; width: 100%; max-width: 800px; max-height: 90vh; overflow-y: auto; border-radius: 20px 20px 0 0; position: relative; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1); box-shadow: 0 -10px 40px rgba(0,0,0,0.8); padding-bottom: 20px; }
+        @media (min-width: 768px) { .modal-content { border-radius: 20px; border: 1px solid rgba(255, 76, 76, 0.2); transform: scale(0.9); } }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        @media (min-width: 768px) { .modal-overlay.active .modal-content { transform: scale(1); } }
+        .close-btn { position: absolute; top: 15px; right: 15px; font-size: 20px; color: #aaa; cursor: pointer; background: rgba(255,255,255,0.05); border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; transition: 0.3s; z-index: 10; }
+        .close-btn:hover { background: rgba(255, 76, 76, 0.2); color: #ff4c4c; transform: rotate(90deg); }
+
+        /* APP DETAILS MODAL */
+        .ps-header { padding: 30px 20px 15px; display: flex; gap: 15px; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); position: relative;}
+        .ps-icon { width: 80px; height: 80px; border-radius: 18px; object-fit: cover; box-shadow: 0 5px 15px rgba(0,0,0,0.5); pointer-events: none;}
+        @media (min-width: 768px) { .ps-icon { width: 100px; height: 100px; border-radius: 22px; } }
+        .ps-info { flex: 1; padding-right: 30px; }
+        .ps-title { font-size: 20px; color: #fff; font-weight: 700; line-height: 1.2; -webkit-user-select: text; user-select: text;}
+        @media (min-width: 768px) { .ps-title { font-size: 24px; } }
+        .ps-dev { font-size: 13px; color: #888; margin-top: 5px; }
+
+        /* BOOKMARK BTN (DIPERBAIKI) */
+        .btn-bookmark { position: absolute; right: 20px; bottom: 15px; background: transparent; border: none; font-size: 24px; color: #444; cursor: pointer; transition: 0.3s; }
+        .btn-bookmark:hover { transform: scale(1.1); color: #ff4c4c; }
+        .btn-bookmark.active { color: #ff4c4c; }
+        
+        .ps-stats-bar { display: flex; justify-content: space-around; padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .ps-stat-item { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .ps-stat-value { font-size: 14px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px;}
+        .ps-stat-value i { color: #888; font-size: 12px; }
+        .ps-stat-label { font-size: 11px; color: #888; margin-top: 4px; }
+
+        .modal-body { padding: 20px; }
+        .ps-features { color: #fff; font-size: 13px; background: rgba(255, 76, 76, 0.1); padding: 15px; border-radius: 12px; border-left: 4px solid #ff4c4c; margin-bottom: 20px; font-weight: 500; line-height: 1.5; }
+        .modal-desc { color: #bbb; font-size: 13px; line-height: 1.6; white-space: pre-wrap; margin-bottom: 20px; -webkit-user-select: text; user-select: text;}
+
+        /* MULTI-LINK BUTTONS */
+        .download-btn-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+        .big-download-btn { display: flex; justify-content: center; align-items: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #ff4c4c, #990000); color: white; padding: 15px; border-radius: 12px; font-size: 14px; font-weight: 600; text-transform: uppercase; border: none; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); letter-spacing: 0.5px; text-decoration: none;}
+        .big-download-btn:active { transform: scale(0.98); box-shadow: none; }
+        .btn-dl-mod { background: linear-gradient(135deg, #ff4c4c, #990000); }
+        .btn-dl-ori { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .btn-dl-obb { background: linear-gradient(135deg, #10b981, #047857); }
+
+        .ad-banner-box { background: #16161e; border: 1px dashed rgba(255, 255, 255, 0.1); border-radius: 12px; text-align: center; color: #666; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 20px; min-height: 250px; position: relative; padding: 10px; overflow: hidden; }
+        .ad-label { font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+
+        .action-row { display: flex; gap: 10px; margin-bottom: 20px; }
+        .action-btn { flex: 1; background: #16161e; border: 1px solid rgba(255,255,255,0.05); color: #aaa; padding: 12px 5px; border-radius: 12px; font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .action-btn i { font-size: 16px; transition: 0.3s;}
+        .action-btn:hover { background: rgba(255,76,76,0.1); color: #ff4c4c; border-color: rgba(255,76,76,0.2); }
+        .action-btn:hover i { transform: scale(1.1); }
+        .action-btn:active { transform: scale(0.95); }
+
+        .rating-section { text-align: center; padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .rating-section h3 { font-size: 15px; margin-bottom: 15px; color: #fff; }
+        .stars { display: inline-flex; gap: 10px; font-size: 30px; cursor: pointer; color: #333; }
+        .stars span { transition: 0.2s; }
+        .stars span:hover, .stars span.active { color: #ffcc00; transform: scale(1.15); text-shadow: 0 0 15px rgba(255, 204, 0, 0.4); }
+        
+        /* RELATED APPS */
+        .related-section { margin-top: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px;}
+        .related-section h3 { font-size: 15px; color: #fff; margin-bottom: 15px; }
+        .related-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .related-card { background: #16161e; border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; transition: 0.3s; border: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center;}
+        .related-card:hover { transform: translateY(-3px); border-color: #ff4c4c; background: #1a1a24; }
+        .related-card img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; margin-bottom: 8px;}
+        .related-card h4 { font-size: 11px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; font-weight: 500;}
+        @media (max-width: 480px) { .related-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        /* COMMENTS & REPLIES */
+        .comment-section { margin-top: 20px; }
+        .comment-section h3 { font-size: 15px; color: #fff; margin-bottom: 15px; }
+        .comment-box, .reply-box { display: flex; gap: 10px; background: #16161e; padding: 10px 15px; border-radius: 16px; align-items: center; margin-bottom: 20px; border: 1px solid transparent; transition: 0.3s;}
+        .comment-box.editing { border-color: #ffcc00; background: #1a1a10; }
+        .comment-box img, .reply-box img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
+        .comment-box input, .reply-box input { flex: 1; padding: 8px; border: none; background: transparent; color: white; font-size: 13px; }
+        .comment-box button, .reply-box button { background: #ff4c4c; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 12px; transition: 0.3s; }
+        .comment-box.editing button { background: #ffcc00; color: #000; }
+        
+        .comment-list { display: flex; flex-direction: column; gap: 15px; }
+        .comment-item { display: flex; gap: 12px; align-items: flex-start; flex-direction: column; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px;}
+        .comment-main { display: flex; gap: 12px; width: 100%;}
+        .comment-main > img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
+        .comment-text { flex: 1; }
+        .comment-text h4 { font-size: 13px; color: #fff; margin-bottom: 2px; display: flex; align-items: center; gap: 6px;}
+        .comment-text p { font-size: 12px; color: #aaa; line-height: 1.5; -webkit-user-select: text; user-select: text; word-break: break-word;}
+        .comment-actions-mini { display: flex; gap: 12px; margin-top: 6px; }
+        .comment-actions-mini button { background: transparent; border: none; color: #666; font-size: 11px; cursor: pointer; transition: 0.2s; padding: 0; font-weight: 500;}
+        .comment-actions-mini button:hover { color: #fff; }
+        .comment-actions-mini button.del:hover { color: #ff4c4c; }
+
+        .replies-container { padding-left: 45px; display: flex; flex-direction: column; gap: 10px; width: 100%; }
+        .reply-item { display: flex; gap: 10px; align-items: flex-start; background: rgba(255,255,255,0.02); padding: 10px; border-radius: 12px; border-left: 2px solid #ff4c4c;}
+        .reply-item img { width: 25px; height: 25px; border-radius: 50%; object-fit: cover; }
+        .reply-item h4 { font-size: 12px; color: #fff; margin-bottom: 2px; }
+        .reply-item p { font-size: 11px; color: #aaa; line-height: 1.4; }
+
+        /* FILTER & SORT MODAL */
+        .filter-subtitle { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin: 15px 0 10px; font-weight: 600;}
+        .category-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+        .cat-btn { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 14px; border: 1px solid rgba(255,255,255,0.05); background-color: #16161e; color: #888; cursor: pointer; border-radius: 12px; font-weight: 500; font-size: 12px; transition: 0.3s; flex-grow: 1; text-align: center;}
+        .cat-btn:hover { background-color: #1a1a24; color: #fff; border-color: rgba(255,255,255,0.1); transform: translateY(-2px); }
+        .cat-btn.active { background: linear-gradient(135deg, rgba(255, 76, 76, 0.15), rgba(179, 0, 0, 0.15)); color: #ff4c4c; border-color: #ff4c4c; box-shadow: 0 4px 15px rgba(255, 76, 76, 0.1); }
+        .cat-btn.active i { transform: scale(1.1); color: #ff4c4c; }
+        .sort-group .cat-btn { flex-basis: 45%; }
+
+        /* CUSTOM ALERT MODAL */
+        .custom-alert { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 9999; opacity: 0; transition: 0.3s; }
+        .custom-alert.active { display: flex; opacity: 1; }
+        .custom-alert-box { background: #1a1a24; width: 90%; max-width: 320px; padding: 25px; border-radius: 20px; text-align: center; border: 1px solid rgba(255, 76, 76, 0.3); transform: scale(0.8); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .custom-alert.active .custom-alert-box { transform: scale(1); }
+        .custom-alert-icon { font-size: 40px; margin-bottom: 15px; }
+        .icon-warn { color: #ffcc00; } .icon-err { color: #ff4c4c; } .icon-succ { color: #4ade80; } .icon-info { color: #3b82f6; }
+        .custom-alert h3 { color: #fff; font-size: 18px; margin-bottom: 10px; }
+        .custom-alert p { color: #aaa; font-size: 13px; margin-bottom: 20px; line-height: 1.5; }
+        .custom-alert button { background: #ff4c4c; border: none; padding: 12px 25px; border-radius: 12px; color: #fff; font-weight: 600; cursor: pointer; transition: 0.3s; width: 100%; font-size: 14px; }
+        .custom-alert button:active { transform: scale(0.95); }
+        .alert-btns { display: flex; gap: 10px; justify-content: center;}
+        .alert-btns button { flex: 1; }
+        .btn-cancel { background: #333 !important; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="top-bar">
+            <div class="logo-area" onclick="window.location.href = window.location.pathname">
+                <img src="logo.png" alt="Logo" onerror="this.src='https://placehold.co/100x100/transparent/ff4c4c?text=M&font=Montserrat'">
+                <h1>MEOWTHORITY</h1>
+            </div>
+        </div>
+        
+        <div class="action-bar">
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Search premium games & apps...">
+                <button class="filter-btn" onclick="openFilterModal()" title="Filter & Sort"><i class="fa-solid fa-sliders"></i></button>
+            </div>
+            
+            <div class="auth-area">
+                <img id="userAvatar" src="" alt="User" referrerpolicy="no-referrer" onerror="this.src='https://placehold.co/100x100/1a1a24/ffffff?text=U'">
+                <button id="loginBtn" class="auth-btn" onclick="signIn()"><i class="fa-brands fa-google"></i> Login</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SLIDER -->
+    <div class="hero-slider-container" id="heroSliderContainer">
+        <div class="hero-slider" id="heroSlider"></div>
+        <div class="slider-dots" id="sliderDots"></div>
+    </div>
+
+    <main>
+        <div class="mod-grid" id="modContainer">
+            <!-- Data or Skeletons will load here -->
+        </div>
+        <div class="load-more-container" id="loadMoreContainer" style="display: none;">
+            <button class="btn-load-more" onclick="loadApps(true)"><i class="fa-solid fa-angles-down"></i> Load More Apps</button>
+        </div>
+    </main>
+
+    <footer>
+        <h3>Join Our Community</h3>
+        <div class="social-links">
+            <a href="https://discord.gg/AudUjgpRPK" target="_blank" class="discord"><i class="fa-brands fa-discord"></i></a>
+            <a href="https://youtube.com/@meowthority?si=GaEVbf5GQ47w7edm" target="_blank" class="youtube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+        <p>&copy; 2026 Meowthority. All rights reserved.</p>
+    </footer>
+
+    <!-- MODAL FILTER & SORT -->
+    <div class="modal-overlay" id="filterModal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="close-btn" onclick="closeFilterModal()"><i class="fa-solid fa-xmark"></i></div>
+            <div class="ps-header" style="border-bottom: none; padding-bottom: 0;">
+                <h2 class="ps-title" style="font-size: 18px;"><i class="fa-solid fa-filter" style="color: #ff4c4c; margin-right: 8px;"></i> Filter & Sort</h2>
+            </div>
+            <div class="modal-body" style="padding-top: 5px;">
+                <div class="filter-subtitle">Sort By</div>
+                <div class="category-grid sort-group">
+                    <button class="cat-btn active sort-btn" onclick="setSort('Newest')"><i class="fa-regular fa-clock"></i> Newest</button>
+                    <button class="cat-btn sort-btn" onclick="setSort('Popular')"><i class="fa-solid fa-fire"></i> Popular</button>
+                    <button class="cat-btn sort-btn" style="flex-basis: 100%;" onclick="setSort('Oldest')"><i class="fa-solid fa-clock-rotate-left"></i> Oldest First</button>
+                </div>
+
+                <div class="filter-subtitle" style="margin-top: 25px;">Categories</div>
+                <div class="category-grid cat-group">
+                    <button class="cat-btn active" onclick="setFilter('All')"><i class="fa-solid fa-layer-group"></i> All</button>
+                    <button class="cat-btn" onclick="setFilter('Favorites')" id="btnFilterFav"><i class="fa-solid fa-heart"></i> Favorites</button>
+                    <button class="cat-btn" onclick="setFilter('Action')">Action</button>
+                    <button class="cat-btn" onclick="setFilter('Adventure')">Adventure</button>
+                    <button class="cat-btn" onclick="setFilter('Arcade')">Arcade</button>
+                    <button class="cat-btn" onclick="setFilter('Board')">Board</button>
+                    <button class="cat-btn" onclick="setFilter('Casual')">Casual</button>
+                    <button class="cat-btn" onclick="setFilter('Puzzle')">Puzzle</button>
+                    <button class="cat-btn" onclick="setFilter('Racing')">Racing</button>
+                    <button class="cat-btn" onclick="setFilter('Role Playing')">RPG</button>
+                    <button class="cat-btn" onclick="setFilter('Simulation')">Simulation</button>
+                    <button class="cat-btn" onclick="setFilter('Sports')">Sports</button>
+                    <button class="cat-btn" onclick="setFilter('Strategy')">Strategy</button>
+                    <button class="cat-btn" onclick="setFilter('Apps')"><i class="fa-solid fa-mobile-screen"></i> Apps</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DETAILS APP -->
+    <div class="modal-overlay" id="appModal">
+        <div class="modal-content">
+            <div class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></div>
+            
+            <div class="ps-header">
+                <img id="modalImg" class="ps-icon" src="" alt="Icon" onerror="this.src='https://placehold.co/300x300/16161e/ff4c4c?text=No+Image'">
+                <div class="ps-info">
+                    <h2 class="ps-title" id="modalTitle">Game Title</h2>
+                    <div class="ps-dev" id="modalDev">Developer Name</div>
+                </div>
+                <!-- BOOKMARK BUTTON -->
+                <button class="btn-bookmark" id="btnBookmark" onclick="toggleBookmark()"><i class="fa-regular fa-heart"></i></button>
+            </div>
+
+            <div class="ps-stats-bar">
+                <div class="ps-stat-item">
+                    <span class="ps-stat-value" id="modalAvgRating">0.0 <i class="fa-solid fa-star" style="color:#ffcc00;"></i></span>
+                    <span class="ps-stat-label">Rating</span>
+                </div>
+                <div class="ps-stat-item">
+                    <span class="ps-stat-value"><i class="fa-solid fa-download"></i> <span id="modalDownloads">0</span></span>
+                    <span class="ps-stat-label">Downloads</span>
+                </div>
+                <div class="ps-stat-item">
+                    <span class="ps-stat-value"><i class="fa-solid fa-hard-drive"></i> <span id="modalSize">0MB</span></span>
+                    <span class="ps-stat-label">Size</span>
+                </div>
+                <div class="ps-stat-item">
+                    <span class="ps-stat-value"><i class="fa-solid fa-tag"></i> <span id="modalVersion">v1.0</span></span>
+                    <span class="ps-stat-label">Version</span>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="ps-features" id="modalFeatures"><i class="fa-solid fa-wand-magic-sparkles"></i> Mod Features</div>
+                
+                <div class="download-btn-container" id="modalDownloadContainer">
+                    <!-- Buttons Rendered via JS -->
+                </div>
+
+                <div class="action-row">
+                    <button class="action-btn" onclick="copyGameLink()"><i class="fa-solid fa-link"></i> Copy Link</button>
+                    <button class="action-btn" onclick="requestUpdate()"><i class="fa-solid fa-arrows-rotate"></i> Req Update</button>
+                    <button class="action-btn" onclick="reportError()"><i class="fa-solid fa-flag"></i> Report Error</button>
+                </div>
+                
+                <!-- ADSTERRA BANNER -->
+                <div class="ad-banner-box">
+                    <span class="ad-label">Advertisement</span>
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : 'cd861e42a459dcd39dc79dbeb1171cf2',
+                            'format' : 'iframe',
+                            'height' : 250,
+                            'width' : 300,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="https://matcheshonoraryunderwater.com/cd861e42a459dcd39dc79dbeb1171cf2/invoke.js"></script>
+                </div>
+                
+                <div class="modal-desc" id="modalDesc"></div>
+
+                <div class="related-section" id="relatedSection" style="display: none;">
+                    <h3>Similar Apps</h3>
+                    <div class="related-grid" id="relatedGrid"></div>
+                </div>
+
+                <div class="rating-section">
+                    <h3>Rate this Mod</h3>
+                    <div class="stars" id="starContainer">
+                        <span onclick="rateApp(1)"><i class="fa-solid fa-star"></i></span>
+                        <span onclick="rateApp(2)"><i class="fa-solid fa-star"></i></span>
+                        <span onclick="rateApp(3)"><i class="fa-solid fa-star"></i></span>
+                        <span onclick="rateApp(4)"><i class="fa-solid fa-star"></i></span>
+                        <span onclick="rateApp(5)"><i class="fa-solid fa-star"></i></span>
+                    </div>
+                </div>
+
+                <div class="comment-section">
+                    <h3>User Reviews</h3>
+                    <div class="comment-box" id="commentBoxContainer">
+                        <img id="myAvatar" src="https://placehold.co/100x100/1a1a24/ffffff?text=U" alt="Me" referrerpolicy="no-referrer">
+                        <input type="text" id="commentInput" placeholder="Add a public review...">
+                        <button id="postCommentBtn" onclick="postComment()"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                    <div class="comment-list" id="commentList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOM ALERT MODAL -->
+    <div class="custom-alert" id="customAlert">
+        <div class="custom-alert-box">
+            <div class="custom-alert-icon" id="customAlertIcon"><i class="fa-solid fa-circle-exclamation icon-warn"></i></div>
+            <h3 id="customAlertTitle">Notice</h3>
+            <p id="customAlertMessage">Message goes here.</p>
+            <div class="alert-btns" id="customAlertBtns">
+                <button onclick="closeAlert()">Understood</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script>
+        // ANTI INSPECT ELEMENT
+        document.addEventListener('contextmenu', event => event.preventDefault()); 
+        document.onkeydown = function(e) {
+            if(e.keyCode == 123) return false; 
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) return false; 
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) return false; 
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) return false; 
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; 
+        }
+
+        // FUNGSI ALERT & UTILS
+        function showAlert(msg, type = "warning", customTitle = null) {
+            document.getElementById('customAlertMessage').innerText = msg;
+            let iconHTML = '<i class="fa-solid fa-circle-exclamation icon-warn"></i>';
+            let title = customTitle || "Notice";
+            if(type === "error") { iconHTML = '<i class="fa-solid fa-circle-xmark icon-err"></i>'; title = customTitle || "Error"; }
+            else if(type === "success") { iconHTML = '<i class="fa-solid fa-circle-check icon-succ"></i>'; title = customTitle || "Success"; }
+            else if(type === "info") { iconHTML = '<i class="fa-brands fa-chrome icon-info"></i>'; title = customTitle || "Info"; }
+            
+            document.getElementById('customAlertIcon').innerHTML = iconHTML;
+            document.getElementById('customAlertTitle').innerText = title;
+            document.getElementById('customAlertBtns').innerHTML = `<button onclick="closeAlert()">Understood</button>`;
+            
+            const alertBox = document.getElementById('customAlert'); alertBox.style.display = 'flex'; setTimeout(() => alertBox.classList.add('active'), 10);
+        }
+        function closeAlert() { const alertBox = document.getElementById('customAlert'); alertBox.classList.remove('active'); setTimeout(() => alertBox.style.display = 'none', 300); }
+        function showConfirmAlert(msg, onConfirm) {
+            document.getElementById('customAlertMessage').innerText = msg;
+            document.getElementById('customAlertIcon').innerHTML = '<i class="fa-solid fa-trash icon-err"></i>'; document.getElementById('customAlertTitle').innerText = 'Are you sure?';
+            document.getElementById('customAlertBtns').innerHTML = `<button class="btn-cancel" onclick="closeAlert()">Cancel</button><button onclick="closeAlert(); ${onConfirm}">Confirm</button>`;
+            const alertBox = document.getElementById('customAlert'); alertBox.style.display = 'flex'; setTimeout(() => alertBox.classList.add('active'), 10);
+        }
+        function escapeHTML(str) { if(!str) return ''; return str.replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)); }
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBMADDJWyPLSOaK6nOT_LbLa6SCwHzFgQ4", authDomain: "meowthority.firebaseapp.com",
+            databaseURL: "https://meowthority-default-rtdb.asia-southeast1.firebasedatabase.app/",
+            projectId: "meowthority", messagingSenderId: "1044210277244", appId: "1:1044210277244:web:525ea6b19289ba2482e2f9"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth(), db = firebase.database(), provider = new firebase.auth.GoogleAuthProvider();
+
+        // GLOBAL VARS
+        let allMods = [], currentUser = null, currentAppId = null;
+        let userBookmarks = [];
+        let isLoggingIn = false;
+        
+        let lastAppKey = null, isFetching = false, hasMoreData = true; const ITEMS_PER_LOAD = 20;
+        let currentCat = 'All'; let currentSort = 'Newest';
+
+        auth.onAuthStateChanged(user => {
+            currentUser = user; const btn = document.getElementById('loginBtn'); btn.disabled = false; isLoggingIn = false; 
+            if (user) {
+                btn.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i>'; btn.style.padding = "10px 14px"; btn.onclick = signOut;
+                document.getElementById('userAvatar').src = user.photoURL; document.getElementById('userAvatar').style.display = "block"; document.getElementById('myAvatar').src = user.photoURL;
+                loadBookmarks();
+            } else {
+                btn.innerHTML = '<i class="fa-brands fa-google"></i> Login'; btn.style.padding = "10px 18px"; btn.onclick = signIn;
+                document.getElementById('userAvatar').style.display = "none"; document.getElementById('myAvatar').src = "https://placehold.co/100x100/1a1a24/ffffff?text=U";
+                userBookmarks = [];
+                if(currentCat === 'Favorites') setFilter('All');
+            }
+        });
+
+        function signIn() { 
+            if(isLoggingIn) return; isLoggingIn = true;
+            document.getElementById('loginBtn').disabled = true; document.getElementById('loginBtn').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            auth.signInWithPopup(provider).catch(e => {
+                isLoggingIn = false; document.getElementById('loginBtn').disabled = false; document.getElementById('loginBtn').innerHTML = '<i class="fa-brands fa-google"></i> Login';
+                if(e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') showAlert(e.message, "error"); 
+            }); 
+        }
+        function signOut() { auth.signOut(); showAlert("You have successfully logged out.", "success"); }
+
+        function showSkeletons() {
+            const container = document.getElementById('modContainer'); let html = '';
+            for(let i=0; i<8; i++) {
+                html += `<div class="skeleton-card"><div class="skeleton" style="width:70px; height:70px; border-radius:14px; flex-shrink:0;"></div><div style="flex:1; margin-left:15px;"><div class="skeleton" style="width:80%; height:15px; margin-bottom:8px;"></div><div class="skeleton" style="width:50%; height:12px; margin-bottom:8px;"></div><div class="skeleton" style="width:100%; height:20px;"></div></div></div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        // LOAD APPS
+        function loadApps(isLoadMore = false) {
+            if (isFetching || (!hasMoreData && isLoadMore)) return;
+            isFetching = true;
+
+            const container = document.getElementById('modContainer');
+            if (!isLoadMore) { showSkeletons(); allMods = []; lastAppKey = null; hasMoreData = true; }
+
+            let query = db.ref('apks').orderByKey();
+            if (isLoadMore && lastAppKey) { query = query.endAt(lastAppKey).limitToLast(ITEMS_PER_LOAD + 1); } 
+            else { query = query.limitToLast(ITEMS_PER_LOAD); }
+
+            query.once('value').then(snapshot => {
+                let tempMods = [];
+                if (snapshot.exists()) {
+                    snapshot.forEach(child => { 
+                        let data = child.val(); 
+                        data.id = child.key; 
+                        if(data.status !== 'Draft') { tempMods.push(data); }
+                    });
+                    tempMods.reverse(); 
+                    if (isLoadMore) tempMods.shift(); 
+                    
+                    if (tempMods.length > 0) { lastAppKey = tempMods[tempMods.length - 1].id; allMods = allMods.concat(tempMods); }
+                    if (tempMods.length < ITEMS_PER_LOAD) hasMoreData = false;
+                    
+                    if (!isLoadMore && allMods.length >= 3) { initHeroSlider(); }
+
+                    applyFilterAndSort(); 
+
+                    if (!isLoadMore) {
+                        const appIdFromUrl = new URLSearchParams(window.location.search).get('app');
+                        if(appIdFromUrl) {
+                            const targetMod = allMods.find(m => m.id === appIdFromUrl);
+                            if(targetMod) setTimeout(() => openAppDetails(targetMod), 500);
+                            else db.ref('apks/' + appIdFromUrl).once('value').then(s => { if(s.exists() && s.val().status !== 'Draft'){ let m = s.val(); m.id = s.key; setTimeout(() => openAppDetails(m), 500); }});
+                        }
+                    }
+                } else {
+                    if (!isLoadMore) container.innerHTML = '<div style="color:#666; grid-column:1/-1; text-align:center; padding: 50px;"><i class="fa-solid fa-box-open" style="font-size:30px; margin-bottom:10px;"></i><br>Database empty.</div>';
+                    hasMoreData = false;
+                }
+                updateLoadMoreButton();
+            }).catch(e => { container.innerHTML = `<p style="text-align:center; color: #ff4c4c; grid-column: 1/-1; padding: 40px 0;">Error: ${e.message}</p>`; }).finally(() => isFetching = false);
+        }
+
+        loadApps();
+
+        // HERO SLIDER
+        let heroSlideIndex = 0; let heroInterval;
+        function initHeroSlider() {
+            const container = document.getElementById('heroSliderContainer');
+            const slider = document.getElementById('heroSlider');
+            const dotsContainer = document.getElementById('sliderDots');
+            
+            let topGames = [...allMods].sort((a, b) => (b.downloads || 0) - (a.downloads || 0)).slice(0, 3);
+            if(topGames.length < 3) return;
+
+            container.style.display = 'block'; slider.innerHTML = ''; dotsContainer.innerHTML = '';
+            
+            topGames.forEach((game, index) => {
+                const slide = document.createElement('div'); slide.className = 'hero-slide'; slide.onclick = () => openAppDetails(game);
+                slide.innerHTML = `<img src="${game.image}" alt="Cover"><div class="hero-content"><span class="hero-badge"><i class="fa-solid fa-fire"></i> Trending</span><h2>${escapeHTML(game.title)}</h2><p>${escapeHTML(game.description || game.features)}</p></div>`;
+                slider.appendChild(slide);
+
+                const dot = document.createElement('div'); dot.className = `dot ${index === 0 ? 'active' : ''}`; dot.onclick = () => moveHeroSlider(index);
+                dotsContainer.appendChild(dot);
+            });
+
+            clearInterval(heroInterval);
+            heroInterval = setInterval(() => { heroSlideIndex = (heroSlideIndex + 1) % 3; moveHeroSlider(heroSlideIndex); }, 4000);
+        }
+
+        function moveHeroSlider(index) {
+            heroSlideIndex = index; document.getElementById('heroSlider').style.transform = `translateX(-${index * 33.333}%)`;
+            const dots = document.querySelectorAll('.dot'); dots.forEach(d => d.classList.remove('active')); if(dots[index]) dots[index].classList.add('active');
+        }
+
+        // BOOKMARK SYSTEM (FIXED DENGAN OPTIMISTIC UI)
+        function loadBookmarks() {
+            if(!currentUser) return;
+            db.ref('bookmarks/' + currentUser.uid).on('value', snap => {
+                userBookmarks = [];
+                if(snap.exists()) { snap.forEach(child => { if(child.val() === true) userBookmarks.push(child.key); }); }
+                if(currentAppId) checkBookmarkStatus(); 
+                if(currentCat === 'Favorites') applyFilterAndSort(); 
+            });
+        }
+        
+        function toggleBookmark() {
+            if(!currentUser) return showAlert("Please login to save games.", "warning");
+            const btn = document.getElementById('btnBookmark');
+            const ref = db.ref(`bookmarks/${currentUser.uid}/${currentAppId}`);
+            
+            if(userBookmarks.includes(currentAppId)) { 
+                ref.remove(); 
+                userBookmarks = userBookmarks.filter(id => id !== currentAppId); // Langsung update UI agar terasa cepat
+                btn.classList.remove('active');
+                btn.innerHTML = '<i class="fa-regular fa-heart"></i>';
+                showAlert("Removed from Favorites", "success"); 
+            } 
+            else { 
+                ref.set(true); 
+                userBookmarks.push(currentAppId); // Langsung update UI
+                btn.classList.add('active');
+                btn.innerHTML = '<i class="fa-solid fa-heart"></i>';
+                showAlert("Saved to Favorites", "success"); 
+            }
+        }
+        
+        function checkBookmarkStatus() {
+            const btn = document.getElementById('btnBookmark');
+            if(userBookmarks.includes(currentAppId)) { 
+                btn.classList.add('active'); 
+                btn.innerHTML = '<i class="fa-solid fa-heart"></i>'; 
+            } else { 
+                btn.classList.remove('active'); 
+                btn.innerHTML = '<i class="fa-regular fa-heart"></i>'; 
+            }
+        }
+
+        function updateLoadMoreButton() {
+            const btnContainer = document.getElementById('loadMoreContainer'); const searchVal = document.getElementById('searchInput').value;
+            if (hasMoreData && searchVal === '' && currentCat !== 'Favorites') btnContainer.style.display = 'block'; 
+            else btnContainer.style.display = 'none';
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M+';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K+';
+            return num;
+        }
+
+        // FILTER & SORTING
+        function setFilter(cat) { 
+            if(cat === 'Favorites' && !currentUser) return showAlert("Please login to view favorites.", "warning");
+            currentCat = cat; closeFilterModal(); applyFilterAndSort(); updateFilterUI(); 
+            document.getElementById('heroSliderContainer').style.display = (cat === 'All' && document.getElementById('searchInput').value === '') ? 'block' : 'none';
+        }
+        function setSort(sortType) { currentSort = sortType; closeFilterModal(); applyFilterAndSort(); updateFilterUI(); }
+        function updateFilterUI() {
+            document.querySelectorAll('.cat-group .cat-btn').forEach(b => { b.classList.remove('active'); if(b.innerText.includes(currentCat === 'All' ? 'All' : currentCat)) b.classList.add('active'); });
+            document.querySelectorAll('.sort-group .sort-btn').forEach(b => { b.classList.remove('active'); if(b.getAttribute('onclick').includes(currentSort)) b.classList.add('active'); });
+        }
+
+        function applyFilterAndSort() {
+            let result = [...allMods];
+            const searchVal = document.getElementById('searchInput').value.toLowerCase();
+            
+            if(searchVal) {
+                result = result.filter(m => m.title.toLowerCase().includes(searchVal) || m.features.toLowerCase().includes(searchVal));
+                document.getElementById('heroSliderContainer').style.display = 'none';
+            } else if (currentCat === 'All') { document.getElementById('heroSliderContainer').style.display = 'block'; }
+            
+            if(currentCat === 'Favorites') result = result.filter(m => userBookmarks.includes(m.id));
+            else if(currentCat !== 'All') result = result.filter(m => m.category === currentCat);
+            
+            if(currentSort === 'Newest') result.sort((a,b) => (b.timestamp||0) - (a.timestamp||0));
+            if(currentSort === 'Oldest') result.sort((a,b) => (a.timestamp||0) - (b.timestamp||0));
+            if(currentSort === 'Popular') result.sort((a,b) => (b.downloads||0) - (a.downloads||0));
+            
+            displayMods(result);
+        }
+
+        document.getElementById('searchInput').addEventListener('keyup', () => applyFilterAndSort());
+
+        // DISPLAY MODS DI BERANDA
+        function displayMods(mods) {
+            const container = document.getElementById('modContainer'); container.innerHTML = ''; 
+            if (mods.length === 0) return container.innerHTML = '<div style="color:#666; grid-column:1/-1; text-align:center; padding: 50px;"><i class="fa-solid fa-box-open" style="font-size:30px; margin-bottom:10px;"></i><br>App not found.</div>'; 
+            
+            const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
+            mods.forEach((mod, index) => {
+                const card = document.createElement('div'); card.className = 'mod-card'; card.style.animationDelay = `${(index % ITEMS_PER_LOAD) * 0.03}s`;
+                card.onclick = () => openAppDetails(mod);
+                
+                const isNew = mod.timestamp && (Date.now() - mod.timestamp < SEVEN_DAYS);
+                const badgeHTML = isNew ? `<div class="badge-new"><i class="fa-solid fa-sparkles" style="font-size:8px;"></i> NEW</div>` : '';
+
+                card.innerHTML = `${badgeHTML}
+                    <img src="${mod.image}" alt="Icon" onerror="this.src='https://placehold.co/150x150/1a1a24/ff4c4c?text=IMG'">
+                    <div class="mod-info">
+                        <h3 class="mod-title">${escapeHTML(mod.title)}</h3>
+                        <div class="mod-dev">${escapeHTML(mod.developer ? mod.developer : 'Unknown Developer')}</div>
+                        <div class="mod-stats">
+                            <span id="home-rating-${mod.id}"><i class="fa-solid fa-star" style="color:#ffcc00"></i> -.-</span>
+                            <span><i class="fa-solid fa-download"></i> ${formatNumber(mod.downloads || 0)}</span>
+                            <span style="color:#888; font-size:10px;">${escapeHTML(mod.version)}</span>
+                        </div>
+                        <div class="scroll-box"><span class="scroll-text mod-features"><i class="fa-solid fa-wand-magic-sparkles"></i> ${escapeHTML(mod.features)}</span></div>
+                    </div>`;
+                container.appendChild(card);
+            });
+            updateLoadMoreButton();
+
+            // Fetch Ratings Asinkron agar tidak lag
+            mods.forEach(mod => {
+                db.ref('ratings/' + mod.id).once('value').then(snap => {
+                    let rSpan = document.getElementById('home-rating-' + mod.id);
+                    if(rSpan && snap.exists()) {
+                        let total = 0, count = 0;
+                        snap.forEach(c => { total += c.val().score; count++; });
+                        rSpan.innerHTML = `<i class="fa-solid fa-star" style="color:#ffcc00"></i> ${(total/count).toFixed(1)}`;
+                    } else if (rSpan) { rSpan.innerHTML = `<i class="fa-solid fa-star" style="color:#ffcc00"></i> 0.0`; }
+                });
+            });
+        }
+
+        function openAppDetails(mod) {
+            currentAppId = mod.id;
+            document.getElementById('modalImg').src = mod.image; document.getElementById('modalTitle').innerText = mod.title;
+            document.getElementById('modalDev').innerText = mod.developer ? mod.developer : 'Unknown Developer';
+            document.getElementById('modalVersion').innerText = mod.version; document.getElementById('modalSize').innerText = mod.size;
+            document.getElementById('modalFeatures').innerHTML = "<i class='fa-solid fa-wand-magic-sparkles'></i> " + escapeHTML(mod.features);
+            document.getElementById('modalDesc').innerText = mod.description || "No description provided.";
+            
+            let dlHTML = '';
+            if(mod.linkMod) dlHTML += `<a href="${mod.linkMod}" class="big-download-btn btn-dl-mod" target="_blank" onclick="countDownload()"><i class="fa-solid fa-download"></i> Download Mod APK</a>`;
+            if(mod.linkOri) dlHTML += `<a href="${mod.linkOri}" class="big-download-btn btn-dl-ori" target="_blank" onclick="countDownload()"><i class="fa-brands fa-google-play"></i> Original / PlayStore</a>`;
+            if(mod.linkObb) dlHTML += `<a href="${mod.linkObb}" class="big-download-btn btn-dl-obb" target="_blank" onclick="countDownload()"><i class="fa-solid fa-folder-open"></i> Download OBB</a>`;
+            if(!mod.linkMod && !mod.linkOri && !mod.linkObb && mod.downloadLink) { dlHTML += `<a href="${mod.downloadLink}" class="big-download-btn btn-dl-mod" target="_blank" onclick="countDownload()"><i class="fa-solid fa-download"></i> Install APK</a>`; }
+            if(dlHTML === '') dlHTML = `<button class="big-download-btn" style="background:#333; cursor:not-allowed;" disabled><i class="fa-solid fa-link-slash"></i> Link Unavailable</button>`;
+            
+            document.getElementById('modalDownloadContainer').innerHTML = dlHTML;
+            window.history.pushState(null, null, '?app=' + currentAppId);
+
+            db.ref('apks/' + currentAppId + '/downloads').on('value', snap => { document.getElementById('modalDownloads').innerText = formatNumber(snap.val() || 0); });
+            
+            checkBookmarkStatus(); renderRelatedApps(mod);
+            resetCommentBox(); loadAllRatings(); loadComments(); 
+            
+            const modal = document.getElementById('appModal'); modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10); document.body.style.overflow = 'hidden';
+        }
+
+        function renderRelatedApps(currentMod) {
+            const grid = document.getElementById('relatedGrid'); const section = document.getElementById('relatedSection'); grid.innerHTML = '';
+            let related = allMods.filter(m => m.category === currentMod.category && m.id !== currentMod.id).slice(0, 4);
+            if(related.length === 0) { section.style.display = 'none'; return; }
+            section.style.display = 'block';
+            related.forEach(app => {
+                const card = document.createElement('div'); card.className = 'related-card'; card.onclick = () => { closeModal(); setTimeout(() => openAppDetails(app), 300); }
+                card.innerHTML = `<img src="${app.image}" onerror="this.src='https://placehold.co/100/1a1a24/ff4c4c?text=IMG'"><h4>${escapeHTML(app.title)}</h4>`;
+                grid.appendChild(card);
+            });
+        }
+
+        function closeModal() { 
+            const modal = document.getElementById('appModal'); modal.classList.remove('active');
+            window.history.pushState(null, null, window.location.pathname);
+            if(currentAppId) { db.ref('apks/' + currentAppId + '/downloads').off(); db.ref('comments/' + currentAppId).off(); db.ref('ratings/' + currentAppId).off(); }
+            setTimeout(() => { modal.style.display = 'none'; currentAppId = null; document.body.style.overflow = 'auto'; }, 400);
+        }
+
+        function copyGameLink() { const url = window.location.href; navigator.clipboard.writeText(url).then(() => { showAlert("Game link copied!", "success"); }); }
+        function requestUpdate() { if(!currentUser) return showAlert("Please login to request.", "warning"); const modTitle = document.getElementById('modalTitle').innerText; db.ref('requests/' + currentAppId).push({ uid: currentUser.uid, email: currentUser.email, appName: modTitle, timestamp: firebase.database.ServerValue.TIMESTAMP }).then(() => showAlert("Update request sent!", "success")); }
+        function reportError() { if(!currentUser) return showAlert("Please login to report.", "warning"); const modTitle = document.getElementById('modalTitle').innerText; db.ref('reports/' + currentAppId).push({ uid: currentUser.uid, email: currentUser.email, appName: modTitle, timestamp: firebase.database.ServerValue.TIMESTAMP }).then(() => showAlert("Error reported!", "success")); }
+        function countDownload() { if(currentAppId) db.ref('apks/' + currentAppId + '/downloads').transaction(currentCount => (currentCount || 0) + 1); }
+
+        function rateApp(stars) { if(!currentUser) return showAlert("Please login to rate.", "warning"); db.ref('ratings/' + currentAppId + '/' + currentUser.uid).set({ score: stars }).then(() => { updateStarUI(stars); showAlert("Thanks for rating!", "success"); loadAllRatings(); }); }
+        function loadAllRatings() { updateStarUI(0); db.ref('ratings/' + currentAppId).on('value', snapshot => { let total = 0, count = 0, myRating = 0; snapshot.forEach(child => { total += child.val().score; count++; if(currentUser && child.key === currentUser.uid) myRating = child.val().score; }); const avg = count === 0 ? "0.0" : (total / count).toFixed(1); document.getElementById('modalAvgRating').innerHTML = `${avg} <i class="fa-solid fa-star" style="color:#ffcc00;"></i>`; if(myRating > 0) updateStarUI(myRating); }); }
+        function updateStarUI(score) { const stars = document.getElementById('starContainer').children; for(let i=0; i<5; i++) { if(i < score) { stars[i].querySelector('i').style.color = "#ffcc00"; stars[i].querySelector('i').style.textShadow = "0 0 10px rgba(255,204,0,0.5)"; } else { stars[i].querySelector('i').style.color = "#333"; stars[i].querySelector('i').style.textShadow = "none"; } } }
+
+        // SISTEM KOMENTAR & REPLY
+        let editingCommentId = null;
+        function postComment() {
+            if(!currentUser) return showAlert("Please login to review.", "warning");
+            const input = document.getElementById('commentInput'); const text = input.value.trim(); if(!text) return;
+            db.ref('banned_users/' + currentUser.uid).once('value').then(snap => {
+                if (snap.exists() && snap.val() === true) return showAlert("You are banned from commenting.", "error", "Restricted");
+                if(editingCommentId) { db.ref(`comments/${currentAppId}/${editingCommentId}`).update({ text: text }).then(() => resetCommentBox()); } 
+                else { db.ref('comments/' + currentAppId).push({ uid: currentUser.uid, name: currentUser.displayName, photo: currentUser.photoURL, text: text, timestamp: firebase.database.ServerValue.TIMESTAMP }); input.value = ''; }
+            });
+        }
+        function resetCommentBox() { editingCommentId = null; document.getElementById('commentInput').value = ''; document.getElementById('commentBoxContainer').classList.remove('editing'); document.getElementById('postCommentBtn').innerHTML = '<i class="fa-solid fa-paper-plane"></i>'; }
+        function startEditComment(commentId, oldText) { editingCommentId = commentId; document.getElementById('commentInput').value = oldText; document.getElementById('commentBoxContainer').classList.add('editing'); document.getElementById('postCommentBtn').innerHTML = '<i class="fa-solid fa-floppy-disk"></i>'; document.getElementById('commentInput').focus(); }
+        function deleteCommentConfirm(commentId) { showConfirmAlert("Delete your review?", `deleteCommentAction('${commentId}')`); }
+        function deleteCommentAction(commentId) { db.ref(`comments/${currentAppId}/${commentId}`).remove().then(() => { if(editingCommentId === commentId) resetCommentBox(); showAlert("Review deleted.", "success"); }); }
+
+        function loadComments() {
+            const list = document.getElementById('commentList'); list.innerHTML = '<p style="color:#aaa; font-size:12px; text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> Loading reviews...</p>';
+            
+            db.ref('ratings/' + currentAppId).once('value').then(ratingSnap => {
+                let userRatings = {}; if(ratingSnap.exists()) { ratingSnap.forEach(r => { userRatings[r.key] = r.val().score; }); }
+
+                db.ref('comments/' + currentAppId).on('value', snapshot => {
+                    list.innerHTML = ''; if(!snapshot.exists()) return list.innerHTML = '<p style="color:#666; font-size:12px; text-align:center;">No reviews yet. Be the first!</p>';
+                    let commentsHTML = '';
+                    snapshot.forEach(child => {
+                        const c = child.val(); const safeName = escapeHTML(c.name); const safeText = escapeHTML(c.text); const isMine = currentUser && currentUser.uid === c.uid;
+                        const userRating = userRatings[c.uid]; const ratingBadge = userRating ? `<span style="color:#ffcc00; font-size:10px;"><i class="fa-solid fa-star"></i> ${userRating}</span>` : '';
+                        
+                        let actionBtns = `<button onclick="toggleReplyBox('${child.key}')"><i class="fa-solid fa-reply"></i> Reply</button>`;
+                        if(isMine) { const plainTextForJS = c.text.replace(/'/g, "\\'").replace(/"/g, '&quot;'); actionBtns += `<button onclick="startEditComment('${child.key}', '${plainTextForJS}')"><i class="fa-solid fa-pen"></i> Edit</button><button class="del" onclick="deleteCommentConfirm('${child.key}')"><i class="fa-solid fa-trash"></i> Delete</button>`; }
+                        
+                        // REPLIES
+                        let repliesHTML = '';
+                        if(c.replies) {
+                            Object.keys(c.replies).forEach(rKey => {
+                                let rep = c.replies[rKey]; let isRepMine = currentUser && currentUser.uid === rep.uid;
+                                let delRepBtn = isRepMine ? `<button style="background:transparent;border:none;color:#ff4c4c;cursor:pointer;font-size:10px;margin-left:auto;" onclick="deleteReplyConfirm('${child.key}','${rKey}')"><i class="fa-solid fa-trash"></i></button>` : '';
+                                repliesHTML += `<div class="reply-item"><img src="${rep.photo}" onerror="this.src='https://placehold.co/100x100/1a1a24/ffffff?text=U'"> <div style="flex:1;"><h4>${escapeHTML(rep.name)}</h4><p>${escapeHTML(rep.text)}</p></div> ${delRepBtn}</div>`;
+                            });
+                        }
+
+                        let replyBoxHTML = `<div class="reply-box" id="replyBox-${child.key}" style="display:none; margin-top:10px;"><input type="text" id="replyInput-${child.key}" placeholder="Add a reply..."><button onclick="postReply('${child.key}')"><i class="fa-solid fa-paper-plane"></i></button></div>`;
+
+                        commentsHTML = `<div class="comment-item">
+                            <div class="comment-main">
+                                <img src="${c.photo}" onerror="this.src='https://placehold.co/100x100/1a1a24/ffffff?text=U'">
+                                <div class="comment-text">
+                                    <h4>${safeName} ${ratingBadge}</h4><p>${safeText}</p>
+                                    <div class="comment-actions-mini">${actionBtns}</div>
+                                </div>
+                            </div>
+                            <div class="replies-container">${repliesHTML} ${replyBoxHTML}</div>
+                        </div>` + commentsHTML; 
+                    });
+                    list.innerHTML = commentsHTML;
+                });
+            });
+        }
+
+        function toggleReplyBox(commentId) { const box = document.getElementById('replyBox-'+commentId); box.style.display = box.style.display === 'none' ? 'flex' : 'none'; }
+        function postReply(commentId) {
+            if(!currentUser) return showAlert("Please login to reply.", "warning");
+            const input = document.getElementById('replyInput-'+commentId); const text = input.value.trim(); if(!text) return;
+            db.ref(`comments/${currentAppId}/${commentId}/replies`).push({ uid: currentUser.uid, name: currentUser.displayName, photo: currentUser.photoURL, text: text, timestamp: firebase.database.ServerValue.TIMESTAMP }); input.value = '';
+        }
+        function deleteReplyConfirm(commentId, replyId) { showConfirmAlert("Delete your reply?", `db.ref('comments/${currentAppId}/${commentId}/replies/${replyId}').remove(); showAlert('Reply deleted.','success')`); }
+
+        function openFilterModal() { const modal = document.getElementById('filterModal'); modal.style.display = 'flex'; setTimeout(() => modal.classList.add('active'), 10); }
+        function closeFilterModal() { const modal = document.getElementById('filterModal'); modal.classList.remove('active'); setTimeout(() => modal.style.display = 'none', 300); }
+    </script>
+
+    <!-- EXTERNAL SCRIPTS (ADSTERRA) -->
+    <script type="text/javascript" src="https://pl28930186.effectivegatecpm.com/65/51/c6/6551c6360c8db904ce55655ee44a646e.js"></script>
+    <script type="text/javascript" src="https://matcheshonoraryunderwater.com/d3/7a/df/d37adf0ece18704d379f3eb14cab55a7.js"></script>
+</body>
+  </html>
