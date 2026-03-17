@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meowthority - Mod APKs</title>
+    <title>Meowthority - Premium Mod APKs</title>
     <meta name="description" content="Download Premium Mod APKs, Games, and Apps for Free at Meowthority.">
     <meta name="theme-color" content="#0d0d12">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -33,16 +33,16 @@
         .auth-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 76, 76, 0.5); }
 
         .hero-slider-container { width: 100%; max-width: 1200px; margin: 20px auto 0; position: relative; overflow: hidden; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: none; }
-        .hero-slider { display: flex; transition: transform 0.5s ease-in-out; width: 300%; }
-        .hero-slide { width: 33.333%; position: relative; height: 250px; cursor: pointer; }
+        .hero-slider { display: flex; transition: transform 0.5s ease-in-out; width: 1000%; }
+        .hero-slide { position: relative; height: 250px; cursor: pointer; }
         .hero-slide img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); }
         .hero-content { position: absolute; bottom: 20px; left: 20px; right: 20px; z-index: 2; }
         .hero-content h2 { font-size: 24px; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.8); margin-bottom: 5px; font-weight: 800; }
         .hero-content p { font-size: 13px; color: #ddd; text-shadow: 0 1px 5px rgba(0,0,0,0.8); max-width: 600px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 10px; }
         .hero-badge { background: #ff4c4c; color: white; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: bold; display: inline-block; margin-bottom: 8px; }
         .slider-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 3; }
-        .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.3); border-radius: 50%; cursor: pointer; transition: 0.3s; }
-        .dot.active { background: #ff4c4c; transform: scale(1.2); }
+        .dot { width: 8px; height: 8px; background: rgba(255,255,255,0.3); border-radius: 50%; cursor: pointer; transition: 0.3s; }
+        .dot.active { background: #ff4c4c; transform: scale(1.3); }
 
         main { flex: 1; margin-top: 15px; width: 100%;}
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -55,9 +55,7 @@
         .badge-new { position: absolute; top: 12px; right: 12px; background: rgba(74, 222, 128, 0.15); color: #4ade80; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 12px; letter-spacing: 0.5px; border: 1px solid rgba(74, 222, 128, 0.3); z-index: 10; display: flex; align-items: center; gap: 4px; backdrop-filter: blur(5px);}
         
         .mod-info { margin-left: 15px; flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: center;}
-        
         .mod-title { font-size: 15px; color: #fff; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; display: block;} 
-        
         .scroll-box { width: 100%; overflow: hidden; white-space: nowrap; position: relative; margin-bottom: 2px;}
         .scroll-text { display: inline-block; animation: scrollBackForth 4s ease-in-out infinite alternate; padding-right: 20px;}
         .mod-card:hover .scroll-text { animation-play-state: paused; }
@@ -90,9 +88,11 @@
         
         .ps-header { padding: 30px 20px 20px; display: flex; flex-direction: row; gap: 15px; align-items: flex-start; border-bottom: 1px solid rgba(255,255,255,0.05); position: relative; }
         .ps-icon { width: 85px; height: 85px; border-radius: 20px; object-fit: cover; box-shadow: 0 5px 15px rgba(0,0,0,0.5); pointer-events: none; flex-shrink: 0; }
-        .ps-info { flex: 1; display: flex; flex-direction: column; justify-content: center; margin-top: 8px; padding-right: 40px; }
+        .ps-info { flex: 1; display: flex; flex-direction: column; justify-content: center; margin-top: 5px; padding-right: 40px; }
         .ps-title { font-size: 22px; color: #fff; font-weight: 700; line-height: 1.2; -webkit-user-select: text; user-select: text;}
         .ps-dev { font-size: 13px; color: #888; margin-top: 5px; }
+        
+        .ps-cat { font-size: 11px; color: #ff4c4c; background: rgba(255, 76, 76, 0.1); padding: 4px 10px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; width: fit-content; font-weight: 600; border: 1px solid rgba(255, 76, 76, 0.2); }
 
         .close-btn { position: absolute; top: 20px; right: 20px; font-size: 18px; color: #ff4c4c; cursor: pointer; background: rgba(255, 76, 76, 0.15); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; transition: 0.3s; z-index: 10; }
         .close-btn:hover { background: rgba(255, 76, 76, 0.3); transform: scale(1.05); }
@@ -107,16 +107,24 @@
         .ps-stat-value i { color: #888; font-size: 12px; }
         .ps-stat-label { font-size: 11px; color: #888; margin-top: 4px; }
 
+        .gallery-container { display: flex; gap: 10px; overflow-x: auto; padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.05); scroll-snap-type: x mandatory; display: none;}
+        .gallery-container::-webkit-scrollbar { display: none; }
+        .gallery-img { height: 160px; border-radius: 12px; object-fit: cover; scroll-snap-align: start; border: 1px solid rgba(255,255,255,0.1); }
+
         .modal-body { padding: 20px; }
         .ps-features { color: #fff; font-size: 13px; background: rgba(255, 76, 76, 0.1); padding: 15px; border-radius: 12px; border-left: 4px solid #ff4c4c; margin-bottom: 20px; font-weight: 500; line-height: 1.5; }
+        .outdated-warning { background: rgba(255, 204, 0, 0.1); color: #ffcc00; padding: 12px 15px; border-radius: 12px; font-size: 12px; margin-bottom: 20px; border-left: 4px solid #ffcc00; line-height: 1.5; font-weight: 500; display: flex; align-items: flex-start; gap: 10px; }
         .modal-desc { color: #bbb; font-size: 13px; line-height: 1.6; white-space: pre-wrap; margin-bottom: 20px; -webkit-user-select: text; user-select: text;}
 
-        .download-btn-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+        .download-btn-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
         .big-download-btn { display: flex; justify-content: center; align-items: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #ff4c4c, #990000); color: white; padding: 15px; border-radius: 12px; font-size: 14px; font-weight: 600; text-transform: uppercase; border: none; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); letter-spacing: 0.5px; text-decoration: none;}
         .big-download-btn:active { transform: scale(0.98); box-shadow: none; }
         .btn-dl-mod { background: linear-gradient(135deg, #ff4c4c, #990000); }
         .btn-dl-ori { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
         .btn-dl-obb { background: linear-gradient(135deg, #10b981, #047857); }
+        
+        .tutorial-btn { display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; padding: 12px; border-radius: 12px; font-size: 13px; font-weight: 600; text-decoration: none; background: rgba(255, 76, 76, 0.1); color: #ff4c4c; border: 1px solid rgba(255, 76, 76, 0.3); transition: 0.3s; margin-bottom: 20px; }
+        .tutorial-btn:hover { background: #ff4c4c; color: white; }
 
         .ad-banner-box { background: #16161e; border: 1px dashed rgba(255, 255, 255, 0.1); border-radius: 12px; text-align: center; color: #666; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 20px; min-height: 250px; position: relative; padding: 10px; overflow: hidden; }
         .ad-label { font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
@@ -128,22 +136,42 @@
         .action-btn:hover i { transform: scale(1.1); }
         .action-btn:active { transform: scale(0.95); }
 
+        .vote-section { display: flex; flex-direction: column; align-items: center; background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        .vote-header { font-size: 13px; color: #fff; margin-bottom: 10px; font-weight: 600; text-align: center; }
+        .vote-controls { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 15px; }
+        .vote-btns button { padding: 8px 15px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; font-size: 12px; transition: 0.2s;}
+        .btn-upvote { background: rgba(74, 222, 128, 0.1); color: #4ade80; }
+        .btn-upvote.active, .btn-upvote:hover { background: #4ade80; color: #000; }
+        .btn-downvote { background: rgba(255, 76, 76, 0.1); color: #ff4c4c; }
+        .btn-downvote.active, .btn-downvote:hover { background: #ff4c4c; color: #fff; }
+        .vote-bar-wrapper { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px;}
+        .vote-bar-container { width: 100%; height: 6px; background: #333; border-radius: 3px; overflow: hidden; display: flex;}
+        .vote-bar-up { height: 100%; background: #4ade80; transition: width 0.3s;}
+        .vote-bar-down { height: 100%; background: #ff4c4c; transition: width 0.3s;}
+        .vote-pct { font-size: 11px; color: #aaa; transition: 0.3s; }
+
         .rating-section { text-align: center; padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .rating-section h3 { font-size: 15px; margin-bottom: 15px; color: #fff; }
-        .stars { display: inline-flex; gap: 10px; font-size: 30px; cursor: pointer; color: #333; }
+        .rating-section h3 { font-size: 15px; margin-bottom: 5px; color: #fff; display: inline-block;}
+        .rating-count { font-size: 12px; color: #aaa; margin-left: 5px;}
+        .stars { display: flex; justify-content: center; gap: 10px; font-size: 30px; cursor: pointer; color: #333; margin-top: 10px; }
         .stars span { transition: 0.2s; }
         .stars span:hover, .stars span.active { color: #ffcc00; transform: scale(1.15); text-shadow: 0 0 15px rgba(255, 204, 0, 0.4); }
         
         .related-section { margin-top: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px;}
         .related-section h3 { font-size: 15px; color: #fff; margin-bottom: 15px; }
         .related-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .related-card { background: #16161e; border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; transition: 0.3s; border: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center;}
-        .related-card:hover { transform: translateY(-3px); border-color: #ff4c4c; background: #1a1a24; }
-        .related-card img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; margin-bottom: 8px;}
+        .related-card { background: #16161e; border-radius: 12px; padding: 10px; text-align: center; border: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center;}
+        .related-card img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; margin-bottom: 8px; cursor: pointer; transition: 0.3s;}
+        .related-card img:hover { transform: scale(1.15); box-shadow: 0 4px 15px rgba(255, 76, 76, 0.4); }
         .related-card h4 { font-size: 11px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; font-weight: 500;}
 
         .comment-section { margin-top: 20px; }
-        .comment-section h3 { font-size: 15px; color: #fff; margin-bottom: 15px; }
+        .comment-section h3 { font-size: 15px; color: #fff; margin-bottom: 15px; display: inline-block;}
+        
+        .guest-inputs { display: none; flex-direction: column; gap: 8px; margin-bottom: 10px; width: 100%; background: #16161e; padding: 10px 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+        .guest-inputs input { width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.1); background: #1a1a24; color: white; border-radius: 8px; font-size: 12px; }
+        .guest-inputs input:focus { border-color: #ff4c4c; }
+        
         .comment-box, .reply-box { display: flex; gap: 10px; background: #16161e; padding: 10px 15px; border-radius: 16px; align-items: center; margin-bottom: 20px; border: 1px solid transparent; transition: 0.3s;}
         .comment-box.editing { border-color: #ffcc00; background: #1a1a10; }
         .comment-box img, .reply-box img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
@@ -162,6 +190,7 @@
         .comment-actions-mini button { background: transparent; border: none; color: #666; font-size: 11px; cursor: pointer; transition: 0.2s; padding: 0; font-weight: 500;}
         .comment-actions-mini button:hover { color: #fff; }
         .comment-actions-mini button.del:hover { color: #ff4c4c; }
+        .comment-actions-mini button.rep:hover { color: #ffcc00; }
 
         .replies-container { padding-left: 45px; display: flex; flex-direction: column; gap: 10px; width: 100%; }
         .reply-item { display: flex; gap: 10px; align-items: flex-start; background: rgba(255,255,255,0.02); padding: 10px; border-radius: 12px; border-left: 2px solid #ff4c4c;}
@@ -253,7 +282,7 @@
     <header>
         <div class="top-bar">
             <div class="logo-area" onclick="window.location.href = window.location.pathname">
-                <img src="logo.png" alt="Logo" onerror="this.src='https://placehold.co/100x100/transparent/ff4c4c?text=M&font=Montserrat'">
+                <img src="logo.png" alt="Logo">
                 <h1>MEOWTHORITY</h1>
             </div>
         </div>
@@ -278,8 +307,7 @@
     </div>
 
     <main>
-        <div class="mod-grid" id="modContainer">
-        </div>
+        <div class="mod-grid" id="modContainer"></div>
         <div class="load-more-container" id="loadMoreContainer" style="display: none;">
             <button class="btn-load-more" onclick="loadApps(true)"><i class="fa-solid fa-angles-down"></i> Load More Apps</button>
         </div>
@@ -291,7 +319,7 @@
             <a href="https://discord.gg/AudUjgpRPK" target="_blank" class="discord"><i class="fa-brands fa-discord"></i></a>
             <a href="https://youtube.com/@meowthority?si=GaEVbf5GQ47w7edm" target="_blank" class="youtube"><i class="fa-brands fa-youtube"></i></a>
         </div>
-        <p>&copy; 2026 Meowthority. All rights reserved.</p>
+        <p>&copy; 2024 - 2026 Meowthority. All rights reserved.</p>
     </footer>
 
     <div class="modal-overlay" id="filterModal">
@@ -308,7 +336,7 @@
                     <button class="cat-btn sort-btn" style="flex-basis: 100%;" onclick="setSort('Oldest')"><i class="fa-solid fa-clock-rotate-left"></i> Oldest First</button>
                 </div>
 
-                <div class="filter-subtitle" style="margin-top: 25px;">Categories</div>
+                <div class="filter-subtitle" style="margin-top: 25px;">Game Categories</div>
                 <div class="category-grid cat-group">
                     <button class="cat-btn active" onclick="setFilter('All')"><i class="fa-solid fa-layer-group"></i> All</button>
                     <button class="cat-btn" onclick="setFilter('Favorites')" id="btnFilterFav"><i class="fa-solid fa-heart"></i> Favorites</button>
@@ -323,21 +351,41 @@
                     <button class="cat-btn" onclick="setFilter('Simulation')">Simulation</button>
                     <button class="cat-btn" onclick="setFilter('Sports')">Sports</button>
                     <button class="cat-btn" onclick="setFilter('Strategy')">Strategy</button>
-                    <button class="cat-btn" onclick="setFilter('Apps')"><i class="fa-solid fa-mobile-screen"></i> Apps</button>
+                </div>
+                
+                <div class="filter-subtitle" style="margin-top: 15px;">App Categories</div>
+                <div class="category-grid cat-group">
+                    <button class="cat-btn" onclick="setFilter('Art & Design')">Art & Design</button>
+                    <button class="cat-btn" onclick="setFilter('Communication')">Communication</button>
+                    <button class="cat-btn" onclick="setFilter('Education')">Education</button>
+                    <button class="cat-btn" onclick="setFilter('Entertainment')">Entertainment</button>
+                    <button class="cat-btn" onclick="setFilter('Finance')">Finance</button>
+                    <button class="cat-btn" onclick="setFilter('Health & Fitness')">Health & Fitness</button>
+                    <button class="cat-btn" onclick="setFilter('Lifestyle')">Lifestyle</button>
+                    <button class="cat-btn" onclick="setFilter('Music & Audio')">Music & Audio</button>
+                    <button class="cat-btn" onclick="setFilter('Personalization')">Personalization</button>
+                    <button class="cat-btn" onclick="setFilter('Photography')">Photography</button>
+                    <button class="cat-btn" onclick="setFilter('Productivity')">Productivity</button>
+                    <button class="cat-btn" onclick="setFilter('Social')">Social</button>
+                    <button class="cat-btn" onclick="setFilter('Tools')">Tools</button>
+                    <button class="cat-btn" onclick="setFilter('Video Players')">Video Players</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- MODAL APP DETAILS -->
     <div class="modal-overlay" id="appModal">
-        <div class="modal-content">
+        <div class="modal-content" id="mainModalContent">
             <div class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></div>
             
             <div class="ps-header">
-                <img id="modalImg" class="ps-icon" src="" alt="Icon" onerror="this.src='https://placehold.co/300x300/16161e/ff4c4c?text=No+Image'">
+                <img id="modalImg" class="ps-icon" src="" alt="Icon" referrerpolicy="no-referrer" onerror="this.src='https://placehold.co/300x300/16161e/ff4c4c?text=No+Image'">
                 <div class="ps-info">
                     <h2 class="ps-title" id="modalTitle">Game Title</h2>
                     <div class="ps-dev" id="modalDev">Developer Name</div>
+                    <!-- KATEGORI BADGE -->
+                    <div class="ps-cat" id="modalCat"><i class="fa-solid fa-layer-group"></i> Category</div>
                 </div>
                 <button class="btn-bookmark" id="btnBookmark" onclick="toggleBookmark()"><i class="fa-regular fa-heart"></i></button>
             </div>
@@ -361,11 +409,17 @@
                 </div>
             </div>
 
+            <div class="gallery-container" id="modalGallery"></div>
+
             <div class="modal-body">
                 <div class="ps-features" id="modalFeatures"><i class="fa-solid fa-wand-magic-sparkles"></i> Mod Features</div>
                 
-                <div class="download-btn-container" id="modalDownloadContainer">
-                </div>
+                <div id="outdatedWarningContainer"></div>
+
+                <div class="download-btn-container" id="modalDownloadContainer"></div>
+                <a href="https://youtu.be/Cnh1TaVm97U?si=dUy6x1hkHXEbiabb" target="_blank" class="tutorial-btn">
+                    <i class="fa-brands fa-youtube"></i> How to skip short link (Tutorial)
+                </a>
 
                 <div class="action-row">
                     <button class="action-btn" onclick="copyGameLink()"><i class="fa-solid fa-link"></i> Copy Link</button>
@@ -373,6 +427,21 @@
                     <button class="action-btn" onclick="reportError()"><i class="fa-solid fa-flag"></i> Report Error</button>
                 </div>
                 
+                <div class="vote-section">
+                    <div class="vote-header">Does this Mod work for you?</div>
+                    <div class="vote-controls">
+                        <div class="vote-btns"><button id="btnUpvote" class="btn-upvote" onclick="voteMod('up')"><i class="fa-solid fa-thumbs-up"></i> Yes</button></div>
+                        <div class="vote-bar-wrapper">
+                            <div class="vote-bar-container">
+                                <div id="voteBarUp" class="vote-bar-up" style="width: 50%;"></div>
+                                <div id="voteBarDown" class="vote-bar-down" style="width: 50%;"></div>
+                            </div>
+                            <div class="vote-pct" id="voteText">50% working</div>
+                        </div>
+                        <div class="vote-btns"><button id="btnDownvote" class="btn-downvote" onclick="voteMod('down')"><i class="fa-solid fa-thumbs-down"></i> No</button></div>
+                    </div>
+                </div>
+
                 <div class="ad-banner-box">
                     <span class="ad-label">Advertisement</span>
                     <script type="text/javascript">
@@ -389,13 +458,20 @@
                 
                 <div class="modal-desc" id="modalDesc"></div>
 
+                <div style="text-align:center; margin: 20px 0;">
+                    <span class="ad-label" style="font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display:block;">Advertisement</span>
+                    <script async="async" data-cfasync="false" src="https://matcheshonoraryunderwater.com/10b11130a9d73eda5bcaea18c23dfae4/invoke.js"></script>
+                    <div id="container-10b11130a9d73eda5bcaea18c23dfae4"></div>
+                </div>
+
+                <!-- SIMILAR APPS SECTION -->
                 <div class="related-section" id="relatedSection" style="display: none;">
-                    <h3>Similar Apps</h3>
+                    <h3>Similar</h3>
                     <div class="related-grid" id="relatedGrid"></div>
                 </div>
 
                 <div class="rating-section">
-                    <h3>Rate this Mod</h3>
+                    <h3>Rate this Mod</h3><span class="rating-count" id="ratingCount">(0 ratings)</span>
                     <div class="stars" id="starContainer">
                         <span onclick="rateApp(1)"><i class="fa-solid fa-star"></i></span>
                         <span onclick="rateApp(2)"><i class="fa-solid fa-star"></i></span>
@@ -406,10 +482,17 @@
                 </div>
 
                 <div class="comment-section">
-                    <h3>User Reviews</h3>
+                    <h3>User Reviews</h3><span class="rating-count" id="commentCount">(0)</span>
+                    
+                    <div class="guest-inputs" id="guestInputs">
+                        <label style="font-size: 11px; color:#aaa; margin-bottom:-4px;">Posting as Guest</label>
+                        <input type="text" id="guestName" placeholder="Name (Optional)">
+                        <input type="email" id="guestEmail" placeholder="Email (Optional)">
+                    </div>
+
                     <div class="comment-box" id="commentBoxContainer">
                         <img id="myAvatar" src="https://placehold.co/100x100/1a1a24/ffffff?text=U" alt="Me" referrerpolicy="no-referrer">
-                        <input type="text" id="commentInput" placeholder="Add a public review...">
+                        <input type="text" id="commentInput" placeholder="Add a public review..." onkeypress="if(event.key === 'Enter') postComment()">
                         <button id="postCommentBtn" onclick="postComment()"><i class="fa-solid fa-paper-plane"></i></button>
                     </div>
                     <div class="comment-list" id="commentList"></div>
@@ -418,6 +501,7 @@
         </div>
     </div>
 
+    <!-- CUSTOM ALERTS -->
     <div class="custom-alert" id="customAlert">
         <div class="custom-alert-box">
             <div class="custom-alert-icon" id="customAlertIcon"><i class="fa-solid fa-circle-exclamation icon-warn"></i></div>
@@ -429,11 +513,36 @@
         </div>
     </div>
 
+    <div class="custom-alert" id="versionModal">
+        <div class="custom-alert-box">
+            <div class="custom-alert-icon"><i class="fa-solid fa-code-compare icon-info"></i></div>
+            <h3 style="color:#fff;">Verify Version</h3>
+            <p style="color:#aaa; font-size:12px; margin-bottom:15px;">We couldn't auto-fetch. Please check Play Store and input the latest version manually.</p>
+            <input type="text" id="manualVersionInput" placeholder="e.g. 1.2.3" style="width: 100%; padding: 12px; border-radius: 12px; background: #121218; border: 1px solid rgba(255,255,255,0.1); color: white; text-align: center; margin-bottom:15px; font-family:'Poppins', sans-serif; font-size:14px;">
+            <div class="alert-btns">
+                <button class="btn-cancel" onclick="closeVersionModal()">Cancel</button>
+                <button onclick="submitManualVersion()">Submit</button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
+        // --- BAGIAN YANG DIUBAH UNTUK SAFELINKU ---
+        
+        // Masukkan API Token Safelinku kamu di sini (Bisa didapat di dashboard Safelinku -> Tools -> Quick Link)
+        const safelinkuApi = "MASUKKAN_API_TOKEN_SAFELINKU_KAMU_DISINI"; 
+
+        function wrapSafelinku(url) { 
+            // Menggunakan /st? agar langsung me-redirect browser user
+            return `https://safelinku.com/st?api=${safelinkuApi}&url=${encodeURIComponent(url)}`; 
+        }
+        
+        // ------------------------------------------
+
         function detectAdblock() {
             document.getElementById('adblock-wall').style.display = 'flex';
             document.body.style.overflow = 'hidden'; 
@@ -454,7 +563,7 @@
             let title = customTitle || "Notice";
             if(type === "error") { iconHTML = '<i class="fa-solid fa-circle-xmark icon-err"></i>'; title = customTitle || "Error"; }
             else if(type === "success") { iconHTML = '<i class="fa-solid fa-circle-check icon-succ"></i>'; title = customTitle || "Success"; }
-            else if(type === "info") { iconHTML = '<i class="fa-brands fa-chrome icon-info"></i>'; title = customTitle || "Info"; }
+            else if(type === "info") { iconHTML = '<i class="fa-solid fa-circle-info icon-info"></i>'; title = customTitle || "Info"; }
             
             document.getElementById('customAlertIcon').innerHTML = iconHTML;
             document.getElementById('customAlertTitle').innerText = title;
@@ -465,7 +574,7 @@
         function closeAlert() { const alertBox = document.getElementById('customAlert'); alertBox.classList.remove('active'); setTimeout(() => alertBox.style.display = 'none', 300); }
         function showConfirmAlert(msg, onConfirm) {
             document.getElementById('customAlertMessage').innerText = msg;
-            document.getElementById('customAlertIcon').innerHTML = '<i class="fa-solid fa-trash icon-err"></i>'; document.getElementById('customAlertTitle').innerText = 'Are you sure?';
+            document.getElementById('customAlertIcon').innerHTML = '<i class="fa-solid fa-question icon-info"></i>'; document.getElementById('customAlertTitle').innerText = 'Are you sure?';
             document.getElementById('customAlertBtns').innerHTML = `<button class="btn-cancel" onclick="closeAlert()">Cancel</button><button onclick="closeAlert(); ${onConfirm}">Confirm</button>`;
             const alertBox = document.getElementById('customAlert'); alertBox.style.display = 'flex'; setTimeout(() => alertBox.classList.add('active'), 10);
         }
@@ -482,7 +591,6 @@
         let allMods = [], currentUser = null, currentAppId = null;
         let userBookmarks = [];
         let isLoggingIn = false;
-        
         let lastAppKey = null, isFetching = false, hasMoreData = true; const ITEMS_PER_LOAD = 20;
         let currentCat = 'All'; let currentSort = 'Newest';
 
@@ -490,11 +598,15 @@
             currentUser = user; const btn = document.getElementById('loginBtn'); btn.disabled = false; isLoggingIn = false; 
             if (user) {
                 btn.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i>'; btn.style.padding = "10px 14px"; btn.onclick = signOut;
-                document.getElementById('userAvatar').src = user.photoURL; document.getElementById('userAvatar').style.display = "block"; document.getElementById('myAvatar').src = user.photoURL;
+                document.getElementById('userAvatar').src = user.photoURL || "https://placehold.co/100x100/1a1a24/ffffff?text=U"; 
+                document.getElementById('userAvatar').style.display = "block"; 
+                document.getElementById('myAvatar').src = user.photoURL || "https://placehold.co/100x100/1a1a24/ffffff?text=U";
+                document.getElementById('guestInputs').style.display = "none";
                 loadBookmarks();
             } else {
                 btn.innerHTML = '<i class="fa-brands fa-google"></i> Login'; btn.style.padding = "10px 18px"; btn.onclick = signIn;
                 document.getElementById('userAvatar').style.display = "none"; document.getElementById('myAvatar').src = "https://placehold.co/100x100/1a1a24/ffffff?text=U";
+                document.getElementById('guestInputs').style.display = "flex";
                 userBookmarks = [];
                 if(currentCat === 'Favorites') setFilter('All');
             }
@@ -544,7 +656,6 @@
                     if (tempMods.length < ITEMS_PER_LOAD) hasMoreData = false;
                     
                     if (!isLoadMore && allMods.length >= 3) { initHeroSlider(); }
-
                     applyFilterAndSort(); 
 
                     if (!isLoadMore) {
@@ -571,26 +682,42 @@
             const slider = document.getElementById('heroSlider');
             const dotsContainer = document.getElementById('sliderDots');
             
-            let topGames = [...allMods].sort((a, b) => (b.downloads || 0) - (a.downloads || 0)).slice(0, 3);
+            let topGames = [...allMods].sort((a, b) => (b.downloads || 0) - (a.downloads || 0)).slice(0, 10);
             if(topGames.length < 3) return;
 
             container.style.display = 'block'; slider.innerHTML = ''; dotsContainer.innerHTML = '';
             
+            slider.style.width = (topGames.length * 100) + '%';
+            let slideWidth = (100 / topGames.length) + '%';
+            
             topGames.forEach((game, index) => {
-                const slide = document.createElement('div'); slide.className = 'hero-slide'; slide.onclick = () => openAppDetails(game);
-                slide.innerHTML = `<img src="${game.image}" alt="Cover"><div class="hero-content"><span class="hero-badge"><i class="fa-solid fa-fire"></i> Trending</span><h2>${escapeHTML(game.title)}</h2><p>${escapeHTML(game.description || game.features)}</p></div>`;
+                const slide = document.createElement('div'); 
+                slide.className = 'hero-slide'; 
+                slide.style.width = slideWidth;
+                slide.onclick = () => openAppDetails(game);
+                
+                // MENGGUNAKAN GAMBAR SCREENSHOT UNTUK TRENDING
+                let bannerImg = game.image;
+                if (game.screenshots && game.screenshots.trim() !== "") {
+                    let urls = game.screenshots.split(',').map(url => url.trim()).filter(url => url !== "" && url.startsWith("http"));
+                    if (urls.length > 0) { bannerImg = urls[0]; }
+                }
+
+                slide.innerHTML = `<img src="${bannerImg}" referrerpolicy="no-referrer" alt="Cover" onerror="this.src='${game.image}'"><div class="hero-content"><span class="hero-badge"><i class="fa-solid fa-fire"></i> Trending</span><h2>${escapeHTML(game.title)}</h2><p>${escapeHTML(game.description || game.features)}</p></div>`;
                 slider.appendChild(slide);
 
-                const dot = document.createElement('div'); dot.className = `dot ${index === 0 ? 'active' : ''}`; dot.onclick = () => moveHeroSlider(index);
+                const dot = document.createElement('div'); dot.className = `dot ${index === 0 ? 'active' : ''}`; dot.onclick = () => moveHeroSlider(index, topGames.length);
                 dotsContainer.appendChild(dot);
             });
 
             clearInterval(heroInterval);
-            heroInterval = setInterval(() => { heroSlideIndex = (heroSlideIndex + 1) % 3; moveHeroSlider(heroSlideIndex); }, 4000);
+            heroInterval = setInterval(() => { heroSlideIndex = (heroSlideIndex + 1) % topGames.length; moveHeroSlider(heroSlideIndex, topGames.length); }, 4000);
         }
 
-        function moveHeroSlider(index) {
-            heroSlideIndex = index; document.getElementById('heroSlider').style.transform = `translateX(-${index * 33.333}%)`;
+        function moveHeroSlider(index, totalSlides) {
+            heroSlideIndex = index; 
+            let translateVal = (index * (100 / totalSlides));
+            document.getElementById('heroSlider').style.transform = `translateX(-${translateVal}%)`;
             const dots = document.querySelectorAll('.dot'); dots.forEach(d => d.classList.remove('active')); if(dots[index]) dots[index].classList.add('active');
         }
 
@@ -655,7 +782,7 @@
         }
         function setSort(sortType) { currentSort = sortType; closeFilterModal(); applyFilterAndSort(); updateFilterUI(); }
         function updateFilterUI() {
-            document.querySelectorAll('.cat-group .cat-btn').forEach(b => { b.classList.remove('active'); if(b.innerText.includes(currentCat === 'All' ? 'All' : currentCat)) b.classList.add('active'); });
+            document.querySelectorAll('.cat-group .cat-btn').forEach(b => { b.classList.remove('active'); if(b.innerText.trim() === currentCat || (currentCat === 'All' && b.innerText.includes('All'))) b.classList.add('active'); });
             document.querySelectorAll('.sort-group .sort-btn').forEach(b => { b.classList.remove('active'); if(b.getAttribute('onclick').includes(currentSort)) b.classList.add('active'); });
         }
 
@@ -693,7 +820,7 @@
                 const badgeHTML = isNew ? `<div class="badge-new"><i class="fa-solid fa-sparkles" style="font-size:8px;"></i> NEW</div>` : '';
 
                 card.innerHTML = `${badgeHTML}
-                    <img src="${mod.image}" alt="Icon" onerror="this.src='https://placehold.co/150x150/1a1a24/ff4c4c?text=IMG'">
+                    <img src="${mod.image}" referrerpolicy="no-referrer" alt="Icon" onerror="this.src='https://placehold.co/150x150/1a1a24/ff4c4c?text=IMG'">
                     <div class="mod-info">
                         <h3 class="mod-title">${escapeHTML(mod.title)}</h3>
                         <div class="mod-dev">${escapeHTML(mod.developer ? mod.developer : 'Unknown Developer')}</div>
@@ -720,19 +847,58 @@
             });
         }
 
+        // --- BAGIAN YANG DIUBAH UNTUK SAFELINKU ---
+        function processDownloadLink(url, isModded) {
+            if (isModded) {
+                if(currentAppId) {
+                    db.ref('apks/' + currentAppId + '/downloads').transaction(currentCount => (currentCount || 0) + 1);
+                }
+                // Memanggil fungsi wrapSafelinku
+                window.open(wrapSafelinku(url), '_blank');
+            } else {
+                window.open(url, '_blank');
+            }
+        }
+        // ------------------------------------------
+
         function openAppDetails(mod) {
             currentAppId = mod.id;
             document.getElementById('modalImg').src = mod.image; document.getElementById('modalTitle').innerText = mod.title;
             document.getElementById('modalDev').innerText = mod.developer ? mod.developer : 'Unknown Developer';
+            
+            document.getElementById('modalCat').innerHTML = `<i class="fa-solid fa-layer-group"></i> ${escapeHTML(mod.category)}`;
+
             document.getElementById('modalVersion').innerText = mod.version; document.getElementById('modalSize').innerText = mod.size;
             document.getElementById('modalFeatures').innerHTML = "<i class='fa-solid fa-wand-magic-sparkles'></i> " + escapeHTML(mod.features);
             document.getElementById('modalDesc').innerText = mod.description || "No description provided.";
             
+            const NINETY_DAYS = 90 * 24 * 60 * 60 * 1000;
+            const isOutdated = mod.timestamp && (Date.now() - mod.timestamp > NINETY_DAYS);
+            const warningContainer = document.getElementById('outdatedWarningContainer');
+            if (isOutdated) {
+                warningContainer.innerHTML = `<div class="outdated-warning"><i class="fa-solid fa-triangle-exclamation" style="font-size: 16px; margin-top:2px;"></i> <div><b>Notice:</b> This mod was updated over 3 months ago. It might not work with the latest version. Try it, and use the "Req Update" button if it fails.</div></div>`;
+            } else {
+                warningContainer.innerHTML = '';
+            }
+
+            const gallery = document.getElementById('modalGallery');
+            if(mod.screenshots && mod.screenshots.trim() !== "") {
+                let urls = mod.screenshots.split(',').map(url => url.trim()).filter(url => url !== "" && url.startsWith("http")); 
+                gallery.innerHTML = '';
+                urls.forEach(url => { 
+                    gallery.innerHTML += `<img class="gallery-img" src="${url}" referrerpolicy="no-referrer" onerror="this.style.display='none'">`; 
+                });
+                gallery.style.display = 'flex';
+            } else { 
+                gallery.style.display = 'none'; 
+            }
+            
             let dlHTML = '';
-            if(mod.linkMod) dlHTML += `<a href="${mod.linkMod}" class="big-download-btn btn-dl-mod" target="_blank" onclick="countDownload()"><i class="fa-solid fa-download"></i> Download Mod APK</a>`;
-            if(mod.linkOri) dlHTML += `<a href="${mod.linkOri}" class="big-download-btn btn-dl-ori" target="_blank" onclick="countDownload()"><i class="fa-brands fa-google-play"></i> Original / PlayStore</a>`;
-            if(mod.linkObb) dlHTML += `<a href="${mod.linkObb}" class="big-download-btn btn-dl-obb" target="_blank" onclick="countDownload()"><i class="fa-solid fa-folder-open"></i> Download OBB</a>`;
-            if(!mod.linkMod && !mod.linkOri && !mod.linkObb && mod.downloadLink) { dlHTML += `<a href="${mod.downloadLink}" class="big-download-btn btn-dl-mod" target="_blank" onclick="countDownload()"><i class="fa-solid fa-download"></i> Install APK</a>`; }
+            if(mod.linkMod) dlHTML += `<button class="big-download-btn btn-dl-mod" onclick="processDownloadLink('${mod.linkMod}', true)"><i class="fa-solid fa-download"></i> Download Mod APK</button>`;
+            if(mod.linkOri) dlHTML += `<button class="big-download-btn btn-dl-ori" onclick="processDownloadLink('${mod.linkOri}', false)"><i class="fa-brands fa-google-play"></i> Original / PlayStore</button>`;
+            if(mod.linkObb) dlHTML += `<button class="big-download-btn btn-dl-obb" onclick="processDownloadLink('${mod.linkObb}', true)"><i class="fa-solid fa-folder-open"></i> Download OBB</button>`;
+            
+            if(!mod.linkMod && !mod.linkOri && !mod.linkObb && mod.downloadLink) { dlHTML += `<button class="big-download-btn btn-dl-mod" onclick="processDownloadLink('${mod.downloadLink}', true)"><i class="fa-solid fa-download"></i> Install APK</button>`; }
             if(dlHTML === '') dlHTML = `<button class="big-download-btn" style="background:#333; cursor:not-allowed;" disabled><i class="fa-solid fa-link-slash"></i> Link Unavailable</button>`;
             
             document.getElementById('modalDownloadContainer').innerHTML = dlHTML;
@@ -741,8 +907,12 @@
             db.ref('apks/' + currentAppId + '/downloads').on('value', snap => { document.getElementById('modalDownloads').innerText = formatNumber(snap.val() || 0); });
             
             checkBookmarkStatus(); renderRelatedApps(mod);
-            resetCommentBox(); loadAllRatings(); loadComments(); 
-            
+            resetCommentBox(); loadAllRatings(); loadComments(); loadVotes();
+
+            const modalContent = document.getElementById('mainModalContent');
+            modalContent.scrollTop = 0;
+            setTimeout(() => { modalContent.scrollTop = 0; }, 50);
+
             const modal = document.getElementById('appModal'); modal.style.display = 'flex';
             setTimeout(() => modal.classList.add('active'), 10); document.body.style.overflow = 'hidden';
         }
@@ -752,9 +922,43 @@
             let related = allMods.filter(m => m.category === currentMod.category && m.id !== currentMod.id).slice(0, 4);
             if(related.length === 0) { section.style.display = 'none'; return; }
             section.style.display = 'block';
+            
             related.forEach(app => {
-                const card = document.createElement('div'); card.className = 'related-card'; card.onclick = () => { closeModal(); setTimeout(() => openAppDetails(app), 300); }
-                card.innerHTML = `<img src="${app.image}" onerror="this.src='https://placehold.co/100/1a1a24/ff4c4c?text=IMG'"><h4>${escapeHTML(app.title)}</h4>`;
+                const card = document.createElement('div'); card.className = 'related-card'; 
+                
+                const img = document.createElement('img');
+                img.src = app.image;
+                img.setAttribute('referrerpolicy', 'no-referrer');
+                img.onerror = function() { this.src='https://placehold.co/100/1a1a24/ff4c4c?text=IMG'; };
+                
+                img.onclick = () => { 
+                    const modContent = document.getElementById('mainModalContent');
+                    modContent.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+                    modContent.style.opacity = '0';
+                    modContent.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        openAppDetails(app); 
+                        
+                        modContent.scrollTop = 0; 
+                        
+                        setTimeout(() => {
+                            modContent.scrollTop = 0;
+                            modContent.style.opacity = '1';
+                            modContent.style.transform = 'translateY(0)';
+                            setTimeout(() => {
+                                modContent.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1)';
+                            }, 250);
+                        }, 50);
+
+                    }, 200); 
+                };
+                
+                const h4 = document.createElement('h4');
+                h4.innerText = app.title;
+
+                card.appendChild(img);
+                card.appendChild(h4);
                 grid.appendChild(card);
             });
         }
@@ -762,64 +966,240 @@
         function closeModal() { 
             const modal = document.getElementById('appModal'); modal.classList.remove('active');
             window.history.pushState(null, null, window.location.pathname);
-            if(currentAppId) { db.ref('apks/' + currentAppId + '/downloads').off(); db.ref('comments/' + currentAppId).off(); db.ref('ratings/' + currentAppId).off(); }
+            if(currentAppId) { db.ref('apks/' + currentAppId + '/downloads').off(); db.ref('comments/' + currentAppId).off(); db.ref('ratings/' + currentAppId).off(); db.ref('votes/' + currentAppId).off(); }
             setTimeout(() => { modal.style.display = 'none'; currentAppId = null; document.body.style.overflow = 'auto'; }, 400);
         }
 
         function copyGameLink() { const url = window.location.href; navigator.clipboard.writeText(url).then(() => { showAlert("Game link copied!", "success"); }); }
-        function requestUpdate() { if(!currentUser) return showAlert("Please login to request.", "warning"); const modTitle = document.getElementById('modalTitle').innerText; db.ref('requests/' + currentAppId).push({ uid: currentUser.uid, email: currentUser.email, appName: modTitle, timestamp: firebase.database.ServerValue.TIMESTAMP }).then(() => showAlert("Update request sent!", "success")); }
-        function reportError() { if(!currentUser) return showAlert("Please login to report.", "warning"); const modTitle = document.getElementById('modalTitle').innerText; db.ref('reports/' + currentAppId).push({ uid: currentUser.uid, email: currentUser.email, appName: modTitle, timestamp: firebase.database.ServerValue.TIMESTAMP }).then(() => showAlert("Error reported!", "success")); }
-        function countDownload() { if(currentAppId) db.ref('apks/' + currentAppId + '/downloads').transaction(currentCount => (currentCount || 0) + 1); }
+        
+        function showVersionModal(currentVer, modTitle) {
+            document.getElementById('manualVersionInput').value = '';
+            document.getElementById('manualVersionInput').setAttribute('data-current', currentVer);
+            document.getElementById('manualVersionInput').setAttribute('data-title', modTitle);
+            const alertBox = document.getElementById('versionModal'); 
+            alertBox.style.display = 'flex'; 
+            setTimeout(() => alertBox.classList.add('active'), 10);
+        }
+        function closeVersionModal() {
+            const alertBox = document.getElementById('versionModal'); 
+            alertBox.classList.remove('active'); 
+            setTimeout(() => alertBox.style.display = 'none', 300);
+        }
+        function submitManualVersion() {
+            const latestVer = document.getElementById('manualVersionInput').value.trim();
+            const currentVer = document.getElementById('manualVersionInput').getAttribute('data-current');
+            const modTitle = document.getElementById('manualVersionInput').getAttribute('data-title');
+            
+            if(!latestVer) { showAlert("Please enter a version!", "error"); return; }
+            closeVersionModal();
+            setTimeout(() => { processUpdateReq(db.ref(`requests/${currentAppId}/${currentUser ? currentUser.uid : 'guest'}`), modTitle, currentVer, latestVer); }, 300);
+        }
 
-        function rateApp(stars) { if(!currentUser) return showAlert("Please login to rate.", "warning"); db.ref('ratings/' + currentAppId + '/' + currentUser.uid).set({ score: stars }).then(() => { updateStarUI(stars); showAlert("Thanks for rating!", "success"); loadAllRatings(); }); }
-        function loadAllRatings() { updateStarUI(0); db.ref('ratings/' + currentAppId).on('value', snapshot => { let total = 0, count = 0, myRating = 0; snapshot.forEach(child => { total += child.val().score; count++; if(currentUser && child.key === currentUser.uid) myRating = child.val().score; }); const avg = count === 0 ? "0.0" : (total / count).toFixed(1); document.getElementById('modalAvgRating').innerHTML = `${avg} <i class="fa-solid fa-star" style="color:#ffcc00;"></i>`; if(myRating > 0) updateStarUI(myRating); }); }
+        async function requestUpdate() { 
+            let uidForReq = currentUser ? currentUser.uid : "guest_" + Date.now().toString().slice(-6);
+            const reqRef = db.ref(`requests/${currentAppId}/${uidForReq}`);
+            const snap = await reqRef.once('value');
+            if(snap.exists() && currentUser) return showAlert("You have already requested an update for this game. Admin is working on it!", "error");
+            
+            const modTitle = document.getElementById('modalTitle').innerText;
+            const currentVer = document.getElementById('modalVersion').innerText;
+            const appData = allMods.find(m => m.id === currentAppId);
+            let latestVer = null;
+
+            if (appData && appData.linkOri.includes("play.google.com")) {
+                showAlert("Checking Play Store for updates...", "info", "Please Wait");
+                try {
+                    const targetUrl = appData.linkOri;
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 8000); 
+
+                    const response = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`, { signal: controller.signal });
+                    clearTimeout(timeoutId);
+                    
+                    const html = await response.text();
+                    const versionMatch = html.match(/\[\[\["([0-9]+\.[0-9]+[^"]*?)"\]\]/);
+                    
+                    if (versionMatch && versionMatch[1]) { 
+                        latestVer = versionMatch[1].trim(); 
+                    }
+                } catch (e) { 
+                    console.warn("Auto-check timeout or blocked by proxy."); 
+                }
+            }
+
+            if (!latestVer) {
+                closeAlert();
+                setTimeout(() => { showVersionModal(currentVer, modTitle); }, 400);
+            } else {
+                closeAlert();
+                setTimeout(() => { processUpdateReq(reqRef, modTitle, currentVer, latestVer); }, 400);
+            }
+        }
+        
+        function processUpdateReq(reqRef, modTitle, currentVer, latestVer) {
+            let cleanCurrent = currentVer.toLowerCase().replace(/[^0-9.]/g, '');
+            let cleanLatest = latestVer.toLowerCase().replace(/[^0-9.]/g, '');
+            
+            if(cleanLatest === cleanCurrent || latestVer.toLowerCase().trim() === currentVer.toLowerCase().trim()) {
+                return showAlert(`The current version (${currentVer}) is already the latest version!`, "info", "Latest Version");
+            }
+            let emailReq = currentUser ? currentUser.email : "Guest Request";
+            reqRef.set({ email: emailReq, appName: modTitle, requestedVersion: latestVer, timestamp: firebase.database.ServerValue.TIMESTAMP })
+            .then(() => showAlert(`Update request sent! (Latest: ${latestVer})`, "success"))
+            .catch(e => showAlert("Error submitting request. Check Rules.", "error"));
+        }
+
+        function reportError() { 
+            let uidForRep = currentUser ? currentUser.uid : "guest_" + Date.now().toString().slice(-6);
+            let emailRep = currentUser ? currentUser.email : "Guest Report";
+            db.ref(`reports/${currentAppId}/${uidForRep}`).once('value').then(snap => {
+                if(snap.exists() && currentUser) return showAlert("You have already reported an error for this game. Admin will check it soon!", "error");
+                db.ref(`reports/${currentAppId}/${uidForRep}`).set({ email: emailRep, appName: document.getElementById('modalTitle').innerText, timestamp: firebase.database.ServerValue.TIMESTAMP })
+                .then(() => showAlert("Error reported to admin!", "success"))
+                .catch(e => showAlert("Error sending report.", "error"));
+            });
+        }
+
+        function voteMod(type) {
+            if(!currentUser) return showAlert("Please login to vote.", "warning");
+            db.ref(`votes/${currentAppId}/${currentUser.uid}`).set(type)
+              .then(() => {
+                  showAlert("Thanks for your feedback!", "success");
+              }).catch(e => showAlert("Error saving vote. Check Database Rules.", "error"));
+        }
+
+        function loadVotes() {
+            db.ref(`votes/${currentAppId}`).on('value', snap => {
+                let up = 0, down = 0, myVote = null;
+                if(snap.exists()) {
+                    snap.forEach(child => {
+                        if(child.val() === 'up') up++; else if(child.val() === 'down') down++;
+                        if(currentUser && child.key === currentUser.uid) myVote = child.val();
+                    });
+                }
+                let total = up + down;
+                let upPct = total === 0 ? 50 : Math.round((up / total) * 100);
+                let downPct = total === 0 ? 50 : Math.round((down / total) * 100);
+                
+                document.getElementById('voteBarUp').style.width = upPct + '%';
+                document.getElementById('voteBarDown').style.width = downPct + '%';
+                document.getElementById('voteText').innerText = total === 0 ? "Be the first to vote!" : `${upPct}% found this working`;
+
+                document.getElementById('btnUpvote').classList.remove('active');
+                document.getElementById('btnDownvote').classList.remove('active');
+                if(myVote === 'up') document.getElementById('btnUpvote').classList.add('active');
+                if(myVote === 'down') document.getElementById('btnDownvote').classList.add('active');
+            });
+        }
+
+        function rateApp(stars) { 
+            if(!currentUser) return showAlert("Please login to rate.", "warning"); 
+            db.ref('ratings/' + currentAppId + '/' + currentUser.uid).set({ score: stars }).then(() => { updateStarUI(stars); showAlert("Thanks for rating!", "success"); loadAllRatings(); }); 
+        }
+        function loadAllRatings() { 
+            updateStarUI(0); 
+            db.ref('ratings/' + currentAppId).on('value', snapshot => { 
+                let total = 0, count = 0, myRating = 0; 
+                snapshot.forEach(child => { 
+                    total += child.val().score; count++; 
+                    if(currentUser && child.key === currentUser.uid) myRating = child.val().score; 
+                }); 
+                const avg = count === 0 ? "0.0" : (total / count).toFixed(1); 
+                document.getElementById('modalAvgRating').innerHTML = `${avg} <i class="fa-solid fa-star" style="color:#ffcc00;"></i>`; 
+                document.getElementById('ratingCount').innerText = `(${count} ratings)`;
+                if(myRating > 0) updateStarUI(myRating); 
+            }); 
+        }
         function updateStarUI(score) { const stars = document.getElementById('starContainer').children; for(let i=0; i<5; i++) { if(i < score) { stars[i].querySelector('i').style.color = "#ffcc00"; stars[i].querySelector('i').style.textShadow = "0 0 10px rgba(255,204,0,0.5)"; } else { stars[i].querySelector('i').style.color = "#333"; stars[i].querySelector('i').style.textShadow = "none"; } } }
 
         let editingCommentId = null;
         function postComment() {
-            if(!currentUser) return showAlert("Please login to review.", "warning");
-            const input = document.getElementById('commentInput'); const text = input.value.trim(); if(!text) return;
-            db.ref('banned_users/' + currentUser.uid).once('value').then(snap => {
+            const input = document.getElementById('commentInput'); 
+            const text = String(input.value).trim(); 
+            if(!text) return;
+
+            let userName = "Anonymous";
+            let userEmail = "";
+            let userPhoto = "https://placehold.co/100/1a1a24/fff?text=A";
+            let uidToUse = "guest_" + Date.now().toString().slice(-6);
+
+            if (currentUser) {
+                userName = String(currentUser.displayName || "Anonymous User");
+                userPhoto = String(currentUser.photoURL || "https://placehold.co/100/1a1a24/fff?text=U");
+                userEmail = currentUser.email;
+                uidToUse = currentUser.uid;
+            } else {
+                let gName = document.getElementById('guestName').value.trim();
+                let gEmail = document.getElementById('guestEmail').value.trim();
+                if(gName) userName = gName;
+                if(gEmail) userEmail = gEmail;
+            }
+            
+            db.ref('banned_users/' + uidToUse).once('value').then(snap => {
                 if (snap.exists() && snap.val() === true) return showAlert("You are banned from commenting.", "error", "Restricted");
-                if(editingCommentId) { db.ref(`comments/${currentAppId}/${editingCommentId}`).update({ text: text }).then(() => resetCommentBox()); } 
-                else { db.ref('comments/' + currentAppId).push({ uid: currentUser.uid, name: currentUser.displayName, photo: currentUser.photoURL, text: text, timestamp: firebase.database.ServerValue.TIMESTAMP }); input.value = ''; }
+                
+                if(editingCommentId) { 
+                    db.ref(`comments/${currentAppId}/${editingCommentId}`).update({ text: text })
+                    .then(() => { resetCommentBox(); loadComments(); }).catch(e => showAlert("Error updating comment. Check Rules.", "error")); 
+                } else { 
+                    db.ref(`comments/${currentAppId}`).push({ 
+                        uid: uidToUse, name: userName, email: userEmail, photo: userPhoto, text: text, timestamp: firebase.database.ServerValue.TIMESTAMP 
+                    }).then(() => { input.value = ''; loadComments(); }).catch(e => showAlert("Error posting comment. Check Rules.", "error")); 
+                }
             });
         }
         function resetCommentBox() { editingCommentId = null; document.getElementById('commentInput').value = ''; document.getElementById('commentBoxContainer').classList.remove('editing'); document.getElementById('postCommentBtn').innerHTML = '<i class="fa-solid fa-paper-plane"></i>'; }
         function startEditComment(commentId, oldText) { editingCommentId = commentId; document.getElementById('commentInput').value = oldText; document.getElementById('commentBoxContainer').classList.add('editing'); document.getElementById('postCommentBtn').innerHTML = '<i class="fa-solid fa-floppy-disk"></i>'; document.getElementById('commentInput').focus(); }
         function deleteCommentConfirm(commentId) { showConfirmAlert("Delete your review?", `deleteCommentAction('${commentId}')`); }
-        function deleteCommentAction(commentId) { db.ref(`comments/${currentAppId}/${commentId}`).remove().then(() => { if(editingCommentId === commentId) resetCommentBox(); showAlert("Review deleted.", "success"); }); }
+        function deleteCommentAction(commentId) { db.ref(`comments/${currentAppId}/${commentId}`).remove().then(() => { if(editingCommentId === commentId) resetCommentBox(); showAlert("Review deleted.", "success"); loadComments(); }); }
+        
+        function reportComment(commentId) {
+            let uidForRep = currentUser ? currentUser.uid : "guest";
+            showConfirmAlert("Report this comment for toxic/violating guidelines?", `db.ref('reported_comments/${currentAppId}/${commentId}').set({ uid: '${uidForRep}', timestamp: firebase.database.ServerValue.TIMESTAMP }).then(() => showAlert('Comment reported to Admin.','success')).catch(e => showAlert('Error: Check Database Rules','error'));`);
+        }
 
         function loadComments() {
-            const list = document.getElementById('commentList'); list.innerHTML = '<p style="color:#aaa; font-size:12px; text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> Loading reviews...</p>';
+            const list = document.getElementById('commentList'); 
+            const countSpan = document.getElementById('commentCount');
+            list.innerHTML = '<p style="color:#aaa; font-size:12px; text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> Loading reviews...</p>';
             
             db.ref('ratings/' + currentAppId).once('value').then(ratingSnap => {
                 let userRatings = {}; if(ratingSnap.exists()) { ratingSnap.forEach(r => { userRatings[r.key] = r.val().score; }); }
 
                 db.ref('comments/' + currentAppId).on('value', snapshot => {
-                    list.innerHTML = ''; if(!snapshot.exists()) return list.innerHTML = '<p style="color:#666; font-size:12px; text-align:center;">No reviews yet. Be the first!</p>';
+                    list.innerHTML = ''; 
+                    let totalComments = snapshot.numChildren() || 0;
+                    countSpan.innerText = `(${totalComments})`;
+
+                    if(!snapshot.exists()) return list.innerHTML = '<p style="color:#666; font-size:12px; text-align:center;">No reviews yet. Be the first!</p>';
                     let commentsHTML = '';
                     snapshot.forEach(child => {
                         const c = child.val(); const safeName = escapeHTML(c.name); const safeText = escapeHTML(c.text); const isMine = currentUser && currentUser.uid === c.uid;
                         const userRating = userRatings[c.uid]; const ratingBadge = userRating ? `<span style="color:#ffcc00; font-size:10px;"><i class="fa-solid fa-star"></i> ${userRating}</span>` : '';
                         
                         let actionBtns = `<button onclick="toggleReplyBox('${child.key}')"><i class="fa-solid fa-reply"></i> Reply</button>`;
-                        if(isMine) { const plainTextForJS = c.text.replace(/'/g, "\\'").replace(/"/g, '&quot;'); actionBtns += `<button onclick="startEditComment('${child.key}', '${plainTextForJS}')"><i class="fa-solid fa-pen"></i> Edit</button><button class="del" onclick="deleteCommentConfirm('${child.key}')"><i class="fa-solid fa-trash"></i> Delete</button>`; }
+                        
+                        if(isMine) { 
+                            const plainTextForJS = c.text.replace(/'/g, "\\'").replace(/"/g, '&quot;'); 
+                            actionBtns += `<button onclick="startEditComment('${child.key}', '${plainTextForJS}')"><i class="fa-solid fa-pen"></i> Edit</button><button class="del" onclick="deleteCommentConfirm('${child.key}')"><i class="fa-solid fa-trash"></i> Delete</button>`; 
+                        } else {
+                            actionBtns += `<button class="rep" onclick="reportComment('${child.key}')"><i class="fa-solid fa-flag"></i> Report</button>`;
+                        }
                         
                         let repliesHTML = '';
                         if(c.replies) {
                             Object.keys(c.replies).forEach(rKey => {
                                 let rep = c.replies[rKey]; let isRepMine = currentUser && currentUser.uid === rep.uid;
                                 let delRepBtn = isRepMine ? `<button style="background:transparent;border:none;color:#ff4c4c;cursor:pointer;font-size:10px;margin-left:auto;" onclick="deleteReplyConfirm('${child.key}','${rKey}')"><i class="fa-solid fa-trash"></i></button>` : '';
-                                repliesHTML += `<div class="reply-item"><img src="${rep.photo}" onerror="this.src='https://placehold.co/100x100/1a1a24/ffffff?text=U'"> <div style="flex:1;"><h4>${escapeHTML(rep.name)}</h4><p>${escapeHTML(rep.text)}</p></div> ${delRepBtn}</div>`;
+                                repliesHTML += `<div class="reply-item"><img src="${rep.photo}" referrerpolicy="no-referrer" onerror="this.src='https://placehold.co/100x100/1a1a24/ffffff?text=U'"> <div style="flex:1;"><h4>${escapeHTML(rep.name)}</h4><p>${escapeHTML(rep.text)}</p></div> ${delRepBtn}</div>`;
                             });
                         }
 
-                        let replyBoxHTML = `<div class="reply-box" id="replyBox-${child.key}" style="display:none; margin-top:10px;"><input type="text" id="replyInput-${child.key}" placeholder="Add a reply..."><button onclick="postReply('${child.key}')"><i class="fa-solid fa-paper-plane"></i></button></div>`;
+                        let replyBoxHTML = `<div class="reply-box" id="replyBox-${child.key}" style="display:none; margin-top:10px;"><input type="text" id="replyInput-${child.key}" placeholder="Add a reply..." onkeypress="if(event.key === 'Enter') postReply('${child.key}')"><button onclick="postReply('${child.key}')"><i class="fa-solid fa-paper-plane"></i></button></div>`;
 
                         commentsHTML = `<div class="comment-item">
                             <div class="comment-main">
-                                <img src="${c.photo}" onerror="this.src='https://placehold.co/100x100/1a1a24/ffffff?text=U'">
+                                <img src="${c.photo}" referrerpolicy="no-referrer" onerror="this.src='https://placehold.co/100x100/1a1a24/ffffff?text=U'">
                                 <div class="comment-text">
                                     <h4>${safeName} ${ratingBadge}</h4><p>${safeText}</p>
                                     <div class="comment-actions-mini">${actionBtns}</div>
@@ -835,17 +1215,48 @@
 
         function toggleReplyBox(commentId) { const box = document.getElementById('replyBox-'+commentId); box.style.display = box.style.display === 'none' ? 'flex' : 'none'; }
         function postReply(commentId) {
-            if(!currentUser) return showAlert("Please login to reply.", "warning");
-            const input = document.getElementById('replyInput-'+commentId); const text = input.value.trim(); if(!text) return;
-            db.ref(`comments/${currentAppId}/${commentId}/replies`).push({ uid: currentUser.uid, name: currentUser.displayName, photo: currentUser.photoURL, text: text, timestamp: firebase.database.ServerValue.TIMESTAMP }); input.value = '';
+            const input = document.getElementById('replyInput-'+commentId); const text = String(input.value).trim(); if(!text) return;
+            
+            let userName = "Anonymous";
+            let userPhoto = "https://placehold.co/100/1a1a24/fff?text=A";
+            let uidToUse = "guest_" + Date.now().toString().slice(-6);
+
+            if(currentUser) {
+                userName = String(currentUser.displayName || "Anonymous User");
+                userPhoto = String(currentUser.photoURL || "https://placehold.co/100/1a1a24/fff?text=U");
+                uidToUse = currentUser.uid;
+            } else {
+                let gName = document.getElementById('guestName').value.trim();
+                if(gName) userName = gName;
+            }
+
+            db.ref(`comments/${currentAppId}/${commentId}/replies`).push({ uid: uidToUse, name: userName, photo: userPhoto, text: text, timestamp: firebase.database.ServerValue.TIMESTAMP })
+            .then(() => input.value = '').catch(e => showAlert("Error sending reply.", "error"));
         }
         function deleteReplyConfirm(commentId, replyId) { showConfirmAlert("Delete your reply?", `db.ref('comments/${currentAppId}/${commentId}/replies/${replyId}').remove(); showAlert('Reply deleted.','success')`); }
 
         function openFilterModal() { const modal = document.getElementById('filterModal'); modal.style.display = 'flex'; setTimeout(() => modal.classList.add('active'), 10); }
         function closeFilterModal() { const modal = document.getElementById('filterModal'); modal.classList.remove('active'); setTimeout(() => modal.style.display = 'none', 300); }
+        
+        function loadAdScriptsWithLimit() {
+            const MAX_ADS_PER_DAY = 3;
+            let today = new Date().toDateString();
+            let adData = JSON.parse(localStorage.getItem('ad_impressions') || '{"date":"","count":0}');
+            
+            if(adData.date !== today) { adData = { date: today, count: 0 }; }
+            
+            if(adData.count < MAX_ADS_PER_DAY) {
+                let s1 = document.createElement('script'); s1.src = "https://pl28930186.effectivegatecpm.com/65/51/c6/6551c6360c8db904ce55655ee44a646e.js"; s1.onerror = detectAdblock; document.body.appendChild(s1);
+                let s2 = document.createElement('script'); s2.src = "https://matcheshonoraryunderwater.com/d3/7a/df/d37adf0ece18704d379f3eb14cab55a7.js"; document.body.appendChild(s2);
+                
+                document.body.addEventListener('click', function trackClick() {
+                    adData.count++;
+                    localStorage.setItem('ad_impressions', JSON.stringify(adData));
+                    if(adData.count >= MAX_ADS_PER_DAY) { document.body.removeEventListener('click', trackClick); }
+                }, {once: false});
+            }
+        }
+        window.addEventListener('load', loadAdScriptsWithLimit);
     </script>
-
-    <script type="text/javascript" src="https://pl28930186.effectivegatecpm.com/65/51/c6/6551c6360c8db904ce55655ee44a646e.js" onerror="detectAdblock()"></script>
-    <script type="text/javascript" src="https://matcheshonoraryunderwater.com/d3/7a/df/d37adf0ece18704d379f3eb14cab55a7.js" onerror="detectAdblock()"></script>
 </body>
-    </html>
+                        </html>
