@@ -1,0 +1,21 @@
+{
+  "name": "Meowthority Mod Games",
+  "short_name": "Meowthority",
+  "description": "Download Mod Games, and Apps for Free.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d0d12",
+  "theme_color": "#0d0d12",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
