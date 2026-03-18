@@ -44,6 +44,10 @@
         .auth-btn { background: linear-gradient(135deg, #ff4c4c, #b30000); color: white; border: none; padding: 10px 18px; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 13px; transition: 0.3s; box-shadow: 0 4px 15px rgba(255, 76, 76, 0.3); display: flex; align-items: center; gap: 8px; }
         .auth-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 76, 76, 0.5); }
 
+        .frame-50 { border: 3px solid #fbbf24 !important; box-shadow: 0 0 10px rgba(251, 191, 36, 0.6) !important; padding: 2px; background: #fff; }
+        .frame-100 { border: 3px solid #a855f7 !important; box-shadow: 0 0 15px rgba(168, 85, 247, 0.8) !important; padding: 2px; background: #fff; animation: pulsePurple 2s infinite; }
+        @keyframes pulsePurple { 0% { box-shadow: 0 0 10px rgba(168, 85, 247, 0.5); } 50% { box-shadow: 0 0 20px rgba(168, 85, 247, 1); } 100% { box-shadow: 0 0 10px rgba(168, 85, 247, 0.5); } }
+
         .action-bar { display: flex; justify-content: center; align-items: center; width: 100%; max-width: 1200px; }
         .search-bar { width: 100%; max-width: 600px; position: relative; display: flex; align-items: center; }
         .search-bar input { padding: 12px 50px 12px 40px; width: 100%; border-radius: 25px; border: 1px solid var(--border-color); background-color: var(--input-bg); color: var(--text-color); transition: 0.3s; font-size: 14px; }
@@ -123,8 +127,9 @@
         .ps-dev { font-size: 13px; color: var(--text-muted); margin-top: 5px; }
         .ps-cat { font-size: 11px; color: #ff4c4c; background: rgba(255, 76, 76, 0.1); padding: 4px 10px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; width: fit-content; font-weight: 600; border: 1px solid rgba(255, 76, 76, 0.2); }
         
-        .close-btn { position: absolute; top: 20px; right: 20px; font-size: 18px; color: #ff4c4c; cursor: pointer; background: rgba(255, 76, 76, 0.15); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; transition: 0.3s; z-index: 10; }
-        .close-btn:hover { background: rgba(255, 76, 76, 0.3); transform: scale(1.05); }
+        .close-btn { position: absolute; top: 15px; right: 15px; background: rgba(255, 76, 76, 0.1); backdrop-filter: blur(8px); color: #ff4c4c; font-size: 18px; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; z-index: 50; border: 1px solid rgba(255, 76, 76, 0.3); box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; transition: all 0.3s ease; }
+        .close-btn:hover { background: #ff4c4c; color: #fff; transform: scale(1.1) rotate(90deg); border-color: #ff4c4c; box-shadow: 0 6px 20px rgba(255, 76, 76, 0.4); }
+
         .btn-bookmark { position: absolute; right: 25px; bottom: 20px; background: transparent; border: none; font-size: 24px; color: var(--text-muted); cursor: pointer; transition: 0.3s; }
         .btn-bookmark:hover { transform: scale(1.1); color: #ff4c4c; }
         .btn-bookmark.active { color: #ff4c4c; }
@@ -135,8 +140,8 @@
         .ps-stat-value i { color: var(--text-muted); font-size: 12px; }
         .ps-stat-label { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
         
-        .modal-tags { display: flex; gap: 8px; flex-wrap: wrap; padding: 15px 20px; border-bottom: 1px solid var(--border-color); justify-content: center; }
-        .mod-tag-badge { font-size: 11px; background: rgba(255, 76, 76, 0.1); color: #ff4c4c; padding: 5px 12px; border-radius: 8px; border: 1px solid rgba(255, 76, 76, 0.2); font-weight: 500; display: flex; align-items: center; gap: 6px;}
+        .modal-tags { display: flex; gap: 5px; flex-wrap: wrap; padding: 10px 15px; border-bottom: 1px solid var(--border-color); justify-content: center; }
+        .mod-tag-badge { font-size: 10px; background: rgba(255, 76, 76, 0.1); color: #ff4c4c; padding: 3px 8px; border-radius: 6px; border: 1px solid rgba(255, 76, 76, 0.2); font-weight: 500; display: flex; align-items: center; gap: 4px;}
 
         .gallery-container { display: flex; gap: 10px; overflow-x: auto; padding: 15px 20px; border-bottom: 1px solid var(--border-color); scroll-snap-type: x mandatory; display: none; scrollbar-width: none; -webkit-overflow-scrolling: touch;}
         .gallery-container::-webkit-scrollbar { display: none; }
@@ -198,19 +203,33 @@
         
         .comment-section { margin-top: 20px; }
         .comment-section h3 { font-size: 15px; color: var(--text-color); margin-bottom: 15px; display: inline-block;}
+        .comment-sort-bar { display: flex; gap: 8px; margin-bottom: 15px; font-size: 11px; }
+        .sort-chip { background: var(--input-bg); color: var(--text-muted); padding: 5px 12px; border-radius: 12px; cursor: pointer; transition: 0.2s; border: 1px solid var(--border-color); font-weight: 500; }
+        .sort-chip:hover { color: var(--text-color); }
+        .sort-chip.active { background: rgba(255,76,76,0.1); color: #ff4c4c; border-color: #ff4c4c; }
+        
         .comment-box, .reply-box { display: flex; gap: 10px; background: var(--input-bg); padding: 10px 15px; border-radius: 16px; align-items: center; margin-bottom: 20px; border: 1px solid transparent; transition: 0.3s;}
         .comment-box.editing { border-color: #eab308; background: rgba(234, 179, 8, 0.05); }
         .comment-box img, .reply-box img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
         .comment-box input, .reply-box input { flex: 1; padding: 8px; border: none; background: transparent; color: var(--text-color); font-size: 13px; }
         .comment-box button, .reply-box button { background: #ff4c4c; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 12px; transition: 0.3s; }
         .comment-box.editing button { background: #eab308; color: #000; }
+        
+        .badge-exclusive { display: inline-flex; align-items: center; gap: 4px; font-size: 9px; padding: 3px 6px; border-radius: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); margin-right: 5px; }
+        .badge-admin { background: linear-gradient(135deg, #ff0000, #800000); color: #fff; border: 1px solid #ff4c4c; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+        .badge-level { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: #fff; border: 1px solid #60a5fa; }
+        .badge-level.max { background: linear-gradient(135deg, #8b5cf6, #4c1d95); border-color: #a78bfa; box-shadow: 0 0 10px rgba(139, 92, 246, 0.5); }
+        
+        .top-rev-star { cursor: pointer; color: #f59e0b; font-size: 12px; margin-left: 4px; transition: 0.2s; display: inline-flex; align-items: center;}
+        .top-rev-star:hover { transform: scale(1.2); text-shadow: 0 0 10px rgba(245, 158, 11, 0.5); }
+
         .comment-list { display: flex; flex-direction: column; gap: 15px; }
         .comment-item { display: flex; gap: 12px; align-items: flex-start; flex-direction: column; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;}
         .comment-item.pinned-comment { background: rgba(255, 76, 76, 0.05); padding: 10px; border-radius: 12px; border: 1px solid rgba(255,76,76,0.2); border-left: 3px solid #ff4c4c; }
         .comment-main { display: flex; gap: 12px; width: 100%;}
         .comment-main > img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
         .comment-text { flex: 1; }
-        .comment-text h4 { font-size: 13px; color: var(--text-color); margin-bottom: 2px; display: flex; align-items: center; gap: 6px;}
+        .comment-text h4 { font-size: 13px; color: var(--text-color); margin-bottom: 2px; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
         .comment-text p { font-size: 12px; color: var(--text-muted); line-height: 1.5; -webkit-user-select: text; user-select: text; word-break: break-word;}
         .comment-actions-mini { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; width: 100%;}
         .comment-actions-btns { display: flex; gap: 12px;}
@@ -218,16 +237,20 @@
         .comment-actions-mini button:hover { color: var(--text-color); }
         .comment-actions-mini button.del:hover { color: #ff4c4c; }
         .comment-actions-mini button.rep:hover { color: #eab308; }
-        .comment-vote { display: flex; align-items: center; gap: 8px; background: var(--input-bg); padding: 3px 8px; border-radius: 12px; border: 1px solid var(--border-color); }
-        .comment-vote button { color: var(--text-muted); font-size: 10px; }
+        .comment-vote { display: flex; align-items: center; gap: 6px; background: var(--input-bg); padding: 3px 8px; border-radius: 12px; border: 1px solid var(--border-color); }
+        .comment-vote button { color: var(--text-muted); font-size: 10px; border: none; background: transparent; cursor: pointer; }
         .comment-vote button.upvote:hover { color: #4ade80; }
         .comment-vote button.downvote:hover { color: #ff4c4c; }
-        .comment-vote span { font-size: 11px; font-weight: 600; color: var(--text-color); min-width: 15px; text-align: center;}
+        .comment-vote span { font-size: 11px; font-weight: 600; min-width: 12px; text-align: center; }
+        .comment-vote span.up-count { color: #4ade80; }
+        .comment-vote span.down-count { color: #ff4c4c; }
+        
         .replies-container { padding-left: 45px; display: flex; flex-direction: column; gap: 10px; width: 100%; }
         .reply-item { display: flex; gap: 10px; align-items: flex-start; background: rgba(128,128,128,0.05); padding: 10px; border-radius: 12px; border-left: 2px solid #ff4c4c;}
         .reply-item img { width: 25px; height: 25px; border-radius: 50%; object-fit: cover; }
         .reply-item h4 { font-size: 12px; color: var(--text-color); margin-bottom: 2px; }
         .reply-item p { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+        
         .filter-subtitle { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin: 15px 0 10px; font-weight: 600;}
         .category-grid { display: flex; flex-wrap: wrap; gap: 8px; }
         .cat-btn { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 14px; border: 1px solid var(--border-color); background-color: var(--input-bg); color: var(--text-muted); cursor: pointer; border-radius: 12px; font-weight: 500; font-size: 12px; transition: 0.3s; flex-grow: 1; text-align: center;}
@@ -248,7 +271,12 @@
         .profile-info img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #ff4c4c; object-fit: cover; }
         .profile-info h4 { color: var(--text-color); font-size: 16px; margin-bottom: 2px; }
         .profile-info p { color: var(--text-muted); font-size: 12px; margin-bottom: 10px; }
+        .profile-info .dash-level { font-size: 11px; margin-bottom: 8px; color: var(--text-color); font-weight: 600; }
         
+        .exp-container { width: 100%; background: var(--input-bg); border-radius: 10px; height: 8px; margin-bottom: 5px; overflow: hidden; border: 1px solid var(--border-color); }
+        .exp-bar { height: 100%; background: linear-gradient(135deg, #4ade80, #16a34a); transition: width 0.3s ease; }
+        .exp-text { font-size: 10px; color: var(--text-muted); margin-bottom: 15px; }
+
         .edit-profile-box { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; margin-bottom: 20px; display: none; text-align: left; }
         .edit-profile-box label { font-size: 11px; color: var(--text-muted); margin-bottom: 5px; display: block; }
         .edit-profile-box input { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-color); font-size: 13px; margin-bottom: 10px; }
@@ -267,6 +295,11 @@
         .notif-item h4 { font-size: 13px; color: var(--text-color); margin-bottom: 4px; }
         .notif-item p { font-size: 11px; color: var(--text-muted); }
         .notif-item .time { font-size: 10px; color: #aaa; margin-top: 5px; display: block; }
+        
+        .status-badge { display: inline-block; padding: 3px 8px; border-radius: 8px; font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+        .st-pending { background: rgba(234, 179, 8, 0.1); color: #eab308; border: 1px solid rgba(234, 179, 8, 0.3); }
+        .st-approved { background: rgba(74, 222, 128, 0.1); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3); }
+        .st-rejected { background: rgba(255, 76, 76, 0.1); color: #ff4c4c; border: 1px solid rgba(255, 76, 76, 0.3); }
 
         .toast-container { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 10000; pointer-events: none; }
         .toast { background: #1a1a24; color: #fff; padding: 12px 20px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 5px 15px rgba(0,0,0,0.5); font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 10px; animation: toastIn 0.3s ease forwards; }
@@ -395,6 +428,13 @@
                     <img id="dashAvatar" src="" referrerpolicy="no-referrer" onerror="this.src='https://placehold.co/100/1a1a24/ffffff?text=U'">
                 </div>
                 <h4 id="dashName">User Name <i class="fa-solid fa-pen-to-square" style="font-size:12px; color:var(--text-muted); cursor:pointer;" onclick="toggleEditProfileBox()"></i></h4>
+                <div class="dash-level" id="dashLevelInfo">Level 1</div>
+                
+                <div class="exp-container" id="dashExpContainer" style="display:none;">
+                    <div class="exp-bar" id="dashExpBar" style="width:0%;"></div>
+                </div>
+                <div class="exp-text" id="dashExpText" style="display:none;">0 / 50 XP</div>
+
                 <p id="dashEmail">user@email.com</p>
                 
                 <div class="edit-profile-box" id="editProfileBox">
@@ -409,6 +449,7 @@
                 <button onclick="switchNavModal('notifModal')"><span class="left-content"><i class="fa-solid fa-bell"></i> Notifications</span> <span class="notif-badge" id="notifBadge">0</span></button>
                 <button onclick="closeNavModals(); setFilter('Favorites')"><span class="left-content"><i class="fa-solid fa-heart"></i> My Favorites</span></button>
                 <button onclick="switchNavModal('requestAppModal')"><span class="left-content"><i class="fa-solid fa-gamepad"></i> Request New Game</span></button>
+                <button onclick="switchNavModal('myRequestsStatusModal')"><span class="left-content"><i class="fa-solid fa-list-check"></i> My Request Status</span></button>
                 <button onclick="signOut()" style="border-color:#ff4c4c; color:#ff4c4c;"><span class="left-content"><i class="fa-solid fa-right-from-bracket"></i> Logout</span></button>
             </div>
         </div>
@@ -424,17 +465,36 @@
             <div class="edit-profile-box" style="display:block; background:transparent; border:none; padding:0;">
                 <label>Game/App Name (Required)</label>
                 <input type="text" id="reqGameName" placeholder="e.g. Minecraft PE">
-                <label style="margin-top:10px;">Play Store Link / Note (Optional)</label>
-                <input type="text" id="reqGameLink" placeholder="URL or additional note...">
+                
+                <label style="margin-top:10px;">Play Store Link (Optional)</label>
+                <input type="url" id="reqGameLink" placeholder="https://play.google.com/...">
+
+                <label style="margin-top:10px;">Additional Note (Optional)</label>
+                <input type="text" id="reqGameNote" placeholder="e.g. Mod Money only">
+
                 <button class="save-btn" style="margin-top:15px;" onclick="submitNewGameRequest()"><i class="fa-solid fa-paper-plane"></i> Submit Request</button>
             </div>
         </div>
     </div>
 
-    <div class="side-modal" id="notifModal">
+    <div class="side-modal" id="myRequestsStatusModal">
         <div class="side-header">
-            <h3 style="display:flex; align-items:center; gap:10px;"><button style="background:none; border:none; color:var(--text-color); cursor:pointer;" onclick="switchNavModal('profileModal')"><i class="fa-solid fa-arrow-left"></i></button> Notifications</h3>
+            <h3 style="display:flex; align-items:center; gap:10px;"><button style="background:none; border:none; color:var(--text-color); cursor:pointer;" onclick="switchNavModal('profileModal')"><i class="fa-solid fa-arrow-left"></i></button> My Requests</h3>
             <button class="side-close" onclick="closeNavModals()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="side-body" id="myReqStatusContainer">
+            <p style="text-align:center; color:var(--text-muted); font-size:12px; margin-top:20px;">You haven't requested anything yet.</p>
+        </div>
+    </div>
+
+    <div class="side-modal" id="notifModal">
+        <div class="side-header" style="padding-right: 15px;">
+            <h3 style="display:flex; align-items:center; gap:10px;"><button style="background:none; border:none; color:var(--text-color); cursor:pointer;" onclick="switchNavModal('profileModal')"><i class="fa-solid fa-arrow-left"></i></button> Notifications</h3>
+            <div style="display:flex; gap: 15px; align-items: center;">
+                <button onclick="markAllNotifAsRead()" style="background:none; border:none; color:#4ade80; cursor:pointer; font-size:16px;" title="Mark all read"><i class="fa-solid fa-check-double"></i></button>
+                <button onclick="deleteAllNotifs()" style="background:none; border:none; color:#ff4c4c; cursor:pointer; font-size:16px;" title="Delete all"><i class="fa-solid fa-trash"></i></button>
+                <button class="side-close" style="position:static; margin-left: 5px;" onclick="closeNavModals()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
         </div>
         <div class="side-body" id="notifListContainer">
             <p style="text-align:center; color:var(--text-muted); font-size:12px; margin-top:20px;">You have no new notifications.</p>
@@ -627,8 +687,18 @@
                 </div>
 
                 <div class="comment-section">
-                    <h3>User Reviews</h3><span class="rating-count" id="commentCount">(0)</span>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
+                        <div>
+                            <h3>User Reviews</h3><span class="rating-count" id="commentCount">(0)</span>
+                        </div>
+                    </div>
                     
+                    <div class="comment-sort-bar">
+                        <span class="sort-chip active" id="sortTop" onclick="setCommentSort('top')">Top Reviews</span>
+                        <span class="sort-chip" id="sortNew" onclick="setCommentSort('newest')">Newest</span>
+                        <span class="sort-chip" id="sortOld" onclick="setCommentSort('oldest')">Oldest</span>
+                    </div>
+
                     <div class="comment-box" id="commentBoxContainer">
                         <img id="myAvatar" src="https://placehold.co/100x100/1a1a24/ffffff?text=G" alt="Me" referrerpolicy="no-referrer">
                         <input type="text" id="commentInput" placeholder="Add a public review..." onkeypress="if(event.key === 'Enter') postComment()">
@@ -655,8 +725,8 @@
         <div class="custom-alert-box">
             <div class="custom-alert-icon"><i class="fa-solid fa-code-compare icon-info"></i></div>
             <h3 style="color:var(--text-color);">Verify Version</h3>
-            <p style="color:var(--text-muted); font-size:12px; margin-bottom:15px;">We couldn't auto-fetch. Please check Play Store and input the latest version manually.</p>
-            <input type="text" id="manualVersionInput" placeholder="e.g. 1.2.3" style="width: 100%; padding: 12px; border-radius: 12px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); text-align: center; margin-bottom:15px; font-family:'Poppins', sans-serif; font-size:14px;">
+            <p style="color:var(--text-muted); font-size:12px; margin-bottom:15px;">We couldn't auto-fetch. Please input the latest version manually (Numbers & Dots only).</p>
+            <input type="text" id="manualVersionInput" placeholder="e.g. 1.2.3" oninput="this.value = this.value.replace(/[^0-9.]/g, '')" style="width: 100%; padding: 12px; border-radius: 12px; background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); text-align: center; margin-bottom:15px; font-family:'Poppins', sans-serif; font-size:14px;">
             <div class="alert-btns">
                 <button class="btn-cancel" onclick="closeVersionModal()">Cancel</button>
                 <button onclick="submitManualVersion()">Submit</button>
@@ -672,7 +742,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW Registration failed:', err));
+                navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW Registration failed:', err));
             });
         }
 
@@ -720,18 +790,16 @@
             document.getElementById('sideNavOverlay').style.display = 'block'; setTimeout(() => { document.getElementById('sideNavOverlay').style.opacity = '1'; }, 10);
             document.getElementById(id).classList.add('active');
             document.body.style.overflow = 'hidden';
-            if(id === 'notifModal' && currentUser && !currentUser.isAnonymous) { markNotifAsRead(); }
             window.history.pushState({ modal: id }, null, '');
         }
         function switchNavModal(id) {
             document.querySelectorAll('.side-modal').forEach(m => m.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            if(id === 'notifModal' && currentUser && !currentUser.isAnonymous) { markNotifAsRead(); }
             window.history.pushState({ modal: id }, null, '');
         }
         function closeNavModals(fromPopState = false) {
             document.getElementById('sideNavOverlay').style.opacity = '0'; setTimeout(() => { document.getElementById('sideNavOverlay').style.display = 'none'; }, 300);
-            document.getElementById('profileModal').classList.remove('active'); document.getElementById('notifModal').classList.remove('active'); document.getElementById('requestAppModal').classList.remove('active');
+            document.querySelectorAll('.side-modal').forEach(m => m.classList.remove('active'));
             document.getElementById('editProfileBox').style.display = 'none'; 
             document.body.style.overflow = 'auto';
             if(!fromPopState && history.state && history.state.modal) window.history.back();
@@ -799,6 +867,22 @@
         let allMods = [], currentUser = null, currentAppId = null, userBookmarks = [], isLoggingIn = false;
         let lastAppKey = null, isFetching = false, hasMoreData = true; const ITEMS_PER_LOAD = 20;
         let currentCat = 'All'; let currentSort = 'Newest';
+        let currentCommentSort = 'top';
+
+        function getLevelName(lvl) {
+            if(lvl < 10) return "Novice";
+            if(lvl < 30) return "Member";
+            if(lvl < 50) return "Veteran";
+            if(lvl < 80) return "Elite";
+            if(lvl < 100) return "Master";
+            return "Legend";
+        }
+
+        function addXP(amount) {
+            if(!currentUser || currentUser.isAnonymous) return;
+            let ref = db.ref(`users_data/${currentUser.uid}/xp`);
+            ref.transaction(current => (current || 0) + amount);
+        }
 
         auth.onAuthStateChanged(user => {
             currentUser = user; 
@@ -814,6 +898,9 @@
                     
                     document.getElementById('userAvatar').style.display = "none"; 
                     document.getElementById('myAvatar').src = "https://placehold.co/100x100/1a1a24/ffffff?text=G";
+                    document.getElementById('dashLevelInfo').innerText = "Guest Account";
+                    document.getElementById('dashExpContainer').style.display = "none";
+                    document.getElementById('dashExpText').style.display = "none";
 
                     const starContainer = document.getElementById('starContainer');
                     starContainer.style.pointerEvents = 'none';
@@ -835,20 +922,60 @@
                         let data = snap.val() || {};
                         let customName = data.customName || user.displayName || "User";
                         let customAvatar = data.customAvatar || user.photoURL || "https://placehold.co/100x100/1a1a24/ffffff?text=U";
+                        
+                        if(user.email === "rep6se@gmail.com") customAvatar = "logo.png";
+
+                        let xp = data.xp || 0;
+                        let highRatingsCount = data.high_ratings_count || 0;
+                        let level = Math.min(100, Math.floor(xp / 50) + 1);
+                        let currentLevelXp = xp % 50;
+                        let nextLevelXp = 50;
+                        let progressPct = level === 100 ? 100 : (currentLevelXp / nextLevelXp) * 100;
 
                         currentUser.customName = customName; 
                         currentUser.customAvatar = customAvatar; 
+                        currentUser.xp = xp;
+                        currentUser.highRatingsCount = highRatingsCount;
 
                         document.getElementById('userAvatar').src = customAvatar; 
                         document.getElementById('userAvatar').style.display = "block"; 
                         document.getElementById('myAvatar').src = customAvatar;
                         document.getElementById('dashAvatar').src = customAvatar;
+                        
+                        let dashAvatarEl = document.getElementById('dashAvatar');
+                        let topAvatarEl = document.getElementById('userAvatar');
+                        let myAvatarEl = document.getElementById('myAvatar');
+                        
+                        [dashAvatarEl, topAvatarEl, myAvatarEl].forEach(el => {
+                            el.className = "";
+                            if (level >= 100 && user.email !== "rep6se@gmail.com") el.classList.add('frame-100');
+                            else if (level >= 50 && user.email !== "rep6se@gmail.com") el.classList.add('frame-50');
+                        });
+
                         document.getElementById('dashName').innerHTML = `${escapeHTML(customName)} <i class="fa-solid fa-pen-to-square" style="font-size:12px; color:var(--text-muted); cursor:pointer;" onclick="toggleEditProfileBox()"></i>`;
                         document.getElementById('editUsernameInput').value = customName;
+                        
+                        if(user.email === "rep6se@gmail.com") {
+                            document.getElementById('dashLevelInfo').innerHTML = `<span class="badge-exclusive badge-admin"><i class="fa-solid fa-shield-halved"></i> Admin</span>`;
+                            document.getElementById('dashExpContainer').style.display = "none";
+                            document.getElementById('dashExpText').style.display = "none";
+                        } else {
+                            document.getElementById('dashLevelInfo').innerHTML = `Level ${level} <span class="badge-exclusive badge-level ${level===100?'max':''}">${getLevelName(level)}</span>`;
+                            document.getElementById('dashExpContainer').style.display = "block";
+                            document.getElementById('dashExpText').style.display = "block";
+                            document.getElementById('dashExpBar').style.width = progressPct + "%";
+                            
+                            if(level === 100) {
+                                document.getElementById('dashExpText').innerText = "Max Level Reached!";
+                            } else {
+                                document.getElementById('dashExpText').innerText = `${currentLevelXp} / ${nextLevelXp} XP to Level ${level + 1}`;
+                            }
+                        }
                     });
 
                     loadBookmarks();
                     loadNotifications();
+                    loadMyRequestsStatus();
                 }
             } else {
                 auth.signInAnonymously().catch(e => console.error("Anonymous auth failed", e));
@@ -921,30 +1048,80 @@
             
             const gameName = document.getElementById('reqGameName').value.trim();
             const gameLink = document.getElementById('reqGameLink').value.trim();
+            const gameNote = document.getElementById('reqGameNote').value.trim();
             
             if(!gameName) return showToast("Game Name is required!", "error");
+
+            let fullNote = "";
+            if(gameLink) fullNote += `Link: ${gameLink} | `;
+            if(gameNote) fullNote += `Note: ${gameNote}`;
+            if(!fullNote) fullNote = "No extra note";
 
             const btn = document.querySelector('#requestAppModal .save-btn');
             const oldHtml = btn.innerHTML;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
             btn.disabled = true;
 
-            const reqRef = db.ref(`requests/new_requests/${currentUser.uid}_${Date.now()}`);
-            reqRef.set({
+            const reqId = currentUser.uid + '_' + Date.now();
+            
+            // Save to main requests
+            db.ref(`requests/new_requests/${reqId}`).set({
                 appName: "NEW: " + gameName,
-                requestedVersion: gameLink || "No extra note",
+                requestedVersion: fullNote,
                 email: currentUser.email || "User",
+                status: "pending",
                 timestamp: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
+                // Save to user's local tracking
+                db.ref(`users_data/${currentUser.uid}/my_requests/${reqId}`).set({
+                    type: "New Game",
+                    appName: gameName,
+                    status: "pending",
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                });
+
                 showToast("Game request submitted successfully!", "success");
                 document.getElementById('reqGameName').value = '';
                 document.getElementById('reqGameLink').value = '';
+                document.getElementById('reqGameNote').value = '';
                 closeNavModals();
             }).catch(e => {
                 showToast("Error submitting request.", "error");
             }).finally(() => {
                 btn.innerHTML = oldHtml;
                 btn.disabled = false;
+            });
+        }
+
+        function loadMyRequestsStatus() {
+            if(!currentUser || currentUser.isAnonymous) return;
+            db.ref(`users_data/${currentUser.uid}/my_requests`).on('value', snap => {
+                const container = document.getElementById('myReqStatusContainer');
+                let html = '';
+                if(snap.exists()) {
+                    let reqs = [];
+                    snap.forEach(c => { let r = c.val(); r.id = c.key; reqs.push(r); });
+                    reqs.sort((a,b) => b.timestamp - a.timestamp);
+                    
+                    reqs.forEach(r => {
+                        let badgeClass = 'st-pending';
+                        let statusText = 'Pending';
+                        if(r.status === 'approved') { badgeClass = 'st-approved'; statusText = 'Approved / Added'; }
+                        else if(r.status === 'rejected') { badgeClass = 'st-rejected'; statusText = 'Rejected'; }
+
+                        let dateStr = new Date(r.timestamp).toLocaleString();
+                        html += `
+                        <div class="notif-item" style="border-left:none; background:rgba(255,255,255,0.03); border: 1px solid var(--border-color);">
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:5px;">
+                                <h4 style="margin:0;">${escapeHTML(r.appName)}</h4>
+                                <span class="status-badge ${badgeClass}">${statusText}</span>
+                            </div>
+                            <p style="margin:0;">Type: ${escapeHTML(r.type)}</p>
+                            <span class="time">${dateStr}</span>
+                        </div>`;
+                    });
+                }
+                container.innerHTML = html !== '' ? html : '<p style="text-align:center; color:var(--text-muted); font-size:12px; margin-top:20px;">You haven\'t requested anything yet.</p>';
             });
         }
 
@@ -1030,10 +1207,23 @@
                 if(unreadCount > 0) { badge.style.display = 'inline-block'; badge.innerText = unreadCount; } else { badge.style.display = 'none'; }
             });
         }
-        function markNotifAsRead() {
+        function markAllNotifAsRead() {
             if(!currentUser || currentUser.isAnonymous) return;
-            db.ref('notifications/' + currentUser.uid).once('value').then(snap => {
-                if(snap.exists()) { snap.forEach(child => { child.ref.update({read: true}); }); }
+            let ref = db.ref('notifications/' + currentUser.uid);
+            ref.once('value').then(snap => {
+                if(snap.exists()) {
+                    let updates = {};
+                    snap.forEach(child => { updates[child.key + '/read'] = true; });
+                    ref.update(updates).then(() => showToast("All notifications marked as read.", "success")).catch(e => showToast("Error: " + e.message, "error"));
+                }
+            });
+        }
+        function deleteAllNotifs() {
+            if(!currentUser || currentUser.isAnonymous) return;
+            showConfirmAlert("Delete all notifications?", () => {
+                db.ref('notifications/' + currentUser.uid).remove()
+                    .then(() => showToast("All notifications deleted.", "success"))
+                    .catch(e => showToast("Error: " + e.message, "error"));
             });
         }
 
@@ -1165,7 +1355,7 @@
                let lines = mod.oldVersions.split('\n');
                lines.forEach(l => {
                    let parts = l.split('|');
-                   if(parts.length === 2) { oldHTML += `<a href="${wrapSafelinku(parts[1].trim())}" target="_blank" class="old-ver-btn"><i class="fa-solid fa-clock-rotate-left" style="color:#aaa;"></i> Download ${escapeHTML(parts[0].trim())} <i class="fa-solid fa-download" style="color:#ff4c4c;"></i></a>`; }
+                   if(parts.length === 2) { oldHTML += `<a href="${wrapSafelinku(parts[1].trim())}" target="_blank" class="old-ver-btn"><i class="fa-solid fa-clock-rotate-left" style="color:#aaa;"></i> Download Older Version ${escapeHTML(parts[0].trim())} <i class="fa-solid fa-download" style="color:#ff4c4c;"></i></a>`; }
                });
             }
             document.getElementById('oldVersionsContainer').innerHTML = oldHTML;
@@ -1259,9 +1449,19 @@
         function processUpdateReq(reqRef, modTitle, currentVer, latestVer) {
             let cleanCurrent = currentVer.toLowerCase().replace(/[^0-9.]/g, ''); let cleanLatest = latestVer.toLowerCase().replace(/[^0-9.]/g, '');
             if(cleanLatest === cleanCurrent || latestVer.toLowerCase().trim() === currentVer.toLowerCase().trim()) { return showToast(`The current version (${currentVer}) is already the latest version!`, "info"); }
+            
             let emailReq = currentUser ? currentUser.email : "Guest Request";
-            reqRef.set({ email: emailReq, appName: modTitle, requestedVersion: latestVer, timestamp: firebase.database.ServerValue.TIMESTAMP })
-            .then(() => showToast(`Update request sent! (Latest: ${latestVer})`, "success")).catch(e => { console.error(e); showToast("Error submitting request. Check Database Rules.", "error"); });
+            
+            reqRef.set({ email: emailReq, appName: modTitle, requestedVersion: latestVer, status: 'pending', timestamp: firebase.database.ServerValue.TIMESTAMP })
+            .then(() => {
+                db.ref(`users_data/${currentUser.uid}/my_requests/${currentAppId}`).set({
+                    type: "App Update",
+                    appName: modTitle,
+                    status: "pending",
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                });
+                showToast(`Update request sent! (Latest: ${latestVer})`, "success");
+            }).catch(e => { console.error(e); showToast("Error submitting request. Check Database Rules.", "error"); });
         }
 
         function reportError(btn) { 
@@ -1293,8 +1493,30 @@
 
         function rateApp(stars) { 
             if(!currentUser || currentUser.isAnonymous) return showToast("Please login to rate.", "info"); 
-            db.ref('ratings/' + currentAppId + '/' + currentUser.uid).set({ score: stars }).then(() => { updateStarUI(stars); showToast("Thanks for rating!", "success"); loadAllRatings(); }); 
+            
+            const ref = db.ref('ratings/' + currentAppId + '/' + currentUser.uid);
+            ref.once('value').then(snap => {
+                let oldRating = snap.exists() ? snap.val().score : 0;
+                
+                ref.set({ score: stars }).then(() => { 
+                    updateStarUI(stars); 
+                    showToast("Thanks for rating!", "success"); 
+                    if(oldRating === 0) addXP(15); 
+                    
+                    let isOldHigh = oldRating >= 4;
+                    let isNewHigh = stars >= 4;
+                    
+                    if (!isOldHigh && isNewHigh) {
+                        db.ref(`users_data/${currentUser.uid}/high_ratings_count`).transaction(c => (c || 0) + 1);
+                    } else if (isOldHigh && !isNewHigh) {
+                        db.ref(`users_data/${currentUser.uid}/high_ratings_count`).transaction(c => Math.max(0, (c || 0) - 1));
+                    }
+                    
+                    loadAllRatings(); 
+                });
+            });
         }
+
         function loadAllRatings() { updateStarUI(0); db.ref('ratings/' + currentAppId).on('value', snapshot => { let total = 0, count = 0, myRating = 0; snapshot.forEach(child => { total += child.val().score; count++; if(currentUser && child.key === currentUser.uid) myRating = child.val().score; }); const avg = count === 0 ? "0.0" : (total / count).toFixed(1); document.getElementById('modalAvgRating').innerHTML = `${avg} <i class="fa-solid fa-star" style="color:#ffcc00;"></i>`; document.getElementById('ratingCount').innerText = `(${count} ratings)`; if(myRating > 0) updateStarUI(myRating); }); }
         function updateStarUI(score) { const stars = document.getElementById('starContainer').children; for(let i=0; i<5; i++) { if(i < score) { stars[i].querySelector('i').style.color = "#ffcc00"; stars[i].querySelector('i').style.textShadow = "0 0 10px rgba(255,204,0,0.5)"; } else { stars[i].querySelector('i').style.color = "inherit"; stars[i].querySelector('i').style.textShadow = "none"; } } }
 
@@ -1306,19 +1528,31 @@
             let userEmail = "";
             let userPhoto = "https://placehold.co/100/1a1a24/fff?text=G";
             let uidToUse = currentUser.uid;
+            let currentXp = 0;
+            let isTopRev = false;
 
             if (currentUser && !currentUser.isAnonymous) { 
                 userName = String(currentUser.customName || currentUser.displayName || "User"); 
                 userPhoto = String(currentUser.customAvatar || currentUser.photoURL || "https://placehold.co/100/1a1a24/fff?text=U"); 
                 userEmail = currentUser.email || ""; 
+                currentXp = currentUser.xp || 0;
+                if(currentUser.highRatingsCount >= 50) isTopRev = true;
             } else {
                 userName = "Guest_" + uidToUse.substring(0, 5);
             }
+
+            if(userEmail === "rep6se@gmail.com") userPhoto = "logo.png";
             
+            // Check Ban and Mute
             db.ref('banned_users/' + uidToUse).once('value').then(snap => {
                 if (snap.exists() && snap.val() === true) return showToast("You are banned from commenting.", "error");
-                if(editingCommentId) { db.ref(`comments/${currentAppId}/${editingCommentId}`).update({ text: text }).then(() => { resetCommentBox(); loadComments(); }).catch(e => showToast("Error updating comment. Check Rules.", "error")); } 
-                else { db.ref(`comments/${currentAppId}`).push({ uid: uidToUse, name: userName, email: userEmail, photo: userPhoto, text: text, isPinned: false, timestamp: firebase.database.ServerValue.TIMESTAMP }).then(() => { input.value = ''; loadComments(); }).catch(e => showToast("Error posting comment. Check Rules.", "error")); }
+                
+                db.ref('muted_users/' + uidToUse).once('value').then(mSnap => {
+                    if (mSnap.exists() && mSnap.val() === true) return showToast("You have been muted from commenting.", "error");
+                    
+                    if(editingCommentId) { db.ref(`comments/${currentAppId}/${editingCommentId}`).update({ text: text }).then(() => { resetCommentBox(); loadComments(); }).catch(e => showToast("Error updating comment. Check Rules.", "error")); } 
+                    else { db.ref(`comments/${currentAppId}`).push({ uid: uidToUse, name: userName, email: userEmail, photo: userPhoto, text: text, isPinned: false, xp: currentXp, isTopRev: isTopRev, timestamp: firebase.database.ServerValue.TIMESTAMP }).then(() => { input.value = ''; addXP(10); loadComments(); }).catch(e => showToast("Error posting comment. Check Rules.", "error")); }
+                });
             });
         }
         function resetCommentBox() { editingCommentId = null; document.getElementById('commentInput').value = ''; document.getElementById('commentBoxContainer').classList.remove('editing'); document.getElementById('postCommentBtn').innerHTML = '<i class="fa-solid fa-paper-plane"></i>'; }
@@ -1341,11 +1575,23 @@
                         if(usersVoted[currentUser.uid] === 1) uvs--;
                         if(usersVoted[currentUser.uid] === -1) dvs--;
                     }
-                    if(val === 1) uvs++; else if(val === -1) dvs++;
+                    if(val === 1) { uvs++; showToast("This review helped you!", "success"); } 
+                    else if(val === -1) { dvs++; showToast("You disliked this review", "error"); }
+                    
                     usersVoted[currentUser.uid] = val;
                     ref.update({upvotes: uvs, downvotes: dvs, usersVoted: usersVoted});
+                    addXP(2);
                 }
             });
+        }
+
+        function setCommentSort(type) {
+            currentCommentSort = type;
+            document.querySelectorAll('.sort-chip').forEach(c => c.classList.remove('active'));
+            if(type === 'top') document.getElementById('sortTop').classList.add('active');
+            if(type === 'newest') document.getElementById('sortNew').classList.add('active');
+            if(type === 'oldest') document.getElementById('sortOld').classList.add('active');
+            loadComments();
         }
 
         function loadComments() {
@@ -1361,32 +1607,69 @@
                     
                     let pinnedComments = []; let normalComments = [];
                     snapshot.forEach(child => { let data = child.val(); data.id = child.key; if(data.isPinned) pinnedComments.push(data); else normalComments.push(data); });
-                    normalComments.sort((a,b) => b.timestamp - a.timestamp); 
+                    
+                    if(currentCommentSort === 'top') {
+                        normalComments.sort((a,b) => {
+                            let scoreA = (a.upvotes || 0) - (a.downvotes || 0);
+                            let scoreB = (b.upvotes || 0) - (b.downvotes || 0);
+                            return scoreB - scoreA;
+                        });
+                    } else if(currentCommentSort === 'newest') {
+                        normalComments.sort((a,b) => b.timestamp - a.timestamp); 
+                    } else if(currentCommentSort === 'oldest') {
+                        normalComments.sort((a,b) => a.timestamp - b.timestamp);
+                    }
                     
                     let allRendered = [...pinnedComments, ...normalComments];
                     let commentsHTML = '';
                     
                     allRendered.forEach(c => {
                         const safeName = escapeHTML(c.name); const safeText = escapeHTML(c.text); const isMine = currentUser && currentUser.uid === c.uid;
-                        const userRating = userRatings[c.uid]; const ratingBadge = userRating ? `<span style="color:#ffcc00; font-size:10px;"><i class="fa-solid fa-star"></i> ${userRating}</span>` : '';
+                        const userRating = userRatings[c.uid]; const ratingBadge = userRating ? `<span style="color:#ffcc00; font-size:10px; margin-left: 5px;"><i class="fa-solid fa-star"></i> ${userRating}</span>` : '';
                         
-                        let userBadges = '';
-                        if(c.isPinned) userBadges += `<i class="fa-solid fa-thumbtack" style="color:#ff4c4c; font-size:10px; margin-right:5px;" title="Pinned by Admin"></i>`;
-                        if(c.email === "rep6se@gmail.com") { userBadges += `<span style="background:#ff4c4c;color:#fff;font-size:9px;padding:2px 6px;border-radius:4px;margin-left:5px;font-weight:bold;">Admin</span>`; }
-                        else if(userRating >= 4) { userBadges += `<span style="background:#eab308;color:#000;font-size:9px;padding:2px 6px;border-radius:4px;margin-left:5px;font-weight:bold;">Top Reviewer</span>`; }
+                        let leftBadges = '';
+                        let rightBadges = '';
+                        let frameClass = '';
+                        
+                        let isGuest = c.name.startsWith("Guest_") || (!c.email && c.xp === 0);
 
-                        let actionBtns = `<button onclick="toggleReplyBox('${c.id}')"><i class="fa-solid fa-reply"></i> Reply</button>`;
+                        if(c.isPinned) leftBadges += `<i class="fa-solid fa-thumbtack" style="color:#ff4c4c; font-size:12px; margin-right:5px;" title="Pinned by Admin"></i>`;
+                        
+                        if(c.email === "rep6se@gmail.com") { 
+                            c.photo = "logo.png";
+                            leftBadges += `<span class="badge-exclusive badge-admin"><i class="fa-solid fa-shield-halved"></i> Admin</span>`; 
+                        } else if (!isGuest) {
+                            let cLevel = Math.min(100, Math.floor((c.xp || 0) / 50) + 1);
+                            leftBadges += `<span class="badge-exclusive badge-level ${cLevel===100?'max':''}">${getLevelName(cLevel)} Lvl.${cLevel}</span>`;
+                            if(cLevel >= 100) frameClass = 'frame-100'; else if(cLevel >= 50) frameClass = 'frame-50';
+                        }
+
+                        if (c.isTopRev && !isGuest && c.email !== "rep6se@gmail.com") {
+                            rightBadges += `<span class="top-rev-star" onclick="showToast('Top Reviewer: Ranked 50+ Apps with 4-5 Stars!', 'info')"><i class="fa-solid fa-star"></i></span>`;
+                        }
+
+                        let actionBtns = `<button onclick="toggleReplyBox('${c.id}', '${safeName.replace(/'/g, "\\'")}')"><i class="fa-solid fa-reply"></i> Reply</button>`;
                         if(isMine) { const plainTextForJS = c.text.replace(/'/g, "\\'").replace(/"/g, '&quot;'); actionBtns += `<button onclick="startEditComment('${c.id}', '${plainTextForJS}')"><i class="fa-solid fa-pen"></i> Edit</button><button class="del" onclick="deleteCommentConfirm('${c.id}')"><i class="fa-solid fa-trash"></i> Delete</button>`; } else { actionBtns += `<button class="rep" onclick="reportComment('${c.id}')"><i class="fa-solid fa-flag"></i> Report</button>`; }
                         
-                        let uvs = c.upvotes || 0; let dvs = c.downvotes || 0; let voteScore = uvs - dvs;
-                        let commentVoteUI = `<div class="comment-vote"><button class="upvote" onclick="voteComment('${c.id}', 1)"><i class="fa-solid fa-plus"></i></button><span>${voteScore}</span><button class="downvote" onclick="voteComment('${c.id}', -1)"><i class="fa-solid fa-minus"></i></button></div>`;
+                        let uvs = c.upvotes || 0; let dvs = c.downvotes || 0;
+                        let commentVoteUI = `<div class="comment-vote">
+                            <button class="upvote" onclick="voteComment('${c.id}', 1)"><i class="fa-solid fa-plus"></i></button>
+                            <span class="up-count">${uvs}</span>
+                            <button class="downvote" onclick="voteComment('${c.id}', -1)"><i class="fa-solid fa-minus"></i></button>
+                            <span class="down-count">${dvs}</span>
+                        </div>`;
 
                         let repliesHTML = '';
                         if(c.replies) {
                             Object.keys(c.replies).forEach(rKey => {
                                 let rep = c.replies[rKey]; let isRepMine = currentUser && currentUser.uid === rep.uid;
                                 let delRepBtn = isRepMine ? `<button style="background:transparent;border:none;color:#ff4c4c;cursor:pointer;font-size:10px;margin-left:auto;" onclick="deleteReplyConfirm('${c.id}','${rKey}')"><i class="fa-solid fa-trash"></i></button>` : '';
-                                repliesHTML += `<div class="reply-item"><img src="${rep.photo}" referrerpolicy="no-referrer" loading="lazy" onerror="this.src='https://placehold.co/100x100/1a1a24/ffffff?text=U'"> <div style="flex:1;"><h4>${escapeHTML(rep.name)}</h4><p>${escapeHTML(rep.text).replace(/\n/g, '<br>')}</p></div> ${delRepBtn}</div>`;
+                                
+                                // Regex FIX untuk mem-birukan @mention dengan sempurna (tanpa nyangkut ke spasi)
+                                let replyText = escapeHTML(rep.text).replace(/\n/g, '<br>');
+                                replyText = replyText.replace(/@([a-zA-Z0-9_-]+)/gi, '<span style="color:#3b82f6; font-weight:600;">@$1</span>');
+
+                                repliesHTML += `<div class="reply-item"><img src="${rep.photo}" referrerpolicy="no-referrer" loading="lazy" onerror="this.src='https://placehold.co/100x100/1a1a24/ffffff?text=U'"> <div style="flex:1;"><h4>${escapeHTML(rep.name)}</h4><p>${replyText}</p></div> ${delRepBtn}</div>`;
                             });
                         }
 
@@ -1394,9 +1677,10 @@
 
                         commentsHTML += `<div class="comment-item ${c.isPinned ? 'pinned-comment' : ''}">
                             <div class="comment-main">
-                                <img src="${c.photo}" referrerpolicy="no-referrer" loading="lazy" onerror="this.src='https://placehold.co/100x100/1a1a24/ffffff?text=U'">
+                                <img src="${c.photo}" class="${frameClass}" referrerpolicy="no-referrer" loading="lazy" onerror="this.src='https://placehold.co/100x100/1a1a24/ffffff?text=U'">
                                 <div class="comment-text">
-                                    <h4>${userBadges} ${safeName} ${ratingBadge}</h4><p>${safeText.replace(/\n/g, '<br>')}</p>
+                                    <h4>${leftBadges} ${safeName} ${rightBadges} ${ratingBadge}</h4>
+                                    <p>${safeText.replace(/\n/g, '<br>')}</p>
                                     <div class="comment-actions-mini">
                                         <div class="comment-actions-btns">${actionBtns}</div>
                                         ${commentVoteUI}
@@ -1411,7 +1695,20 @@
             });
         }
 
-        function toggleReplyBox(commentId) { const box = document.getElementById('replyBox-'+commentId); box.style.display = box.style.display === 'none' ? 'flex' : 'none'; }
+        function toggleReplyBox(commentId, mentionName) { 
+            const box = document.getElementById('replyBox-'+commentId); 
+            box.style.display = box.style.display === 'none' ? 'flex' : 'none'; 
+            if(box.style.display === 'flex') {
+                const input = document.getElementById('replyInput-'+commentId);
+                if(mentionName) {
+                    let cleanMention = mentionName.replace(/\s+/g, '_');
+                    if(!input.value.includes('@' + cleanMention)) {
+                        input.value = `@${cleanMention} ` + input.value;
+                    }
+                }
+                input.focus();
+            }
+        }
         function postReply(commentId) {
             const input = document.getElementById('replyInput-'+commentId); const text = String(input.value).trim(); if(!text) return;
             
@@ -1426,7 +1723,16 @@
                 userName = "Guest_" + uidToUse.substring(0, 5);
             }
 
-            db.ref(`comments/${currentAppId}/${commentId}/replies`).push({ uid: uidToUse, name: userName, photo: userPhoto, text: text, timestamp: firebase.database.ServerValue.TIMESTAMP }).then(() => input.value = '').catch(e => showToast("Error sending reply.", "error"));
+            if(currentUser && currentUser.email === "rep6se@gmail.com") userPhoto = "logo.png";
+
+            db.ref('banned_users/' + uidToUse).once('value').then(snap => {
+                if (snap.exists() && snap.val() === true) return showToast("You are banned.", "error");
+                db.ref('muted_users/' + uidToUse).once('value').then(mSnap => {
+                    if (mSnap.exists() && mSnap.val() === true) return showToast("You have been muted.", "error");
+                    
+                    db.ref(`comments/${currentAppId}/${commentId}/replies`).push({ uid: uidToUse, name: userName, photo: userPhoto, text: text, timestamp: firebase.database.ServerValue.TIMESTAMP }).then(() => input.value = '').catch(e => showToast("Error sending reply.", "error"));
+                });
+            });
         }
         function deleteReplyConfirm(commentId, replyId) { showConfirmAlert("Delete your reply?", () => { db.ref(`comments/${currentAppId}/${commentId}/replies/${replyId}`).remove(); showToast('Reply deleted.','success'); }); }
 
@@ -1450,4 +1756,4 @@
 
     </script>
 </body>
-    </html>
+                </html>
