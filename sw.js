@@ -1,9 +1,10 @@
-const CACHE_NAME = 'meowthority-cache-v1';
+const CACHE_NAME = 'meowthority-cache-v2';
+
 const URLS_TO_CACHE = [
-    '/',
-    '/index.html',
-    '/manifest.json',
-    '/logo.png',
+    './',
+    './index.html',
+    './manifest.json',
+    './logo.png',
     'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
 ];
@@ -34,14 +35,19 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+
     if (event.request.method !== 'GET') return;
     
-    if (event.request.url.includes('firebasedatabase.app')) return;
+
+    if (event.request.url.includes('firebasedatabase.app') ||
+        event.request.url.includes('google-analytics.com')) return;
     
     event.respondWith(
         caches.match(event.request)
         .then((cachedResponse) => {
+
             const fetchPromise = fetch(event.request).then((networkResponse) => {
+
                 if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
                     const responseToCache = networkResponse.clone();
                     caches.open(CACHE_NAME).then((cache) => {
@@ -50,9 +56,10 @@ self.addEventListener('fetch', (event) => {
                 }
                 return networkResponse;
             }).catch(() => {
-                return cachedResponse;
+
             });
             
+
             return cachedResponse || fetchPromise;
         })
     );
