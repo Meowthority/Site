@@ -3,1260 +3,1276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Meowthority APKs</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="referrer" content="no-referrer">
+    <title>Meowthority - Admin Panel</title>
+    <meta name="theme-color" content="#0d0d12">
+    <link rel="icon" href="logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; outline: none; -webkit-tap-highlight-color: transparent; }
-        body { background: #0d0d12; color: #e0e0e0; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; outline: none; -webkit-tap-highlight-color: transparent; }
+        :root { --bg-color: #0d0d12; --card-bg: #16161e; --card-hover: #1a1a24; --text-color: #e0e0e0; --text-muted: #888; --border-color: rgba(255,255,255,0.05); --header-bg: rgba(13, 13, 18, 0.95); --input-bg: #1a1a24; }
+        body.light-mode { --bg-color: #f0f2f5; --card-bg: #ffffff; --card-hover: #f8f9fa; --text-color: #1a1a24; --text-muted: #666; --border-color: rgba(0,0,0,0.1); --header-bg: rgba(255, 255, 255, 0.95); --input-bg: #f0f2f5; }
+        body { background-color: var(--bg-color); color: var(--text-color); overflow-x: hidden; transition: background-color 0.3s, color 0.3s; display: flex; height: 100vh; }
+        body.no-scroll { overflow: hidden; pointer-events: none; }
         
-        .box { background: #16161e; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; max-width: 650px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; animation: slideDown 0.4s ease; }
-        @media (min-width: 768px) { .box { padding: 35px; } }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        .welcome-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(13, 13, 18, 0.98); backdrop-filter: blur(15px); z-index: 999999; display: flex; align-items: center; justify-content: center; transition: opacity 0.4s ease; pointer-events: auto; }
+        .welcome-overlay.hidden { opacity: 0; pointer-events: none; }
+        .welcome-modal { background: var(--card-bg); border: 1px solid var(--border-color); padding: 40px 30px; border-radius: 24px; text-align: center; max-width: 380px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: floatUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .welcome-modal img { width: 90px; height: 90px; object-fit: contain; margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(255,76,76,0.5)); animation: pulseLogo 2s infinite alternate; }
+        .welcome-modal h1 { color: var(--text-color); font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+        .welcome-modal p { color: var(--text-muted); font-size: 13px; margin-bottom: 30px; line-height: 1.5; }
+        @keyframes floatUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes pulseLogo { from { transform: scale(1); } to { transform: scale(1.05); } }
+
+        @keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
+        .skeleton { background: linear-gradient(90deg, var(--card-bg) 25%, var(--border-color) 50%, var(--card-bg) 75%); background-size: 1000px 100%; animation: shimmer 2s infinite linear; border-radius: 8px; }
+        .skel-text { height: 12px; width: 50%; margin-bottom: 6px; }
+        .skel-title { height: 16px; width: 80%; margin-bottom: 8px; }
+        .skel-img { width: 44px; height: 44px; border-radius: 8px; flex-shrink: 0; }
+        .skel-icon { width: 32px; height: 32px; border-radius: 8px; }
+        .skel-stat { height: 36px; width: 60px; margin-top: 4px; }
+        .skel-chart { height: 100%; width: 100%; border-radius: 12px; position: absolute; top: 0; left: 0; z-index: 2; }
+
+        .toast-container { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 10000; pointer-events: none; }
+        .toast { background: var(--card-bg); color: var(--text-color); padding: 12px 20px; border-radius: 30px; border: 1px solid var(--border-color); box-shadow: 0 5px 15px rgba(0,0,0,0.5); font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 10px; animation: toastIn 0.3s ease forwards; }
+        .toast.success { border-color: #4ade80; color: #4ade80; }
+        .toast.error { border-color: #ff4c4c; color: #ff4c4c; }
+        .toast.info { border-color: #3b82f6; color: #3b82f6; }
+        .toast.hide { animation: toastOut 0.3s ease forwards; }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes toastOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); } }
         
-        h2 { text-align: center; margin-bottom: 25px; color: #fff; font-weight: 600; font-size: 22px; }
-        h2 span { color: #ff4c4c; }
-        
-        .admin-nav { display: none; width: 100%; max-width: 650px; background: #16161e; border-radius: 16px; padding: 10px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; gap: 10px; }
-        .tab-btn { flex: 1; min-width: 100px; padding: 12px; background: #121218; border: 1px solid rgba(255,255,255,0.05); color: #888; border-radius: 12px; font-weight: 600; font-size: 11px; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px; position: relative; }
-        .tab-btn:hover { background: #1a1a24; color: #fff; }
-        .tab-btn.active { background: rgba(255, 76, 76, 0.1); color: #ff4c4c; border-color: rgba(255, 76, 76, 0.3); }
-        .badge { background: #ff4c4c; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px; margin-left: 5px; font-weight: bold; display: none; }
+        .admin-pagination { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+        .admin-page-btn { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.2s; font-family: 'Inter', sans-serif; }
+        .admin-page-btn:hover:not(:disabled) { border-color: #ff4c4c; color: #ff4c4c; }
+        .admin-page-btn.active { background: #ff4c4c; color: white; border-color: #ff4c4c; }
+        .admin-page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .stats-container { display: none; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; width: 100%; max-width: 650px; }
-        @media (min-width: 600px) { .stats-container { grid-template-columns: repeat(4, 1fr); } }
-        .stat-card { background: #16161e; padding: 15px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); text-align: center; }
-        .stat-card h3 { font-size: 10px; color: #888; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .stat-card p { font-size: 20px; color: #fff; font-weight: 700; margin: 0; }
+        .admin-wrapper { width: 100%; height: 100%; display: flex; font-family: 'Inter', sans-serif; font-size: 13px; }
+        .admin-sidebar { width: 250px; background: var(--card-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; height: 100vh; transition: transform 0.3s ease; flex-shrink: 0; z-index: 100; }
+        .admin-sidebar-header { padding: 20px; font-size: 16px; font-weight: 700; color: var(--text-color); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 10px; }
+        .admin-sidebar-header img { width: 30px; height: 30px; object-fit: contain; }
+        .admin-sidebar-header span { background: linear-gradient(to right, #ff4c4c, #700000, #ff4c4c); background-size: 200% auto; color: transparent; -webkit-background-clip: text; background-clip: text; animation: shineRed 3s linear infinite; }
+        @keyframes shineRed { to { background-position: 200% center; } }
+        .admin-nav-links { padding: 16px 10px; display: flex; flex-direction: column; gap: 6px; flex: 1; overflow-y: auto; }
+        .admin-nav-btn { display: flex; align-items: center; gap: 10px; padding: 12px 14px; background: transparent; border: none; color: var(--text-muted); border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; transition: 0.2s; text-align: left; position: relative; font-family: 'Inter', sans-serif;}
+        .admin-nav-btn:hover { background: var(--card-hover); color: var(--text-color); }
+        .admin-nav-btn.active { background: rgba(255, 76, 76, 0.1); color: #ff4c4c; font-weight: 600; border: 1px solid rgba(255, 76, 76, 0.2); }
+        .admin-badge { background: #ff4c4c; color: white; padding: 2px 6px; border-radius: 12px; font-size: 10px; font-weight: 700; position: absolute; right: 12px; display: none; }
+        .admin-main-content { flex: 1; display: flex; flex-direction: column; height: 100vh; overflow-y: auto; background: var(--bg-color); position: relative; }
+        .admin-topbar { background: var(--header-bg); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border-color); padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 90; }
+        .admin-content-area { padding: 24px; max-width: 1200px; margin: 0 auto; width: 100%; }
+        .admin-menu-toggle { display: none; background: transparent; border: none; color: var(--text-color); font-size: 18px; cursor: pointer; }
+        @media (max-width: 1024px) { .admin-sidebar { position: fixed; transform: translateX(-100%); } .admin-sidebar.mobile-open { transform: translateX(0); } .admin-menu-toggle { display: block; } }
+        .admin-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .admin-stat-card { background: var(--card-bg); padding: 16px; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s; }
+        .admin-stat-card:hover { transform: translateY(-3px); border-color: rgba(255,76,76,0.3); }
+        .admin-stat-card span { color: var(--text-muted); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .admin-stat-card h3 { color: var(--text-color); font-size: 24px; font-weight: 700; }
+        .admin-panel { display: none; animation: adminFadeIn 0.3s ease; }
+        @keyframes adminFadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .admin-card { background: var(--card-bg); padding: 24px; border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .admin-card-header { margin-bottom: 20px; }
+        .admin-card-header h2 { font-size: 16px; font-weight: 600; color: var(--text-color); }
+        .admin-card-header p { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+        .admin-input-group { margin-bottom: 16px; }
+        .admin-input-group label { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; }
+        .admin-wrapper input[type="text"], .admin-wrapper input[type="url"], .admin-wrapper input[type="number"], .admin-wrapper input[type="password"], .admin-wrapper select, .admin-wrapper textarea { width: 100%; padding: 10px 14px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-color); font-size: 13px; transition: 0.2s; font-family: 'Inter', sans-serif; }
+        .admin-wrapper input[type="text"]:focus, .admin-wrapper input[type="url"]:focus, .admin-wrapper select:focus, .admin-wrapper textarea:focus { border-color: #ff4c4c; box-shadow: 0 0 0 2px rgba(255, 76, 76, 0.15); }
+        .admin-wrapper textarea { resize: vertical; min-height: 80px; }
+        .admin-grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; }
+        @media (min-width: 768px) { .admin-grid-2 { grid-template-columns: 1fr 1fr; } }
+        @media (min-width: 1024px) { .admin-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; } }
+        .admin-btn { padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.2s; border: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 100%; font-family: 'Inter', sans-serif; }
+        .admin-btn-primary { background: linear-gradient(135deg, #ff4c4c, #b30000); color: white; }
+        .admin-btn-primary:hover { background: linear-gradient(135deg, #e60000, #990000); box-shadow: 0 4px 15px rgba(255,76,76,0.3); }
+        .admin-btn-danger { background: rgba(255, 76, 76, 0.1); color: #ff4c4c; border: 1px solid rgba(255, 76, 76, 0.2); }
+        .admin-btn-danger:hover { background: #ff4c4c; color: white; }
+        .admin-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .admin-search-bar { position: relative; margin-bottom: 20px; }
+        .admin-search-bar i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+        .admin-search-bar input[type="text"] { padding-left: 36px; background: var(--input-bg); }
+        .admin-list-item { background: var(--input-bg); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 12px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; gap: 16px; transition: 0.2s; flex-wrap: nowrap; }
+        .admin-list-item:hover { border-color: rgba(255,76,76,0.3); background: var(--card-hover); }
+        .admin-list-info { display: flex; align-items: center; gap: 14px; flex: 1; min-width: 0; }
+        .admin-list-info img { width: 44px; height: 44px; min-width: 44px; border-radius: 8px; object-fit: cover; background: var(--card-bg); flex-shrink: 0; }
+        .admin-list-text { flex: 1; min-width: 0; }
+        .admin-list-text h4 { font-size: 14px; font-weight: 600; color: var(--text-color); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
+        .admin-list-text p { font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .admin-actions { display: flex; gap: 6px; flex-shrink: 0; }
+        .admin-action-icon { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-muted); cursor: pointer; transition: 0.2s; text-decoration: none; font-size: 12px; }
+        .admin-action-icon:hover { background: var(--input-bg); color: var(--text-color); border-color: var(--text-muted); }
+        .admin-action-icon.edit:hover { background: #3b82f6; color: white; border-color: #3b82f6; }
+        .admin-action-icon.delete:hover { background: #ff4c4c; color: white; border-color: #ff4c4c; }
+        .admin-action-icon.success:hover { background: #4ade80; color: white; border-color: #4ade80; }
+        .admin-status-draft { background: var(--card-bg); color: var(--text-muted); border: 1px solid var(--border-color); }
+        .admin-status-banned { background: rgba(255, 76, 76, 0.1); color: #ff4c4c; }
+        .admin-status-muted { background: rgba(234, 179, 8, 0.1); color: #eab308; }
+        .admin-status-admin { background: rgba(255, 76, 76, 0.15); color: #ff4c4c; }
+        .admin-status-mod { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .admin-status-badge { display: inline-block; padding: 3px 8px; border-radius: 8px; font-size: 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+        .admin-bulk-actions { background: rgba(255, 76, 76, 0.05); border: 1px solid rgba(255, 76, 76, 0.15); padding: 10px 14px; border-radius: 10px; display: none; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+        .admin-bulk-actions span { font-size: 12px; font-weight: 600; color: #ff4c4c; }
+        .admin-bulk-btn-group { display: flex; gap: 6px; }
+        .admin-bulk-btn { padding: 6px 12px; border-radius: 6px; border: none; font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .admin-bulk-btn:hover { filter: brightness(1.2); }
+        .admin-custom-checkbox { width: 16px; height: 16px; flex-shrink: 0; appearance: none; -webkit-appearance: none; border: 2px solid var(--text-muted); border-radius: 4px; background: transparent; cursor: pointer; position: relative; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; margin: 0; padding: 0; }
+        .admin-custom-checkbox:checked { background: #ff4c4c; border-color: #ff4c4c; }
+        .admin-custom-checkbox:checked::after { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; color: white; font-size: 10px; position: absolute; }
+        .admin-chart-container { background: var(--card-bg); padding: 16px; border-radius: 16px; border: 1px solid var(--border-color); width: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
+        .admin-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 100001; opacity: 0; transition: 0.3s; }
+        .admin-overlay.active { opacity: 1; }
+        .admin-modal { background: var(--card-bg); width: 90%; max-width: 340px; padding: 24px; border-radius: 16px; border: 1px solid var(--border-color); text-align: center; transform: scale(0.95); transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .admin-overlay.active .admin-modal { transform: scale(1); }
+        .admin-modal-icon { font-size: 40px; margin-bottom: 12px; }
+        .admin-modal h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; color: var(--text-color); }
+        .admin-modal p { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
+        .admin-modal-btns { display: flex; gap: 10px; }
+        .admin-modal-btns button { flex: 1; padding: 10px; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; font-size: 13px; transition: 0.2s; }
+        .admin-btn-cancel { background: var(--input-bg); color: var(--text-color); border: 1px solid var(--border-color); }
+        .admin-btn-cancel:hover { background: var(--card-hover); border-color: var(--text-muted); }
+        .admin-selection-btn { width: 100%; padding: 10px 14px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-color); font-size: 13px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; font-family: 'Inter', sans-serif; }
+        .admin-selection-btn:hover { border-color: #ff4c4c; }
+        .admin-selection-item { padding: 10px 14px; background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; cursor: pointer; color: var(--text-color); font-size: 13px; font-weight: 500; transition: 0.2s; margin-bottom: 6px; }
+        .admin-selection-item:hover { background: var(--card-hover); border-color: #ff4c4c; }
 
-        .input-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 15px; }
-        label { font-size: 11px; color: #aaa; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
-        input[type="text"], input[type="email"], input[type="password"], input[type="url"], select, textarea { width: 100%; padding: 12px 15px; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; background: #121218; color: white; transition: 0.3s; font-size: 13px; }
-        textarea { resize: vertical; min-height: 100px; }
-        input:focus, select:focus, textarea:focus { border-color: #ff4c4c; background: #1a1a24; }
-        .grid-2 { display: grid; grid-template-columns: 1fr; gap: 0 15px; }
-        @media (min-width: 600px) { .grid-2 { grid-template-columns: 1fr 1fr; } }
-        
-        button.primary-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #ff4c4c, #990000); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 14px; margin-top: 10px; transition: 0.3s; letter-spacing: 1px; }
-        button.primary-btn:active { transform: scale(0.98); }
-        button:disabled { filter: grayscale(1); cursor: wait; opacity: 0.7; }
-        
-        .danger-btn { width: 100%; padding: 12px; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: #aaa; border-radius: 12px; margin-top: 10px; cursor: pointer; transition: 0.3s; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .danger-btn:hover { background: rgba(255, 76, 76, 0.1); border-color: #ff4c4c; color: #ff4c4c; }
-        
-        #adminPanel, #managePanel, #requestsPanel, #reportsPanel, #commentsPanel, #reportedCommentsPanel, #usersPanel { display: none; }
-        
-        .admin-search { margin-bottom: 20px; position: relative; }
-        .admin-search input { padding-left: 38px; }
-        .admin-search i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #888; font-size: 13px; }
+        .log-item { border-left: 3px solid var(--border-color); padding: 12px 16px; background: var(--input-bg); border-radius: 0 12px 12px 0; margin-bottom: 10px; display: flex; flex-direction: column; gap: 4px; }
+        .log-header { display: flex; justify-content: space-between; align-items: center; }
+        .log-title { font-size: 13px; font-weight: 600; color: var(--text-color); display: flex; align-items: center; gap: 8px; }
+        .log-time { font-size: 11px; color: var(--text-muted); }
+        .log-desc { font-size: 12px; color: var(--text-muted); }
+        .log-admin { font-size: 11px; color: #ff4c4c; font-weight: 500; margin-top: 4px; }
+        .log-type-auth { border-left-color: #a855f7; }
+        .log-type-app { border-left-color: #3b82f6; }
+        .log-type-user { border-left-color: #eab308; }
+        .log-type-mod { border-left-color: #ff4c4c; }
+        .log-type-req { border-left-color: #4ade80; }
 
-        .bulk-bar { display: none; background: rgba(255, 76, 76, 0.1); border: 1px solid rgba(255, 76, 76, 0.3); border-radius: 12px; padding: 10px 15px; margin-bottom: 15px; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;}
-        .bulk-bar button { padding: 8px 15px; background: #22222e; color: #fff; border: none; border-radius: 8px; font-size: 11px; cursor: pointer; transition: 0.2s; font-weight: 600; }
-        .bulk-bar button.del-btn:hover { background: #ff4c4c; }
-        .bulk-bar button.pub-btn:hover { background: #4ade80; }
-        .bulk-bar button.dra-btn:hover { background: #eab308; }
-
-        .app-list-item { display: flex; align-items: center; justify-content: space-between; background: #121218; padding: 12px; border-radius: 12px; margin-bottom: 10px; border-left: 3px solid #ff4c4c; transition: 0.3s; position: relative; gap: 10px;}
-        .app-list-item.draft-mode { border-left-color: #888; opacity: 0.8; }
-        .app-list-item:hover { background: #1a1a24; }
-        .app-cb { width: 16px; height: 16px; accent-color: #ff4c4c; cursor: pointer; }
-        .app-info-mini { display: flex; align-items: center; gap: 12px; flex: 1; overflow: hidden; }
-        .app-info-mini img { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; background: #1a1a24; }
-        .app-info-mini h4 { margin: 0; font-size: 13px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 6px; }
-        .badge-draft { background: #555; font-size: 9px; padding: 2px 6px; border-radius: 6px; color: white; letter-spacing: 0.5px; }
-        .app-info-mini p { margin: 0; font-size: 11px; color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .app-actions { display: flex; gap: 8px; }
-        .action-btn { background: #22222e; border: none; color: #fff; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 12px; transition: 0.3s; display: flex; align-items: center; justify-content: center; text-decoration: none; }
-        .btn-view:hover { background: #10b981; } .btn-edit:hover { background: #3b82f6; } .btn-delete:hover { background: #ef4444; }
-
-        .msg-card { background: #121218; padding: 15px; border-radius: 12px; margin-bottom: 10px; border: 1px solid rgba(255,255,255,0.05); }
-        .msg-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-        .msg-title { font-size: 14px; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 8px; }
-        .msg-date { font-size: 11px; color: #666; }
-        .msg-user { font-size: 12px; color: #aaa; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-        .msg-user img { width: 20px; height: 20px; border-radius: 50%; }
-        .msg-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
-        .msg-actions button { background: #22222e; color: #aaa; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; transition: 0.3s; font-weight: 600; display: flex; align-items: center; gap: 6px; }
-        .msg-actions button:hover { background: rgba(255,255,255,0.1); color: #fff; }
-        .msg-actions button.btn-check:hover { color: #4ade80; }
-        .msg-actions button.btn-cross:hover { color: #ff4c4c; }
-        .msg-actions button.btn-del-com:hover { color: #ff4c4c; }
-        .msg-actions button.btn-ban-user, .msg-actions button.btn-mute-user { border: 1px solid rgba(255,255,255,0.2); background: transparent; }
-        .msg-actions button.btn-ban-user:hover { background: #ff4c4c; color: white; border-color: #ff4c4c;}
-        .msg-actions button.btn-mute-user:hover { background: #f59e0b; color: white; border-color: #f59e0b;}
-
-        .admin-reply-item { background: rgba(255,255,255,0.02); padding: 8px 12px; border-radius: 8px; border-left: 2px solid #ff4c4c; margin-top: 8px; font-size: 11px; color: #bbb; display: flex; justify-content: space-between; align-items: center; }
-
-        .alert-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 9999; opacity: 0; transition: 0.3s; }
-        .alert-overlay.active { display: flex; opacity: 1; }
-        .alert-box { background: #1a1a24; width: 90%; max-width: 320px; padding: 25px; border-radius: 20px; text-align: center; border: 1px solid rgba(255, 76, 76, 0.3); transform: scale(0.8); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-        .alert-overlay.active .alert-box { transform: scale(1); }
-        .alert-icon { font-size: 45px; margin-bottom: 15px; }
-        .icon-warn { color: #ffcc00; } .icon-err { color: #ff4c4c; } .icon-succ { color: #4ade80; }
-        .alert-box h3 { color: #fff; font-size: 18px; margin-bottom: 8px; }
-        .alert-box p { color: #aaa; font-size: 13px; margin-bottom: 20px; line-height: 1.5; }
-        .alert-btns { display: flex; gap: 10px; justify-content: center; }
-        .alert-btns button { border: none; padding: 12px; border-radius: 12px; font-weight: 600; cursor: pointer; flex: 1; transition: 0.2s; font-size: 13px; }
-        .alert-btns button:active { transform: scale(0.95); }
-        .btn-confirm { background: #ff4c4c; color: white; }
-        .btn-cancel { background: #333; color: white; }
+        .frame-50 { border: 3px solid transparent !important; background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box, linear-gradient(135deg, #ffd700, #ff8c00, #ffeb73, #ff8c00) border-box !important; background-size: 200% 200% !important; box-shadow: 0 0 10px rgba(255, 215, 0, 0.4), inset 0 0 5px rgba(255, 215, 0, 0.5) !important; padding: 3px; animation: premiumGold 3s linear infinite; }
+        @keyframes premiumGold { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .frame-100 { border: 4px solid transparent !important; background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box, linear-gradient(135deg, #00f2fe, #4facfe, #a855f7, #ff0844, #00f2fe) border-box !important; background-size: 300% 300% !important; box-shadow: 0 0 15px rgba(168, 85, 247, 0.6), 0 0 30px rgba(0, 242, 254, 0.4) !important; padding: 4px; animation: premiumCosmic 4s linear infinite; }
+        @keyframes premiumCosmic { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
     </style>
 </head>
-<body>
+<body class="no-scroll">
 
-    <div class="box" id="loginPanel" style="margin-top: 10vh;">
-        <h2>Admin <span>Login</span></h2>
-        <div class="input-group">
-            <label>Email Address</label>
-            <input type="email" id="email" placeholder="rep6se@gmail.com">
-        </div>
-        <div class="input-group">
-            <label>Password</label>
-            <input type="password" id="password" placeholder="••••••••">
-        </div>
-        <button class="primary-btn" id="btnAuth" onclick="login()"><i class="fa-solid fa-right-to-bracket"></i> ACCESS PANEL</button>
-    </div>
-
-    <div class="stats-container" id="adminStats">
-        <div class="stat-card">
-            <h3>Total Apps</h3>
-            <p id="statApps">0</p>
-        </div>
-        <div class="stat-card">
-            <h3>Downloads</h3>
-            <p id="statDownloads">0</p>
-        </div>
-        <div class="stat-card">
-            <h3>Comments</h3>
-            <p id="statComments">0</p>
-        </div>
-        <div class="stat-card">
-            <h3>Banned/Muted</h3>
-            <p id="statBanned">0 / 0</p>
+    <div class="welcome-overlay" id="welcomeOverlay">
+        <div class="welcome-modal">
+            <img src="logo.png" alt="Logo">
+            <h1>Welcome Back!</h1>
+            <p>Ready to manage the database, handle reports, and oversee the community today?</p>
+            <button class="admin-btn admin-btn-primary" onclick="dismissWelcome()"><i class="fa-solid fa-bolt"></i> Enter Admin Panel</button>
         </div>
     </div>
 
-    <div class="admin-nav" id="adminNav">
-        <button class="tab-btn active" id="tab-manage" onclick="switchTab('manage')"><i class="fa-solid fa-gamepad"></i> Apps</button>
-        <button class="tab-btn" id="tab-comments" onclick="switchTab('comments')"><i class="fa-solid fa-comments"></i> Chat</button>
-        <button class="tab-btn" id="tab-reported" onclick="switchTab('reported')"><i class="fa-solid fa-flag"></i> Reported <span class="badge" id="badBadge">0</span></button>
-        <button class="tab-btn" id="tab-requests" onclick="switchTab('requests')"><i class="fa-solid fa-arrows-rotate"></i> Request <span class="badge" id="reqBadge">0</span></button>
-        <button class="tab-btn" id="tab-reports" onclick="switchTab('reports')"><i class="fa-solid fa-link-slash"></i> Error <span class="badge" id="repBadge">0</span></button>
-        <button class="tab-btn" id="tab-users" onclick="switchTab('users')" style="border-color:#ff4c4c; color:#ff4c4c;"><i class="fa-solid fa-users-slash"></i> Restricts</button>
-    </div>
-
-    <div id="tab-content-manage" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-        <div class="box" id="adminPanel">
-            <h2 id="formTitle">Upload <span>New Mod</span></h2>
-            
-            <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px dashed rgba(255,255,255,0.1);">
-                <div class="input-group">
-                    <label><i class="fa-brands fa-google-play" style="color:#3b82f6"></i> Link APK Original (Play Store)</label>
-                    <div style="display: flex; gap: 10px;">
-                        <input type="url" id="linkOri" placeholder="https://play.google.com/store/apps/details?id=..." style="flex: 1;">
-                        <button type="button" class="primary-btn" id="btnAutoFetch" onclick="autoFetchPlayStore()" style="width: auto; margin: 0; padding: 12px 15px;"><i class="fa-solid fa-wand-magic-sparkles"></i> Auto Fetch</button>
+    <div class="toast-container" id="toastContainer"></div>
+    <div class="admin-wrapper" id="adminPanelWrapper">
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="admin-sidebar-header">
+                <img src="logo.png" alt="Logo"> <span>Admin Panel</span>
+            </div>
+            <div class="admin-nav-links">
+                <button class="admin-nav-btn active" onclick="switchAdminTab('dashboard')"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
+                <button class="admin-nav-btn" onclick="switchAdminTab('upload')"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Mod</button>
+                <button class="admin-nav-btn" onclick="switchAdminTab('manage')"><i class="fa-solid fa-database"></i> Database</button>
+                <button class="admin-nav-btn" onclick="switchAdminTab('users')"><i class="fa-solid fa-users"></i> Members</button>
+                <button class="admin-nav-btn" onclick="switchAdminTab('comments')"><i class="fa-solid fa-comments"></i> Chat</button>
+                <button class="admin-nav-btn" onclick="switchAdminTab('reported')"><i class="fa-solid fa-flag"></i> Reported <span class="admin-badge" id="adminBadBadge">0</span></button>
+                <button class="admin-nav-btn" onclick="switchAdminTab('requests')"><i class="fa-solid fa-arrows-rotate"></i> Requests <span class="admin-badge" id="adminReqBadge">0</span></button>
+                <button class="admin-nav-btn" onclick="switchAdminTab('reports')"><i class="fa-solid fa-link-slash"></i> Reported Links <span class="admin-badge" id="adminRepBadge">0</span></button>
+                <button class="admin-nav-btn" onclick="switchAdminTab('logs')"><i class="fa-solid fa-clipboard-list"></i> Activity Logs</button>
+            </div>
+        </aside>
+        <main class="admin-main-content">
+            <header class="admin-topbar">
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <button class="admin-menu-toggle" onclick="toggleAdminSidebar()"><i class="fa-solid fa-bars"></i></button>
+                    <button class="admin-btn" style="width: auto; padding: 6px 12px; font-size: 11px; background:var(--input-bg); border:1px solid var(--border-color); color:var(--text-color);" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i> Theme</button>
+                </div>
+                <button class="admin-btn admin-btn-danger" style="width: auto; padding: 6px 12px; font-size: 11px;" onclick="adminExitPanel()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Exit Admin</button>
+            </header>
+            <div class="admin-content-area">
+                <div id="admin-panel-dashboard" class="admin-panel" style="display: block;">
+                    <div class="admin-stats-grid">
+                        <div class="admin-stat-card"><span>Apps</span><h3 id="adminStatApps"><div class="skeleton skel-stat"></div></h3></div>
+                        <div class="admin-stat-card"><span>Downloads</span><h3 id="adminStatDownloads"><div class="skeleton skel-stat"></div></h3></div>
+                        <div class="admin-stat-card"><span>Members</span><h3 id="adminStatMembers"><div class="skeleton skel-stat"></div></h3></div>
+                        <div class="admin-stat-card"><span>Comments</span><h3 id="adminStatComments"><div class="skeleton skel-stat"></div></h3></div>
+                    </div>
+                    <div class="admin-grid-2" style="margin-bottom: 16px;">
+                        <div class="admin-chart-container" style="height: 320px;">
+                            <div style="position:absolute; top:12px; right:16px; z-index:10; width: 130px;">
+                                <div class="admin-selection-btn" onclick="openAdminRangeSelection()" style="padding: 6px 10px; font-size: 11px;">
+                                    <span id="adminChartRangeText">Last 7 Days</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </div>
+                                <input type="hidden" id="adminChartRange" value="7">
+                            </div>
+                            <div class="skeleton skel-chart" id="chartSkel1"></div>
+                            <canvas id="adminLineChart" style="opacity:0; transition:0.5s;"></canvas>
+                        </div>
+                        <div class="admin-chart-container" style="height: 320px;">
+                            <div class="skeleton skel-chart" id="chartSkel2"></div>
+                            <canvas id="adminBarChart" style="opacity:0; transition:0.5s;"></canvas>
+                        </div>
+                    </div>
+                    <div class="admin-grid-2">
+                        <div class="admin-chart-container" style="height: 320px;">
+                            <div class="skeleton skel-chart" id="chartSkel3"></div>
+                            <canvas id="adminPieChart" style="opacity:0; transition:0.5s;"></canvas>
+                        </div>
+                        <div class="admin-chart-container" style="height: 320px;">
+                            <div class="skeleton skel-chart" id="chartSkel4"></div>
+                            <canvas id="adminPolarChart" style="opacity:0; transition:0.5s;"></canvas>
+                        </div>
+                    </div>
+                    <div class="admin-chart-container" style="height: 320px; margin-top: 16px;">
+                        <div class="skeleton skel-chart" id="chartSkel5"></div>
+                        <canvas id="adminActivityChart" style="opacity:0; transition:0.5s;"></canvas>
                     </div>
                 </div>
-            </div>
+                <div id="admin-panel-upload" class="admin-panel">
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <h2 id="adminFormTitle">Upload Mod</h2>
+                            <p>Fill application details to the database.</p>
+                        </div>
+                        <div style="background: rgba(255, 76, 76, 0.05); padding: 16px; border-radius: 12px; border: 1px dashed rgba(255, 76, 76, 0.2); margin-bottom: 20px;">
+                            <div class="admin-input-group" style="margin: 0;">
+                                <label style="color:#ff4c4c;"><i class="fa-brands fa-google-play"></i> Play Store URL</label>
+                                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                    <input type="url" id="adminLinkOri" placeholder="https://play.google.com/store/apps/details?id=..." style="flex: 1; min-width: 180px;">
+                                    <button type="button" class="admin-btn admin-btn-primary" id="adminBtnAutoFetch" onclick="adminAutoFetchPlayStore()" style="width: auto; white-space: nowrap;"><i class="fa-solid fa-wand-magic-sparkles"></i> Auto Fetch</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="admin-grid-3">
+                            <div class="admin-input-group"><label>App Name</label><input type="text" id="adminTitle" placeholder="Game Title"></div>
+                            <div class="admin-input-group"><label>Developer</label><input type="text" id="adminDeveloper" placeholder="Studio Name"></div>
+                            <div class="admin-input-group">
+                                <label>Category</label>
+                                <div class="admin-selection-btn" onclick="openAdminCategorySelection()">
+                                    <span id="adminCategoryText">Action</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </div>
+                                <input type="hidden" id="adminCategory" value="Action">
+                            </div>
+                        </div>
+                        <div class="admin-grid-3">
+                            <div class="admin-input-group">
+                                <label>Status</label>
+                                <div class="admin-selection-btn" onclick="openAdminStatusSelection()">
+                                    <span id="adminStatusText">Published</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </div>
+                                <input type="hidden" id="adminStatus" value="Published">
+                            </div>
+                            <div class="admin-input-group"><label>Version</label><input type="text" id="adminVersion" placeholder="v1.0"></div>
+                            <div class="admin-input-group"><label>Size</label><input type="text" id="adminSize" placeholder="100 MB"></div>
+                        </div>
+                        <div class="admin-grid-2">
+                            <div class="admin-input-group"><label>Tags / Genres (Comma Separated)</label><input type="text" id="adminTags" placeholder="Action, Multiplayer"></div>
+                            <div class="admin-input-group"><label>Mod Features</label><input type="text" id="adminFeatures" placeholder="Unlimited Money"></div>
+                        </div>
+                        <div style="background: rgba(74, 222, 128, 0.05); padding: 20px; border-radius: 12px; border: 1px dashed rgba(74, 222, 128, 0.3); margin-bottom: 20px;">
+                            <h4 style="font-size: 14px; font-weight: 600; color: #4ade80; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;"><i class="fa-solid fa-link"></i> Download Links</h4>
+                            <div class="admin-grid-3" style="margin-bottom: 0;">
+                                <div class="admin-input-group" style="margin-bottom:0;">
+                                    <label style="color:#e0e0e0; font-size: 13px; font-weight: 500;"><i class="fa-solid fa-download" style="color:#4ade80; width: 16px; text-align: center;"></i> Mod APK</label>
+                                    <input type="url" id="adminLinkMod" placeholder="https://...">
+                                </div>
+                                <div class="admin-input-group" style="margin-bottom:0;">
+                                    <label style="color:#e0e0e0; font-size: 13px; font-weight: 500;"><i class="fa-solid fa-folder-open" style="color:#4ade80; width: 16px; text-align: center;"></i> OBB Data</label>
+                                    <input type="url" id="adminLinkObb" placeholder="https://...">
+                                </div>
+                                <div class="admin-input-group" style="margin-bottom:0;">
+                                    <label style="color:#e0e0e0; font-size: 13px; font-weight: 500;"><i class="fa-solid fa-server" style="color:#4ade80; width: 16px; text-align: center;"></i> Mirror</label>
+                                    <input type="url" id="adminLinkMirror" placeholder="https://...">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="admin-input-group"><label>Icon Image URL</label><input type="url" id="adminImageUrl" placeholder="https://..."></div>
+                        <div class="admin-input-group"><label>Gameplay Screenshots URLs</label><textarea id="adminScreenshots" placeholder="https://img1, https://img2" style="min-height: 60px;"></textarea></div>
+                        <div class="admin-input-group"><label>Previous Versions (Format: Version | Link)</label><textarea id="adminOldVersions" placeholder="v1.0 | https://..." style="min-height: 60px;"></textarea></div>
+                        <div class="admin-input-group"><label>Full Description</label><textarea id="adminDescription" placeholder="Details..."></textarea></div>
+                        <div style="display: flex; gap: 12px;">
+                            <button id="adminPublishBtn" class="admin-btn admin-btn-primary" onclick="adminSaveMod()"><i class="fa-solid fa-floppy-disk"></i> Publish</button>
+                            <button id="adminCancelEditBtn" class="admin-btn admin-btn-danger" style="display:none;" onclick="adminCancelEdit()"><i class="fa-solid fa-xmark"></i> Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="admin-panel-manage" class="admin-panel">
+                    <div class="admin-card">
+                        <div class="admin-card-header"><h2>Database</h2><p>Manage applications.</p></div>
+                        <div class="admin-search-bar">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="adminDbSearchInput" placeholder="Search title..." oninput="adminFilterApps()">
+                        </div>
+                        <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+                            <input type="checkbox" id="adminSelectAllCb" class="admin-custom-checkbox" onclick="adminToggleBulkSelectAll()">
+                            <label for="adminSelectAllCb" style="font-size: 13px; font-weight: 500; color: var(--text-color); cursor: pointer; display: inline-block; vertical-align: middle;">Select All</label>
+                        </div>
+                        <div class="admin-bulk-actions" id="adminBulkActionBar">
+                            <span><span id="adminBulkCount">0</span> Selected</span>
+                            <div class="admin-bulk-btn-group">
+                                <button class="admin-bulk-btn" style="background:#4ade80; color:white;" onclick="adminBulkChangeStatus('Published')">Publish</button>
+                                <button class="admin-bulk-btn" style="background:#eab308; color:white;" onclick="adminBulkChangeStatus('Draft')">Draft</button>
+                                <button class="admin-bulk-btn" style="background:#ff4c4c; color:white;" onclick="adminBulkDelete()"><i class="fa-solid fa-trash"></i> Delete</button>
+                            </div>
+                        </div>
+                        <div id="adminAppListContainer"></div>
+                        <div id="adminPaginationControls" class="admin-pagination"></div>
+                    </div>
+                </div>
+                <div id="admin-panel-users" class="admin-panel">
+                    <div class="admin-card">
+                        <div class="admin-card-header"><h2>Members</h2><p>Control roles and restrictions.</p></div>
+                        <div class="admin-search-bar">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="adminMemberSearchInput" placeholder="Search user..." oninput="adminFilterUsers()">
+                        </div>
+                        <div id="adminMembersList"></div>
+                    </div>
+                </div>
+                <div id="admin-panel-comments" class="admin-panel">
+                    <div class="admin-card">
+                        <div class="admin-card-header"><h2>Global Chat</h2></div>
+                        <div id="adminAllCommentsList"></div>
+                    </div>
+                </div>
+                <div id="admin-panel-reported" class="admin-panel">
+                    <div class="admin-card">
+                        <div class="admin-card-header"><h2>Reported Comments</h2></div>
+                        <div id="adminReportedList"></div>
+                    </div>
+                </div>
+                <div id="admin-panel-requests" class="admin-panel">
+                    <div class="admin-card">
+                        <div class="admin-card-header"><h2>User Requests</h2></div>
+                        <div id="adminRequestsList"></div>
+                    </div>
+                </div>
+                <div id="admin-panel-reports" class="admin-panel">
+                    <div class="admin-card">
+                        <div class="admin-card-header"><h2>Broken Links</h2></div>
+                        <div id="adminReportsList"></div>
+                    </div>
+                </div>
+                <div id="admin-panel-logs" class="admin-panel">
+                    <div class="admin-card">
+                        <div class="admin-card-header" style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <h2>Activity Logs</h2>
+                                <p>Audit trail of all admin actions.</p>
+                            </div>
+                            <button class="admin-btn admin-btn-danger" style="width:auto; padding:6px 12px; font-size:11px;" onclick="adminClearLogs()"><i class="fa-solid fa-trash"></i> Clear Logs</button>
+                        </div>
+                        <div class="admin-search-bar">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="adminLogSearchInput" placeholder="Search by admin name or action..." oninput="adminFilterLogs()">
+                        </div>
+                        <div id="adminLogsList"></div>
+                    </div>
+                </div>
 
-            <div class="grid-2">
-                <div class="input-group">
-                    <label>App Name</label>
-                    <input type="text" id="title" placeholder="Subway Surfers">
-                </div>
-                <div class="input-group">
-                    <label>Developer</label>
-                    <input type="text" id="developer" placeholder="Kiloo Games">
-                </div>
-                
-                <div class="input-group">
-                    <label>Category</label>
-                    <select id="category">
-                        <option value="Action">Action</option>
-                        <option value="Adventure">Adventure</option>
-                        <option value="Arcade">Arcade</option>
-                        <option value="Board">Board</option>
-                        <option value="Casual">Casual</option>
-                        <option value="Puzzle">Puzzle</option>
-                        <option value="Racing">Racing</option>
-                        <option value="RPG">RPG</option>
-                        <option value="Simulation">Simulation</option>
-                        <option value="Sports">Sports</option>
-                        <option value="Strategy">Strategy</option>
-                        <option value="Art & Design">Art & Design</option>
-                        <option value="Communication">Communication</option>
-                        <option value="Education">Education</option>
-                        <option value="Entertainment">Entertainment</option>
-                        <option value="Finance">Finance</option>
-                        <option value="Health & Fitness">Health & Fitness</option>
-                        <option value="Lifestyle">Lifestyle</option>
-                        <option value="Music & Audio">Music & Audio</option>
-                        <option value="Personalization">Personalization</option>
-                        <option value="Photography">Photography</option>
-                        <option value="Productivity">Productivity</option>
-                        <option value="Social">Social</option>
-                        <option value="Tools">Tools</option>
-                        <option value="Video Players">Video Players</option>
-                    </select>
-                </div>
-                
-                <div class="input-group">
-                    <label>Publish Status</label>
-                    <select id="status">
-                        <option value="Published">Published (Live)</option>
-                        <option value="Draft">Draft (Hidden)</option>
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label>Version</label>
-                    <input type="text" id="version" placeholder="v3.14.2">
-                </div>
-                <div class="input-group">
-                    <label>Size</label>
-                    <input type="text" id="size" placeholder="150 MB">
-                </div>
             </div>
-            
-            <div class="input-group">
-                <label>Special Tags (Comma Separated)</label>
-                <input type="text" id="tags" placeholder="Mod Menu, Offline, No Root">
-            </div>
-            <div class="input-group">
-                <label>Mod Features</label>
-                <input type="text" id="features" placeholder="Unlimited Money & Gems">
-            </div>
-            
-            <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px dashed rgba(255,255,255,0.1);">
-                <div class="input-group">
-                    <label><i class="fa-solid fa-download" style="color:#ff4c4c"></i> Link APK Mod</label>
-                    <input type="url" id="linkMod" placeholder="https://mediafire.com/mod...">
-                </div>
-                <div class="input-group">
-                    <label><i class="fa-solid fa-folder-open" style="color:#10b981"></i> Link OBB Data</label>
-                    <input type="url" id="linkObb" placeholder="https://mediafire.com/obb...">
-                </div>
-            </div>
-            
-            <div class="input-group">
-                <label>Cover Image URL (Icon)</label>
-                <input type="url" id="imageUrl" placeholder="https://example...">
-            </div>
-            <div class="input-group">
-                <label>Gameplay Screenshots (Comma separated URLs)</label>
-                <textarea id="screenshots" placeholder="https://img1.jpg, https://img2.jpg"></textarea>
-            </div>
-            <div class="input-group">
-                <label>Old Versions (Format: Version | Link)</label>
-                <textarea id="oldVersions" placeholder="v1.2.0 | https://link...&#10;v1.1.9 | https://link..."></textarea>
-            </div>
-            <div class="input-group">
-                <label>Full Description</label>
-                <textarea id="description" placeholder="Write full game details..."></textarea>
-            </div>
-            
-            <button id="publishBtn" class="primary-btn" onclick="saveMod()"><i class="fa-solid fa-cloud-arrow-up"></i> PUBLISH APK</button>
-            <button id="cancelEditBtn" class="danger-btn" style="display:none;" onclick="cancelEdit()"><i class="fa-solid fa-xmark"></i> Cancel Edit</button>
-        </div>
-
-        <div class="box" id="managePanel">
-            <h2>Manage <span>Database</span></h2>
-            
-            <div class="admin-search">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="adminSearchInput" placeholder="Search apps...">
-            </div>
-
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px;">
-                <input type="checkbox" id="selectAllCb" class="app-cb" onclick="toggleBulkSelectAll()">
-                <label for="selectAllCb" style="color:#fff; text-transform:none; cursor:pointer;">Select All Visible</label>
-            </div>
-
-            <div class="bulk-bar" id="bulkActionBar">
-                <span style="font-size:12px; font-weight:600;"><span id="bulkCount">0</span> Selected</span>
-                <div style="display:flex; gap:8px;">
-                    <button class="pub-btn" onclick="bulkChangeStatus('Published')">Publish</button>
-                    <button class="dra-btn" onclick="bulkChangeStatus('Draft')">Draft</button>
-                    <button class="del-btn" onclick="bulkDelete()"><i class="fa-solid fa-trash"></i> Delete</button>
-                </div>
-            </div>
-
-            <div id="adminAppList">
-                <p style="text-align:center; color:#666; font-size:12px;"><i class="fa-solid fa-spinner fa-spin"></i> Loading apps...</p>
-            </div>
-            <button class="danger-btn" id="adminLoadMoreBtn" onclick="loadMoreAdminApps()" style="display:none; margin-top:15px;"><i class="fa-solid fa-angles-down"></i> Load More</button>
-            <button class="danger-btn" onclick="logout()" style="margin-top:25px; border-color: #ff4c4c; color: #ff4c4c;"><i class="fa-solid fa-power-off"></i> Secure Logout</button>
-        </div>
-    </div>
-
-    <div class="box" id="commentsPanel">
-        <h2>All <span>Comments</span></h2>
-        <div id="allCommentsList">
-            <p style="text-align:center; color:#666; font-size:12px;"><i class="fa-solid fa-spinner fa-spin"></i> Loading comments...</p>
-        </div>
+        </main>
     </div>
     
-    <div class="box" id="reportedCommentsPanel">
-        <h2>Reported <span>Comments</span></h2>
-        <p style="text-align:center; color:#aaa; font-size:11px; margin-bottom: 15px;">Comments reported by users for violating guidelines.</p>
-        <div id="reportedList">
-            <p style="text-align:center; color:#666; font-size:12px;"><i class="fa-solid fa-spinner fa-spin"></i> Loading reported comments...</p>
-        </div>
-    </div>
-
-    <div class="box" id="requestsPanel">
-        <h2>Update & Game <span>Requests</span></h2>
-        <p style="text-align:center; color:#aaa; font-size:11px; margin-bottom: 15px;">Approval updates the status on user profile.</p>
-        <div id="requestsList">
-            <p style="text-align:center; color:#666; font-size:12px;"><i class="fa-solid fa-spinner fa-spin"></i> Loading requests...</p>
-        </div>
-    </div>
-
-    <div class="box" id="reportsPanel">
-        <h2>Broken Link <span>Reports</span></h2>
-        <div id="reportsList">
-            <p style="text-align:center; color:#666; font-size:12px;"><i class="fa-solid fa-spinner fa-spin"></i> Loading reports...</p>
-        </div>
-    </div>
-
-    <div class="box" id="usersPanel">
-        <h2>Restricted <span>Users</span></h2>
-        <p style="text-align:center; color:#aaa; font-size:11px; margin-bottom: 20px;">Manage users who violate community guidelines.</p>
-        
-        <div style="margin-bottom: 30px;">
-            <h3 style="color:#ff4c4c; font-size:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:8px; margin-bottom:10px;"><i class="fa-solid fa-ban"></i> Banned (Cannot Login/Comment)</h3>
-            <div id="bannedList">
-                <p style="font-size:12px; color:#666; text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> Loading banned users...</p>
-            </div>
-        </div>
-
-        <div>
-            <h3 style="color:#f59e0b; font-size:14px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:8px; margin-bottom:10px;"><i class="fa-solid fa-microphone-lines-slash"></i> Muted (Cannot Comment)</h3>
-            <div id="mutedList">
-                <p style="font-size:12px; color:#666; text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i> Loading muted users...</p>
+    <div class="admin-overlay" id="adminAlertOverlay">
+        <div class="admin-modal">
+            <div class="admin-modal-icon" id="adminAlertIcon"><i class="fa-solid fa-circle-info" style="color: #ff4c4c;"></i></div>
+            <h3 id="adminAlertTitle">Notice</h3>
+            <p id="adminAlertMessage">Message here.</p>
+            <div class="admin-modal-btns" id="adminAlertBtns">
+                <button class="admin-btn-primary" onclick="closeAdminAlert()">OK</button>
             </div>
         </div>
     </div>
-
-    <div class="alert-overlay" id="infoAlert">
-        <div class="alert-box">
-            <div class="alert-icon" id="infoAlertIcon"><i class="fa-solid fa-circle-exclamation icon-warn"></i></div>
-            <h3 id="infoAlertTitle">Notice</h3>
-            <p id="infoAlertMessage">Message here.</p>
-            <div class="alert-btns">
-                <button class="btn-confirm" onclick="closeInfoAlert()">OK</button>
+    <div class="admin-overlay" id="adminSelectionOverlay">
+        <div class="admin-modal" style="max-width: 340px; max-height: 80vh; display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 id="adminSelectionTitle" style="margin: 0; font-size: 16px; font-weight: 600; color: var(--text-color);">Select</h3>
+                <button onclick="closeAdminSelection()" style="background: transparent; border: none; color: var(--text-muted); font-size: 18px; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>
             </div>
-        </div>
-    </div>
-
-    <div class="alert-overlay" id="confirmAlert">
-        <div class="alert-box">
-            <div class="alert-icon"><i class="fa-solid fa-trash icon-err"></i></div>
-            <h3>Are you sure?</h3>
-            <p id="confirmAlertMessage">This action cannot be undone.</p>
-            <div class="alert-btns">
-                <button class="btn-cancel" onclick="closeConfirmAlert()">Cancel</button>
-                <button class="btn-confirm" id="confirmActionBtn">Confirm</button>
+            <div class="admin-search-bar" id="adminSelectionSearchContainer" style="margin-bottom: 15px;">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="adminSelectionSearch" placeholder="Search..." oninput="filterAdminSelection()">
             </div>
+            <div id="adminSelectionList" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; text-align: left; padding-right: 5px;"></div>
         </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
 
     <script>
-        function showInfoAlert(msg, type = "warning") {
-            document.getElementById('infoAlertMessage').innerText = msg;
-            let iconHTML = '<i class="fa-solid fa-circle-exclamation icon-warn"></i>';
-            let title = "Notice";
-            if (type === "error") {
-                iconHTML = '<i class="fa-solid fa-circle-xmark icon-err"></i>';
-                title = "Error";
-            } else if (type === "success") {
-                iconHTML = '<i class="fa-solid fa-circle-check icon-succ"></i>';
-                title = "Success";
+        function genSkeleton(count) {
+            let h = '';
+            for(let i=0; i<count; i++) {
+                h += `<div class="admin-list-item"><div class="admin-list-info"><div class="skeleton skel-img"></div><div class="admin-list-text" style="width:100%;"><div class="skeleton skel-title"></div><div class="skeleton skel-text"></div></div></div><div class="admin-actions"><div class="skeleton skel-icon"></div><div class="skeleton skel-icon"></div></div></div>`;
             }
-            document.getElementById('infoAlertIcon').innerHTML = iconHTML;
-            document.getElementById('infoAlertTitle').innerText = title;
-            const ab = document.getElementById('infoAlert');
-            ab.style.display = 'flex';
-            setTimeout(() => ab.classList.add('active'), 10);
+            return h;
         }
 
-        function closeInfoAlert() {
-            const ab = document.getElementById('infoAlert');
-            ab.classList.remove('active');
-            setTimeout(() => ab.style.display = 'none', 300);
+        document.getElementById('adminAppListContainer').innerHTML = genSkeleton(5);
+        document.getElementById('adminMembersList').innerHTML = genSkeleton(5);
+        document.getElementById('adminAllCommentsList').innerHTML = genSkeleton(4);
+        document.getElementById('adminReportedList').innerHTML = genSkeleton(3);
+        document.getElementById('adminRequestsList').innerHTML = genSkeleton(3);
+        document.getElementById('adminReportsList').innerHTML = genSkeleton(3);
+        document.getElementById('adminLogsList').innerHTML = genSkeleton(6);
+
+        function dismissWelcome() {
+            document.getElementById('welcomeOverlay').classList.add('hidden');
+            document.body.classList.remove('no-scroll');
+            sessionStorage.setItem('adminWelcomeShown', 'true');
         }
 
-        function showConfirmAlert(msg, onConfirm) {
-            document.getElementById('confirmAlertMessage').innerText = msg;
-            document.getElementById('confirmActionBtn').onclick = () => {
-                closeConfirmAlert();
-                onConfirm();
-            };
-            const ab = document.getElementById('confirmAlert');
-            ab.style.display = 'flex';
-            setTimeout(() => ab.classList.add('active'), 10);
+        if(sessionStorage.getItem('adminWelcomeShown') === 'true') {
+            document.getElementById('welcomeOverlay').style.display = 'none';
+            document.body.classList.remove('no-scroll');
         }
 
-        function closeConfirmAlert() {
-            const ab = document.getElementById('confirmAlert');
-            ab.classList.remove('active');
-            setTimeout(() => ab.style.display = 'none', 300);
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            adminRenderCharts();
         }
-
-        function escapeHTML(str) {
-            if (!str) return '';
-            return str.replace(/[&<>'"]/g, tag => ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                "'": '&#39;',
-                '"': '&quot;'
-            }[tag] || tag));
+        if(localStorage.getItem('theme') === 'light') { document.body.classList.add('light-mode'); }
+        
+        function showToast(msg, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            container.innerHTML = ''; 
+            const toast = document.createElement('div'); toast.className = `toast ${type}`;
+            let icon = '<i class="fa-solid fa-circle-check"></i>'; if(type === 'error') icon = '<i class="fa-solid fa-circle-xmark"></i>'; if(type === 'info') icon = '<i class="fa-solid fa-circle-info"></i>';
+            toast.innerHTML = `${icon} <span>${escapeHTML(msg)}</span>`; container.appendChild(toast);
+            setTimeout(() => { toast.classList.add('hide'); setTimeout(() => toast.remove(), 300); }, 3000);
         }
-
+        
+        function escapeHTML(str) { if(!str) return ''; return String(str).replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)); }
+        
         const firebaseConfig = {
-            apiKey: "AIzaSyBMADDJWyPLSOaK6nOT_LbLa6SCwHzFgQ4",
-            authDomain: "meowthority.firebaseapp.com",
+            apiKey: "AIzaSyBMADDJWyPLSOaK6nOT_LbLa6SCwHzFgQ4", authDomain: "meowthority.firebaseapp.com",
             databaseURL: "https://meowthority-default-rtdb.asia-southeast1.firebasedatabase.app/",
-            projectId: "meowthority",
-            messagingSenderId: "1044210277244",
-            appId: "1:1044210277244:web:525ea6b19289ba2482e2f9"
+            projectId: "meowthority", storageBucket: "meowthority.appspot.com", messagingSenderId: "1044210277244", appId: "1:1044210277244:web:525ea6b19289ba2482e2f9"
         };
         firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.database();
-
-        let editingId = null;
+        const auth = firebase.auth(), db = firebase.database();
+        
+        let globalUserRole = 'user';
+        let adminEditingId = null;
         let allAdminMods = [];
-        let globalCommentsData = {};
-        let renderedAppCount = 0;
-        const APPS_PER_RENDER = 20;
-        let currentFilteredMods = [];
+        let adminCurrentPage = 1;
+        const ADMIN_APPS_PER_PAGE = 15;
+        let adminCurrentFilteredMods = [];
+        let allUsersData = [];
+        let allAdminLogs = [];
+        
+        let adminBarChartInstance = null;
+        let adminPieChartInstance = null;
+        let adminActivityChartInstance = null;
+        const adminCategories = ["Action", "Adventure", "Arcade", "Board", "Casual", "Puzzle", "Racing", "Role Playing", "Simulation", "Sports", "Strategy", "Art & Design", "Communication", "Education", "Entertainment", "Finance", "Health & Fitness", "Lifestyle", "Music & Audio", "Personalization", "Photography", "Productivity", "Social", "Tools", "Video Players"];
+        const adminStatuses = [{value: "Published", label: "Published"}, {value: "Draft", label: "Draft (Hidden)"}];
+        const adminChartRanges = [{value: "7", label: "Last 7 Days"}, {value: "30", label: "Last 30 Days"}, {value: "all", label: "All Time"}];
+        let currentSelectionType = "";
+        
+        function logAdminAction(actionCategory, actionName, targetName, details = "") {
+            if (!auth.currentUser) return;
+            db.ref(`users_data/${auth.currentUser.uid}`).once('value').then(snap => {
+                let uData = snap.val() || {};
+                let adminName = uData.customName || uData.displayName || auth.currentUser.displayName || auth.currentUser.email || "Admin";
+                db.ref('admin_logs').push({
+                    uid: auth.currentUser.uid,
+                    adminName: adminName,
+                    adminEmail: auth.currentUser.email,
+                    category: actionCategory,
+                    action: actionName,
+                    target: targetName,
+                    details: details,
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                });
+            });
+        }
 
         auth.onAuthStateChanged(user => {
-            document.getElementById('loginPanel').style.display = user ? 'none' : 'block';
-            
-            if (user) {
-                if (user.email !== 'rep6se@gmail.com') {
-                    showInfoAlert("Unauthorized! Only Admin can access this panel.", "error");
-                    auth.signOut();
-                    return;
-                }
-
-                document.getElementById('adminNav').style.display = 'flex';
-                document.getElementById('adminStats').style.display = 'grid';
-                switchTab('manage');
-                fetchAdminMods();
-                fetchUserInteractions();
-                fetchAllComments();
-                fetchBannedUsersCount();
-                fetchRestrictedUsers(); // Fetch list of banned/muted for Users tab
-            } else {
-                document.getElementById('adminNav').style.display = 'none';
-                document.getElementById('adminStats').style.display = 'none';
-                document.getElementById('tab-content-manage').style.display = 'none';
-                document.getElementById('requestsPanel').style.display = 'none';
-                document.getElementById('reportsPanel').style.display = 'none';
-                document.getElementById('commentsPanel').style.display = 'none';
-                document.getElementById('reportedCommentsPanel').style.display = 'none';
-                document.getElementById('usersPanel').style.display = 'none';
-            }
+            if (user && !user.isAnonymous) {
+                db.ref(`users_data/${user.uid}`).on('value', snap => {
+                    let data = snap.val() || {};
+                    let roleFromDb = data.role || 'user';
+                    if(user.email === "rep6se@gmail.com") { roleFromDb = 'admin'; }
+                    globalUserRole = roleFromDb;
+                    if(globalUserRole === 'admin' || globalUserRole === 'mod') {
+                        if(!sessionStorage.getItem('adminLogged')) {
+                            logAdminAction('auth', 'Login', 'Admin Panel', 'Entered Admin Panel');
+                            sessionStorage.setItem('adminLogged', 'true');
+                        }
+                        fetchAdminMods(); 
+                        adminFetchUserInteractions(); 
+                        adminFetchAllComments(); 
+                        adminInitUsersListener();
+                        adminFetchLogs();
+                    } else { window.location.href = 'index.html'; }
+                });
+            } else { window.location.href = 'index.html'; }
         });
 
-        function login() {
-            const btn = document.getElementById('btnAuth');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Authenticating...';
+        function adminExitPanel() {
+            logAdminAction('auth', 'Logout', 'Admin Panel', 'Exited Admin Panel');
+            sessionStorage.removeItem('adminLogged');
+            sessionStorage.removeItem('adminWelcomeShown');
+            setTimeout(() => { window.location.href = 'index.html'; }, 500);
+        }
+
+        function toggleAdminSidebar() { document.getElementById('adminSidebar').classList.toggle('mobile-open'); }
+        
+        function adminShowAlert(title, msg, type = "info", onConfirm = null) {
+            document.getElementById('adminAlertTitle').innerText = title; document.getElementById('adminAlertMessage').innerText = msg;
+            let iconHtml = '<i class="fa-solid fa-circle-info" style="color: #ff4c4c;"></i>';
+            if(type === 'success') iconHtml = '<i class="fa-solid fa-circle-check" style="color: #4ade80;"></i>';
+            if(type === 'error') iconHtml = '<i class="fa-solid fa-circle-xmark" style="color: #ff4c4c;"></i>';
+            if(type === 'warning' || onConfirm) iconHtml = '<i class="fa-solid fa-triangle-exclamation" style="color: #eab308;"></i>';
+            document.getElementById('adminAlertIcon').innerHTML = iconHtml;
+            let btnsHtml = '';
+            if(onConfirm) { btnsHtml = `<button class="admin-btn-cancel" onclick="closeAdminAlert()">Cancel</button><button class="admin-btn-primary" id="adminConfirmActionBtn">Confirm</button>`; } else { btnsHtml = `<button class="admin-btn-primary" onclick="closeAdminAlert()">OK</button>`; }
+            document.getElementById('adminAlertBtns').innerHTML = btnsHtml;
+            if(onConfirm) { document.getElementById('adminConfirmActionBtn').onclick = () => { closeAdminAlert(); onConfirm(); }; }
+            const overlay = document.getElementById('adminAlertOverlay'); overlay.style.display = 'flex'; setTimeout(() => overlay.classList.add('active'), 10);
+        }
+        function closeAdminAlert() { const overlay = document.getElementById('adminAlertOverlay'); overlay.classList.remove('active'); setTimeout(() => overlay.style.display = 'none', 300); }
+        
+        function openAdminCategorySelection() {
+            currentSelectionType = "category"; document.getElementById('adminSelectionTitle').innerText = "Select Category"; document.getElementById('adminSelectionSearchContainer').style.display = "block"; document.getElementById('adminSelectionSearch').value = ""; renderAdminSelection(adminCategories.map(c => ({value: c, label: c}))); const overlay = document.getElementById('adminSelectionOverlay'); overlay.style.display = 'flex'; setTimeout(() => overlay.classList.add('active'), 10);
+        }
+        function openAdminStatusSelection() {
+            currentSelectionType = "status"; document.getElementById('adminSelectionTitle').innerText = "Select Status"; document.getElementById('adminSelectionSearchContainer').style.display = "none"; renderAdminSelection(adminStatuses); const overlay = document.getElementById('adminSelectionOverlay'); overlay.style.display = 'flex'; setTimeout(() => overlay.classList.add('active'), 10);
+        }
+        function openAdminRangeSelection() {
+            currentSelectionType = "range"; document.getElementById('adminSelectionTitle').innerText = "Select Time Range"; document.getElementById('adminSelectionSearchContainer').style.display = "none"; renderAdminSelection(adminChartRanges); const overlay = document.getElementById('adminSelectionOverlay'); overlay.style.display = 'flex'; setTimeout(() => overlay.classList.add('active'), 10);
+        }
+        function closeAdminSelection() { const overlay = document.getElementById('adminSelectionOverlay'); overlay.classList.remove('active'); setTimeout(() => overlay.style.display = 'none', 300); }
+        function renderAdminSelection(items) {
+            const list = document.getElementById('adminSelectionList'); list.innerHTML = "";
+            items.forEach(item => {
+                const div = document.createElement('div'); div.className = "admin-selection-item"; div.innerText = item.label;
+                div.onclick = () => {
+                    if (currentSelectionType === "category") { 
+                        document.getElementById('adminCategory').value = item.value; document.getElementById('adminCategoryText').innerText = item.label; 
+                    } else if (currentSelectionType === "status") { 
+                        document.getElementById('adminStatus').value = item.value; document.getElementById('adminStatusText').innerText = item.label; 
+                    } else if (currentSelectionType === "range") {
+                        document.getElementById('adminChartRange').value = item.value; document.getElementById('adminChartRangeText').innerText = item.label;
+                        adminUpdateLineChart();
+                    }
+                    closeAdminSelection();
+                };
+                list.appendChild(div);
+            });
+        }
+        function filterAdminSelection() {
+            if (currentSelectionType !== "category") return; const query = document.getElementById('adminSelectionSearch').value.toLowerCase(); const filtered = adminCategories.filter(c => c.toLowerCase().includes(query)).map(c => ({value: c, label: c})); renderAdminSelection(filtered);
+        }
+        function switchAdminTab(tab) {
+            document.querySelectorAll('.admin-nav-btn').forEach(b => b.classList.remove('active'));
+            const activeBtn = Array.from(document.querySelectorAll('.admin-nav-btn')).find(b => b.getAttribute('onclick').includes(`'${tab}'`));
+            if(activeBtn) activeBtn.classList.add('active');
+            document.querySelectorAll('.admin-panel').forEach(p => p.style.display = 'none');
+            document.getElementById('admin-panel-' + tab).style.display = 'block';
+            document.getElementById('adminSidebar').classList.remove('mobile-open');
+            if(tab === 'dashboard') adminRenderCharts();
+            document.querySelector('.admin-main-content').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        function adminFormatDate(timestamp) {
+            if (!timestamp) return "Unknown"; const d = new Date(timestamp); return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+
+        function hideChartSkeletons() {
+            [1,2,3,4,5].forEach(i => {
+                let s = document.getElementById('chartSkel'+i);
+                if(s) s.style.display = 'none';
+            });
+            document.getElementById('adminLineChart').style.opacity = '1';
+            document.getElementById('adminBarChart').style.opacity = '1';
+            document.getElementById('adminPieChart').style.opacity = '1';
+            document.getElementById('adminPolarChart').style.opacity = '1';
+            document.getElementById('adminActivityChart').style.opacity = '1';
+        }
+
+        function adminUpdateLineChart() {
+            let range = document.getElementById('adminChartRange').value;
+            let filteredMods = [...allAdminMods];
+            let now = Date.now();
+            if(range === '7') {
+                filteredMods = filteredMods.filter(m => now - (m.timestamp || 0) <= 7 * 24 * 60 * 60 * 1000);
+            } else if(range === '30') {
+                filteredMods = filteredMods.filter(m => now - (m.timestamp || 0) <= 30 * 24 * 60 * 60 * 1000);
+            }
+            let datesCount = {};
+            filteredMods.sort((a,b) => (a.timestamp || 0) - (b.timestamp || 0)).forEach(m => {
+                let d = m.timestamp ? new Date(m.timestamp) : new Date();
+                let dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                datesCount[dateStr] = (datesCount[dateStr] || 0) + 1;
+            });
+            let labelsLine = Object.keys(datesCount);
+            if(labelsLine.length > 15) labelsLine = labelsLine.slice(-15);
+            let dataLine = labelsLine.map(k => datesCount[k]);
             
-            auth.signInWithEmailAndPassword(document.getElementById('email').value, document.getElementById('password').value)
-                .catch(e => {
-                    showInfoAlert(e.message, "error");
-                })
-                .finally(() => {
-                    btn.disabled = false;
-                    btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> ACCESS PANEL';
-                });
+            if(window.adminLineChartInstance) {
+                window.adminLineChartInstance.data.labels = labelsLine;
+                window.adminLineChartInstance.data.datasets[0].data = dataLine;
+                window.adminLineChartInstance.update();
+            }
         }
 
-        function logout() {
-            auth.signOut();
-        }
-
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('tab-' + tab).classList.add('active');
-            
-            document.getElementById('tab-content-manage').style.display = (tab === 'manage') ? 'flex' : 'none';
-            document.getElementById('adminPanel').style.display = (tab === 'manage') ? 'block' : 'none';
-            document.getElementById('managePanel').style.display = (tab === 'manage') ? 'block' : 'none';
-            document.getElementById('commentsPanel').style.display = (tab === 'comments') ? 'block' : 'none';
-            document.getElementById('reportedCommentsPanel').style.display = (tab === 'reported') ? 'block' : 'none';
-            document.getElementById('requestsPanel').style.display = (tab === 'requests') ? 'block' : 'none';
-            document.getElementById('reportsPanel').style.display = (tab === 'reports') ? 'block' : 'none';
-            document.getElementById('usersPanel').style.display = (tab === 'users') ? 'block' : 'none';
-        }
-
-        function formatDate(timestamp) {
-            if (!timestamp) return "Unknown date";
-            const d = new Date(timestamp);
-            return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        }
-
-        function fetchBannedUsersCount() {
-            db.ref('banned_users').on('value', snapB => {
-                let banCount = snapB.exists() ? snapB.numChildren() : 0;
-                db.ref('muted_users').on('value', snapM => {
-                    let muteCount = snapM.exists() ? snapM.numChildren() : 0;
-                    document.getElementById('statBanned').innerText = `${banCount} / ${muteCount}`;
-                });
+        function adminRenderActivityChart() {
+            let adminCounts = {};
+            allAdminLogs.forEach(log => {
+                let name = log.adminName || 'Unknown';
+                adminCounts[name] = (adminCounts[name] || 0) + 1;
             });
-        }
+            let labels = Object.keys(adminCounts);
+            let data = Object.values(adminCounts);
+            const isLight = document.body.classList.contains('light-mode');
+            const textColor = isLight ? '#666' : '#888';
+            const gridColor = isLight ? '#ddd' : '#222';
 
-        function fetchRestrictedUsers() {
-            db.ref('banned_users').on('value', async snap => {
-                let html = '';
-                if(snap.exists()) {
-                    let promises = [];
-                    snap.forEach(child => {
-                        let uid = child.key;
-                        let p = db.ref(`users_data/${uid}`).once('value').then(uSnap => {
-                            let name = uSnap.exists() && uSnap.val().customName ? uSnap.val().customName : uid;
-                            return `
-                            <div class="msg-card" style="display:flex; justify-content:space-between; align-items:center; padding:12px;">
-                                <span style="font-size:12px; color:#fff;"><i class="fa-solid fa-user" style="color:#ff4c4c; margin-right:5px;"></i> ${escapeHTML(name)}</span>
-                                <button class="action-btn btn-delete" style="background:#10b981; width:auto; padding:0 12px; height:28px;" onclick="unbanUser('${uid}')" title="Unban">
-                                    <i class="fa-solid fa-unlock" style="margin-right:5px;"></i> Unban
-                                </button>
-                            </div>`;
-                        });
-                        promises.push(p);
-                    });
-                    let res = await Promise.all(promises);
-                    html = res.join('');
+            if(adminActivityChartInstance) adminActivityChartInstance.destroy();
+            let ctx = document.getElementById('adminActivityChart').getContext('2d');
+            let gradient = ctx.createLinearGradient(0, 0, 400, 0);
+            gradient.addColorStop(0, '#a855f7');
+            gradient.addColorStop(1, '#ec4899');
+
+            adminActivityChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Total Admin Actions',
+                        data: data,
+                        backgroundColor: gradient,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', 
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { beginAtZero: true, grid: { color: gridColor, borderDash: [5, 5] }, ticks: { color: textColor, font: {family:'Inter'} } },
+                        y: { grid: { display: false }, ticks: { color: textColor, font: {family:'Inter'} } }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { backgroundColor: 'rgba(22, 22, 30, 0.9)', titleFont: {family:'Inter'}, bodyFont: {family:'Inter'}, padding: 10, cornerRadius: 8 }
+                    }
                 }
-                document.getElementById('bannedList').innerHTML = html || '<p style="font-size:12px; color:#666; text-align:center;">No banned users.</p>';
             });
+        }
 
-            db.ref('muted_users').on('value', async snap => {
-                let html = '';
-                if(snap.exists()) {
-                    let promises = [];
-                    snap.forEach(child => {
-                        let uid = child.key;
-                        let p = db.ref(`users_data/${uid}`).once('value').then(uSnap => {
-                            let name = uSnap.exists() && uSnap.val().customName ? uSnap.val().customName : uid;
-                            return `
-                            <div class="msg-card" style="display:flex; justify-content:space-between; align-items:center; padding:12px;">
-                                <span style="font-size:12px; color:#fff;"><i class="fa-solid fa-user" style="color:#f59e0b; margin-right:5px;"></i> ${escapeHTML(name)}</span>
-                                <button class="action-btn btn-delete" style="background:#10b981; width:auto; padding:0 12px; height:28px;" onclick="unmuteUser('${uid}')" title="Unmute">
-                                    <i class="fa-solid fa-microphone" style="margin-right:5px;"></i> Unmute
-                                </button>
-                            </div>`;
-                        });
-                        promises.push(p);
-                    });
-                    let res = await Promise.all(promises);
-                    html = res.join('');
+        function adminRenderCharts() {
+            if(allAdminMods.length === 0) return;
+            hideChartSkeletons();
+            const isLight = document.body.classList.contains('light-mode');
+            const textColor = isLight ? '#666' : '#888';
+            const gridColor = isLight ? '#ddd' : '#222';
+            let sortedByDl = [...allAdminMods].sort((a,b) => (b.downloads || 0) - (a.downloads || 0)).slice(0, 5);
+            if(adminBarChartInstance) adminBarChartInstance.destroy();
+            let ctxBar = document.getElementById('adminBarChart').getContext('2d');
+            let gradientBar = ctxBar.createLinearGradient(0, 0, 0, 400);
+            gradientBar.addColorStop(0, '#ff4c4c');
+            gradientBar.addColorStop(1, '#b30000');
+            adminBarChartInstance = new Chart(ctxBar, { 
+                type: 'bar', 
+                data: { 
+                    labels: sortedByDl.map(m => m.title.length > 15 ? m.title.substring(0,15)+'...' : m.title), 
+                    datasets: [{ 
+                        label: 'Downloads', 
+                        data: sortedByDl.map(m => m.downloads || 0), 
+                        backgroundColor: gradientBar, 
+                        borderRadius: 6,
+                        borderWidth: 1,
+                        borderColor: '#ff4c4c'
+                    }] 
+                }, 
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    scales: { 
+                        y: { beginAtZero: true, grid: { color: gridColor, borderDash: [5, 5] }, ticks:{color:textColor, font:{family:'Inter'}} }, 
+                        x: { grid: { display: false }, ticks:{color:textColor, font:{family:'Inter'}} } 
+                    }, 
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: { backgroundColor: 'rgba(22, 22, 30, 0.9)', titleFont: {family:'Inter'}, bodyFont: {family:'Inter'}, padding: 10, cornerRadius: 8 }
+                    } 
+                } 
+            });
+            let catCount = {}; 
+            allAdminMods.forEach(m => { catCount[m.category || "Unknown"] = (catCount[m.category || "Unknown"] || 0) + 1; });
+            if(adminPieChartInstance) adminPieChartInstance.destroy();
+            adminPieChartInstance = new Chart(document.getElementById('adminPieChart').getContext('2d'), { 
+                type: 'doughnut', 
+                data: { 
+                    labels: Object.keys(catCount), 
+                    datasets: [{ 
+                        data: Object.values(catCount), 
+                        backgroundColor: ['#ff4c4c', '#4ade80', '#eab308', '#3b82f6', '#a855f7', '#ec4899', '#06b6d4'], 
+                        borderWidth: 2,
+                        borderColor: isLight ? '#fff' : '#16161e',
+                        hoverOffset: 4
+                    }] 
+                }, 
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: { 
+                        legend: { position: 'right', labels: { color: textColor, font: {size: 11, family:'Inter'}, usePointStyle: true, padding: 15 } },
+                        tooltip: { 
+                            backgroundColor: 'rgba(22, 22, 30, 0.9)', titleFont: {family:'Inter'}, bodyFont: {family:'Inter'}, padding: 10, cornerRadius: 8,
+                            callbacks: {
+                                label: function(context) {
+                                    let value = context.raw;
+                                    let sum = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    let pct = ((value * 100) / sum).toFixed(1) + '%';
+                                    return context.label + ': ' + value + ' Apps (' + pct + ')';
+                                }
+                            }
+                        }
+                    } 
+                } 
+            });
+            let datesCount = {};
+            [...allAdminMods].sort((a,b) => (a.timestamp || 0) - (b.timestamp || 0)).forEach(m => {
+                let d = m.timestamp ? new Date(m.timestamp) : new Date();
+                let dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                datesCount[dateStr] = (datesCount[dateStr] || 0) + 1;
+            });
+            let labelsLine = Object.keys(datesCount).slice(-7);
+            let dataLine = labelsLine.map(k => datesCount[k]);
+            if(window.adminLineChartInstance) window.adminLineChartInstance.destroy();
+            let ctxLine = document.getElementById('adminLineChart').getContext('2d');
+            let gradientLine = ctxLine.createLinearGradient(0, 0, 0, 400);
+            gradientLine.addColorStop(0, 'rgba(74, 222, 128, 0.5)');
+            gradientLine.addColorStop(1, 'rgba(74, 222, 128, 0.0)');
+            window.adminLineChartInstance = new Chart(ctxLine, {
+                type: 'line',
+                data: {
+                    labels: labelsLine,
+                    datasets: [{
+                        label: 'Apps Uploaded',
+                        data: dataLine,
+                        borderColor: '#4ade80',
+                        backgroundColor: gradientLine,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#16161e',
+                        pointBorderColor: '#4ade80',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: gridColor, borderDash: [5, 5] }, ticks:{color:textColor, font:{family:'Inter'}, stepSize: 1} },
+                        x: { grid: { display: false }, ticks:{color:textColor, font:{family:'Inter'}} }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { backgroundColor: 'rgba(22, 22, 30, 0.9)', titleFont: {family:'Inter'}, bodyFont: {family:'Inter'}, padding: 10, cornerRadius: 8 }
+                    }
                 }
-                document.getElementById('mutedList').innerHTML = html || '<p style="font-size:12px; color:#666; text-align:center;">No muted users.</p>';
             });
+            adminUpdateLineChart();
+            let statusCount = { 'Published': 0, 'Draft': 0 };
+            allAdminMods.forEach(m => {
+                if(m.status === 'Draft') statusCount['Draft']++;
+                else statusCount['Published']++;
+            });
+            if(window.adminPolarChartInstance) window.adminPolarChartInstance.destroy();
+            window.adminPolarChartInstance = new Chart(document.getElementById('adminPolarChart').getContext('2d'), {
+                type: 'polarArea',
+                data: {
+                    labels: ['Published', 'Drafts'],
+                    datasets: [{
+                        data: [statusCount['Published'], statusCount['Draft']],
+                        backgroundColor: ['rgba(59, 130, 246, 0.7)', 'rgba(234, 179, 8, 0.7)'],
+                        borderWidth: 2,
+                        borderColor: isLight ? '#fff' : '#16161e'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: { grid: { color: gridColor }, ticks: { display: false } }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { color: textColor, font: {size: 11, family:'Inter'}, usePointStyle: true, padding: 15 } },
+                        tooltip: { backgroundColor: 'rgba(22, 22, 30, 0.9)', titleFont: {family:'Inter'}, bodyFont: {family:'Inter'}, padding: 10, cornerRadius: 8 }
+                    }
+                }
+            });
+            adminRenderActivityChart();
+        }
+        
+        let adminBannedMap = {}; 
+        let adminMutedMap = {}; 
+        let dbUsersData = {}; 
+        let dbUsers = {};
+
+        function adminInitUsersListener() {
+            db.ref('banned_users').on('value', s => { adminBannedMap = s.val() || {}; adminCompileUsers(); });
+            db.ref('muted_users').on('value', s => { adminMutedMap = s.val() || {}; adminCompileUsers(); });
+            db.ref('users_data').on('value', s => { dbUsersData = s.val() || {}; adminCompileUsers(); });
+            db.ref('users').on('value', s => { dbUsers = s.val() || {}; adminCompileUsers(); });
+        }
+        
+        function adminCompileUsers() {
+            allUsersData = [];
+            let combined = {};
+            if (dbUsers && typeof dbUsers === 'object') {
+                Object.keys(dbUsers).forEach(k => {
+                    if (dbUsers[k] && typeof dbUsers[k] === 'object') {
+                        combined[k] = { ...dbUsers[k] };
+                    }
+                });
+            }
+            if (dbUsersData && typeof dbUsersData === 'object') {
+                Object.keys(dbUsersData).forEach(k => {
+                    if (dbUsersData[k] && typeof dbUsersData[k] === 'object') {
+                        combined[k] = { ...(combined[k] || {}), ...dbUsersData[k] };
+                    }
+                });
+            }
+            Object.keys(combined).forEach(uid => {
+                let d = combined[uid];
+                if (!d.email || d.email.trim() === "") return;
+                d.uid = String(uid);
+                d.role = d.role || 'user';
+                if (d.email === 'rep6se@gmail.com' || uid === 'WbS1bU2tQZNDrP...') d.role = 'admin';
+                d.isBanned = !!adminBannedMap[uid];
+                d.isMuted = !!adminMutedMap[uid];
+                d.level = Math.floor((d.xp || 0) / 50) + 1;
+                d.displayName = d.customName || d.username || d.displayName || d.name || d.email || "User " + String(uid).substring(0, 5);
+                d.avatar = d.customAvatar || d.photoURL || d.profile_picture || d.photo || 'https://placehold.co/40/222/fff?text=U';
+                allUsersData.push(d);
+            });
+            const statEl = document.getElementById('adminStatMembers');
+            if (statEl) statEl.innerText = allUsersData.length;
+            adminRenderUsers();
         }
 
-        function unbanUser(uid) {
-            showConfirmAlert("Unban this user?", async () => {
-                await db.ref(`banned_users/${uid}`).remove();
-                showInfoAlert("User has been unbanned.", "success");
+        function adminFilterUsers() { adminRenderUsers(); }
+        
+        function adminRenderUsers() {
+            const queryEl = document.getElementById('adminMemberSearchInput');
+            if (!queryEl) return;
+            const query = queryEl.value.toLowerCase(); 
+            const list = document.getElementById('adminMembersList');
+            if (!list) return;
+            let filtered = allUsersData.filter(u => 
+                String(u.displayName || "").toLowerCase().includes(query) || 
+                String(u.uid || "").toLowerCase().includes(query) ||
+                String(u.email || "").toLowerCase().includes(query)
+            );
+            if (filtered.length === 0) {
+                list.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding: 20px;">No users found.</p>';
+                return;
+            }
+            let html = '';
+            filtered.forEach(u => {
+                let roleHtml = u.role === 'mod' ? '<span class="admin-status-badge admin-status-mod">Moderator</span>' : '<span class="admin-status-badge" style="background:var(--card-hover);color:var(--text-muted);border:1px solid var(--border-color);">User</span>';
+                if (u.role === 'admin') roleHtml = '<span class="admin-status-badge admin-status-admin">Admin</span>';
+                let restrictHtml = ''; 
+                if (u.isBanned) restrictHtml += '<span class="admin-status-badge admin-status-banned">Banned</span> '; 
+                if (u.isMuted) restrictHtml += '<span class="admin-status-badge admin-status-muted">Muted</span>';
+                let modBtn = '';
+                if (globalUserRole === 'admin') {
+                    modBtn = u.role === 'mod' ? `<button class="admin-action-icon" onclick="adminUpdateUserRole('${u.uid}', 'user', '${escapeHTML(u.displayName)}')"><i class="fa-solid fa-arrow-down"></i></button>` : `<button class="admin-action-icon" onclick="adminUpdateUserRole('${u.uid}', 'mod', '${escapeHTML(u.displayName)}')"><i class="fa-solid fa-shield"></i></button>`;
+                }
+                let banBtn = u.isBanned ? `<button class="admin-action-icon success" onclick="adminToggleRestriction('banned_users', '${u.uid}', false, '${escapeHTML(u.displayName)}')"><i class="fa-solid fa-check"></i></button>` : `<button class="admin-action-icon delete" onclick="adminToggleRestriction('banned_users', '${u.uid}', true, '${escapeHTML(u.displayName)}')"><i class="fa-solid fa-gavel"></i></button>`;
+                let muteBtn = u.isMuted ? `<button class="admin-action-icon success" onclick="adminToggleRestriction('muted_users', '${u.uid}', false, '${escapeHTML(u.displayName)}')"><i class="fa-solid fa-comment"></i></button>` : `<button class="admin-action-icon delete" style="color:#eab308;" onclick="adminToggleRestriction('muted_users', '${u.uid}', true, '${escapeHTML(u.displayName)}')"><i class="fa-solid fa-comment-slash"></i></button>`;
+                
+                let cls = u.level >= 100 ? 'frame-100' : (u.level >= 50 ? 'frame-50' : '');
+                if(u.email === "rep6se@gmail.com") cls = "";
+
+                html += `<div class="admin-list-item"><div class="admin-list-info"><img src="${escapeHTML(u.avatar)}" class="${cls}"><div class="admin-list-text"><h4>${escapeHTML(u.displayName)} ${roleHtml}</h4><p>Lvl ${u.level} | ${u.xp || 0} XP ${restrictHtml}<br><span style="font-size:10px; color:#555;">${escapeHTML(u.email)}</span></p></div></div><div class="admin-actions">${modBtn}<button class="admin-action-icon" onclick="adminAddXp('${u.uid}', '${escapeHTML(u.displayName)}')"><i class="fa-solid fa-plus"></i></button>${muteBtn}${banBtn}</div></div>`;
             });
+            list.innerHTML = html;
         }
 
-        function unmuteUser(uid) {
-            showConfirmAlert("Unmute this user?", async () => {
-                await db.ref(`muted_users/${uid}`).remove();
-                showInfoAlert("User has been unmuted.", "success");
-            });
+        function adminUpdateUserRole(uid, newRole, userName) { 
+            adminShowAlert("Confirm", `Change role to ${newRole}?`, "warning", async () => { 
+                await db.ref(`users_data/${uid}/role`).set(newRole); 
+                await db.ref(`users/${uid}/role`).set(newRole); 
+                logAdminAction('user', 'Change Role', userName, `Changed to ${newRole}`);
+            }); 
         }
-
+        function adminAddXp(uid, userName) { 
+            adminShowAlert("Confirm", "Add 5000 XP?", "warning", async () => { 
+                let snap = await db.ref(`users_data/${uid}/xp`).once('value'); 
+                await db.ref(`users_data/${uid}/xp`).set((snap.val() || 0) + 5000); 
+                await db.ref(`users/${uid}/xp`).set((snap.val() || 0) + 5000); 
+                showToast("XP Added", "success");
+                logAdminAction('user', 'Add XP', userName, 'Added 5000 XP');
+            }); 
+        }
+        function adminToggleRestriction(path, uid, isAdding, userName) { 
+            let act = isAdding ? (path==='banned_users'?'Ban':'Mute') : (path==='banned_users'?'Unban':'Unmute'); 
+            adminShowAlert("Confirm", `${act} user?`, "warning", async () => { 
+                if(isAdding) await db.ref(`${path}/${uid}`).set(true); 
+                else await db.ref(`${path}/${uid}`).remove(); 
+                showToast("Action successful", "success");
+                logAdminAction('user', act, userName, `${act} applied to user`);
+            }); 
+        }
+        
         function fetchAdminMods() {
             db.ref('apks').on('value', snapshot => {
-                allAdminMods = [];
-                let totalDownloads = 0;
-
-                if (snapshot.exists()) {
-                    snapshot.forEach(c => {
-                        let d = c.val();
-                        d.id = c.key;
-                        allAdminMods.push(d);
-                        totalDownloads += (d.downloads || 0);
-                    });
-                    allAdminMods.reverse();
-                }
-                
-                document.getElementById('statApps').innerText = allAdminMods.length;
-                document.getElementById('statDownloads').innerText = totalDownloads;
-
-                filterAdminApps();
-            }, error => {
-                showInfoAlert("Error loading apps: " + error.message, "error");
+                allAdminMods = []; let tDl = 0;
+                if (snapshot.exists()) { snapshot.forEach(c => { let d = c.val(); d.id = c.key; allAdminMods.push(d); tDl += (d.downloads || 0); }); allAdminMods.reverse(); }
+                document.getElementById('adminStatApps').innerText = allAdminMods.length; document.getElementById('adminStatDownloads').innerText = tDl;
+                adminFilterApps(); adminRenderCharts();
             });
         }
-
-        document.getElementById('adminSearchInput').addEventListener('input', filterAdminApps);
-
-        function filterAdminApps() {
-            const query = document.getElementById('adminSearchInput').value.toLowerCase();
-            currentFilteredMods = allAdminMods.filter(m => m.title.toLowerCase().includes(query) || (m.developer && m.developer.toLowerCase().includes(query)));
-            renderedAppCount = 0;
-            document.getElementById('adminAppList').innerHTML = '';
-            document.getElementById('selectAllCb').checked = false;
-            updateBulkBar();
-            loadMoreAdminApps();
+        function adminFilterApps() {
+            const query = document.getElementById('adminDbSearchInput').value.toLowerCase();
+            adminCurrentFilteredMods = allAdminMods.filter(m => m.title.toLowerCase().includes(query) || (m.developer && m.developer.toLowerCase().includes(query)));
+            document.getElementById('adminSelectAllCb').checked = false; adminUpdateBulkBar(); adminRenderAppPage(1);
         }
-
-        function loadMoreAdminApps() {
-            const list = document.getElementById('adminAppList');
-            const btnLoad = document.getElementById('adminLoadMoreBtn');
-            
-            if (currentFilteredMods.length === 0) {
-                btnLoad.style.display = 'none';
-                return list.innerHTML = '<p style="text-align:center; color:#666;">No apps found.</p>';
+        function adminRenderAppPage(page) {
+            adminCurrentPage = page;
+            const start = (page - 1) * ADMIN_APPS_PER_PAGE;
+            const end = start + ADMIN_APPS_PER_PAGE;
+            const batch = adminCurrentFilteredMods.slice(start, end);
+            const list = document.getElementById('adminAppListContainer');
+            if (adminCurrentFilteredMods.length === 0) {
+                list.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px;">No applications found.</p>';
+                document.getElementById('adminPaginationControls').innerHTML = '';
+                return;
             }
-            
-            const nextBatch = currentFilteredMods.slice(renderedAppCount, renderedAppCount + APPS_PER_RENDER);
-            nextBatch.forEach(mod => {
-                const liveUrl = `/?app=${mod.id}`;
-                const draftClass = mod.status === 'Draft' ? 'draft-mode' : '';
-                const draftBadge = mod.status === 'Draft' ? '<span class="badge-draft">DRAFT</span>' : '';
-                
-                list.innerHTML += `
-                    <div class="app-list-item ${draftClass}">
-                        <input type="checkbox" class="app-cb" value="${mod.id}" onchange="updateBulkBar()">
-                        <div class="app-info-mini">
-                            <img src="${mod.image}" onerror="this.src='https://placehold.co/100/1a1a24/ff4c4c?text=IMG'">
-                            <div>
-                                <h4>${escapeHTML(mod.title)} ${draftBadge}</h4>
-                                <p>${mod.category} | <i class="fa-solid fa-download" style="font-size:10px;"></i> ${mod.downloads || 0}</p>
-                            </div>
-                        </div>
-                        <div class="app-actions">
-                            <a href="${liveUrl}" target="_blank" class="action-btn btn-view"><i class="fa-solid fa-eye"></i></a>
-                            <button class="action-btn btn-edit" onclick="startEdit('${mod.id}')"><i class="fa-solid fa-pen"></i></button>
-                            <button class="action-btn btn-delete" onclick="deleteMod('${mod.id}')"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>
-                `;
+            let html = '';
+            batch.forEach(mod => {
+                html += `<div class="admin-list-item" style="${mod.status === 'Draft' ? 'opacity:0.6;' : ''}"><input type="checkbox" class="admin-custom-checkbox admin-app-cb" value="${mod.id}" data-title="${escapeHTML(mod.title)}" onchange="adminUpdateBulkBar()"><div class="admin-list-info"><img src="${mod.image}" onerror="this.src='https://placehold.co/44/222/fff'"><div class="admin-list-text"><h4>${escapeHTML(mod.title)}</h4><p>${mod.category} | <i class="fa-solid fa-download"></i> ${mod.downloads || 0}</p></div></div><div class="admin-actions"><button class="admin-action-icon edit" onclick="adminStartEdit('${mod.id}')"><i class="fa-solid fa-pen"></i></button><button class="admin-action-icon delete" onclick="adminDeleteMod('${mod.id}', '${escapeHTML(mod.title.replace(/'/g, "\\'"))}')"><i class="fa-solid fa-trash"></i></button></div></div>`;
             });
-            
-            renderedAppCount += nextBatch.length;
-            btnLoad.style.display = (renderedAppCount < currentFilteredMods.length) ? 'flex' : 'none';
-            updateBulkBar(); 
+            list.innerHTML = html;
+            adminRenderPagination();
         }
-
-        // --- BULK ACTIONS ---
-        function toggleBulkSelectAll() {
-            const isChecked = document.getElementById('selectAllCb').checked;
-            document.querySelectorAll('.app-cb').forEach(cb => cb.checked = isChecked);
-            updateBulkBar();
-        }
-
-        function updateBulkBar() {
-            let checkedCount = document.querySelectorAll('.app-cb:checked').length;
-            document.getElementById('bulkCount').innerText = checkedCount;
-            document.getElementById('bulkActionBar').style.display = checkedCount > 0 ? 'flex' : 'none';
-        }
-
-        function getSelectedIds() {
-            let ids = [];
-            document.querySelectorAll('.app-cb:checked').forEach(cb => ids.push(cb.value));
-            return ids;
-        }
-
-        function bulkDelete() {
-            const ids = getSelectedIds();
-            if (ids.length === 0) return;
-            showConfirmAlert(`Delete ${ids.length} apps permanently?`, async () => {
-                for (let id of ids) {
-                    await db.ref('apks/' + id).remove();
-                    await db.ref('comments/' + id).remove();
-                    await db.ref('ratings/' + id).remove();
-                    await db.ref('requests/' + id).remove();
-                    await db.ref('reports/' + id).remove();
-                    await db.ref('votes/' + id).remove();
+        function adminRenderPagination() {
+            const totalPages = Math.ceil(adminCurrentFilteredMods.length / ADMIN_APPS_PER_PAGE);
+            const container = document.getElementById('adminPaginationControls');
+            let html = '';
+            if (totalPages <= 1) { container.innerHTML = ''; return; }
+            html += `<button class="admin-page-btn" ${adminCurrentPage === 1 ? 'disabled' : ''} onclick="adminRenderAppPage(${adminCurrentPage - 1})"><i class="fa-solid fa-chevron-left"></i></button>`;
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= adminCurrentPage - 1 && i <= adminCurrentPage + 1)) {
+                    html += `<button class="admin-page-btn ${i === adminCurrentPage ? 'active' : ''}" onclick="adminRenderAppPage(${i})">${i}</button>`;
+                } else if (i === adminCurrentPage - 2 || i === adminCurrentPage + 2) {
+                    html += `<span style="color:var(--text-muted); padding: 0 5px;">...</span>`;
                 }
-                showInfoAlert(`Deleted ${ids.length} apps.`, "success");
-                document.getElementById('selectAllCb').checked = false;
+            }
+            html += `<button class="admin-page-btn" ${adminCurrentPage === totalPages ? 'disabled' : ''} onclick="adminRenderAppPage(${adminCurrentPage + 1})"><i class="fa-solid fa-chevron-right"></i></button>`;
+            container.innerHTML = html;
+        }
+        function adminToggleBulkSelectAll() { const checked = document.getElementById('adminSelectAllCb').checked; document.querySelectorAll('.admin-app-cb').forEach(cb => cb.checked = checked); adminUpdateBulkBar(); }
+        function adminUpdateBulkBar() { const c = document.querySelectorAll('.admin-app-cb:checked').length; document.getElementById('adminBulkCount').innerText = c; document.getElementById('adminBulkActionBar').style.display = c > 0 ? 'flex' : 'none'; }
+        
+        function adminBulkDelete() {
+            const checkboxes = Array.from(document.querySelectorAll('.admin-app-cb:checked'));
+            const ids = checkboxes.map(cb => cb.value); 
+            if (!ids.length) return;
+            adminShowAlert("Confirm", `Delete ${ids.length} apps?`, "warning", async () => {
+                for(let id of ids) { await db.ref('apks/' + id).remove(); await db.ref('comments/' + id).remove(); await db.ref('ratings/' + id).remove(); }
+                document.getElementById('adminSelectAllCb').checked = false; 
+                showToast("Deleted successfully", "success");
+                logAdminAction('app', 'Bulk Delete', `${ids.length} Apps`, `Deleted multiple apps simultaneously`);
             });
         }
-
-        function bulkChangeStatus(newStatus) {
-            const ids = getSelectedIds();
-            if (ids.length === 0) return;
-            showConfirmAlert(`Change status of ${ids.length} apps to ${newStatus}?`, async () => {
-                let updates = {};
-                for (let id of ids) { updates[`apks/${id}/status`] = newStatus; }
-                await db.ref().update(updates);
-                showInfoAlert(`Status updated to ${newStatus}.`, "success");
-                document.getElementById('selectAllCb').checked = false;
+        function adminBulkChangeStatus(st) {
+            const checkboxes = Array.from(document.querySelectorAll('.admin-app-cb:checked'));
+            const ids = checkboxes.map(cb => cb.value); 
+            if (!ids.length) return;
+            adminShowAlert("Confirm", `Change status to ${st}?`, "warning", async () => { 
+                let u = {}; ids.forEach(id => u[`apks/${id}/status`] = st); 
+                await db.ref().update(u); 
+                document.getElementById('adminSelectAllCb').checked = false; 
+                showToast("Status updated", "success");
+                logAdminAction('app', 'Bulk Status', `${ids.length} Apps`, `Changed status to ${st}`);
             });
         }
-        // --------------------
-
-        function fetchAllComments() {
+        function adminDeleteMod(id, title) { 
+            adminShowAlert("Confirm", "Delete app?", "warning", async () => { 
+                await db.ref('apks/' + id).remove(); 
+                await db.ref('comments/' + id).remove(); 
+                await db.ref('ratings/' + id).remove(); 
+                showToast("App deleted", "success");
+                logAdminAction('app', 'Delete App', title, 'Removed app from database');
+            }); 
+        }
+        
+        function adminFetchAllComments() {
             db.ref('comments').on('value', snap => {
-                const list = document.getElementById('allCommentsList');
-                list.innerHTML = '';
-                let allComms = [];
-                globalCommentsData = {};
-                let totalComments = 0;
-
+                const list = document.getElementById('adminAllCommentsList'); let comms = []; let total = 0;
                 if (snap.exists()) {
-                    snap.forEach(appNode => {
-                        let appId = appNode.key;
-                        appNode.forEach(commNode => {
-                            let data = commNode.val();
-                            data.appId = appId;
-                            data.id = commNode.key;
-                            allComms.push(data);
-                            globalCommentsData[commNode.key] = data;
-                            totalComments++;
+                    snap.forEach(aNode => { aNode.forEach(cNode => { let d = cNode.val(); d.appId = aNode.key; d.id = cNode.key; comms.push(d); total++; }); });
+                    comms.sort((a,b) => b.timestamp - a.timestamp); document.getElementById('adminStatComments').innerText = total;
+                    let html = '';
+                    comms.forEach(c => {
+                        let appN = allAdminMods.find(m => m.id === c.appId)?.title || "App";
+                        html += `<div class="admin-list-item" style="align-items:flex-start;"><img src="${c.photo}" style="width:32px;height:32px;border-radius:50%; margin-top:2px; min-width:32px;"><div class="admin-list-text" style="flex:1;"><div style="display:flex; justify-content:space-between; margin-bottom:2px;"><strong>${escapeHTML(c.name)}</strong><span style="font-size:10px; color:var(--text-muted);">${adminFormatDate(c.timestamp)}</span></div><span class="admin-status-badge" style="background:var(--card-hover); color:var(--text-muted); border:1px solid var(--border-color); margin-bottom:6px; display:inline-block;">${escapeHTML(appN)}</span><p style="color:var(--text-color); font-size:12px; line-height:1.4; margin-bottom:8px; white-space:normal; overflow:visible; text-overflow:clip;">${escapeHTML(c.text)}</p></div><button class="admin-action-icon delete" onclick="adminDelCom('${c.appId}','${c.id}','${escapeHTML(c.name.replace(/'/g, "\\'"))}')"><i class="fa-solid fa-trash"></i></button></div>`;
+                    });
+                    list.innerHTML = html;
+                } else { document.getElementById('adminStatComments').innerText = 0; list.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px;">No comments.</p>'; }
+            });
+        }
+        function adminDelCom(a, c, userName) { 
+            adminShowAlert("Confirm", "Delete comment?", "warning", async () => { 
+                await db.ref(`comments/${a}/${c}`).remove(); 
+                await db.ref(`reported_comments/${a}/${c}`).remove(); 
+                showToast("Comment deleted", "success");
+                logAdminAction('mod', 'Delete Comment', userName || 'User', 'Deleted user comment');
+            }); 
+        }
+        
+        function adminFetchUserInteractions() {
+            db.ref('reported_comments').on('value', async snap => {
+                const list = document.getElementById('adminReportedList'); let t = 0, h = '';
+                if(snap.exists()){
+                    for(const aNode of Object.entries(snap.val())) {
+                        for(const cId of Object.keys(aNode[1])) {
+                            let cSnap = await db.ref(`comments/${aNode[0]}/${cId}`).once('value');
+                            if(cSnap.exists()) {
+                                t++; let cd = cSnap.val();
+                                h += `<div class="admin-list-item" style="border-left: 3px solid #ff4c4c;"><div class="admin-list-text" style="flex:1;"><strong>${escapeHTML(cd.name)}</strong><p style="color:var(--text-color); margin:6px 0; white-space:normal; overflow:visible; text-overflow:clip;">${escapeHTML(cd.text)}</p></div><div class="admin-actions"><button class="admin-action-icon delete" onclick="adminDelCom('${aNode[0]}','${cId}','${escapeHTML(cd.name.replace(/'/g, "\\'"))}')"><i class="fa-solid fa-trash"></i></button><button class="admin-action-icon success" onclick="adminIgnRep('${aNode[0]}','${cId}')"><i class="fa-solid fa-check"></i></button></div></div>`;
+                            } else { await db.ref(`reported_comments/${aNode[0]}/${cId}`).remove(); }
+                        }
+                    }
+                }
+                document.getElementById('adminBadBadge').innerText = t; document.getElementById('adminBadBadge').style.display = t ? 'inline-block' : 'none'; list.innerHTML = t ? h : '<p style="text-align:center; color:var(--text-muted); padding:20px;">No reports.</p>';
+            });
+            db.ref('requests').on('value', snap => {
+                const list = document.getElementById('adminRequestsList'); let t = 0, h = '';
+                if(snap.exists()){
+                    snap.forEach(aNode => {
+                        let isNew = aNode.key === 'new_requests';
+                        aNode.forEach(rNode => {
+                            let req = rNode.val();
+                            if(req.status === 'pending') {
+                                t++; let act = isNew ? 'new_request' : 'update';
+                                let upvotes = req.upvotes ? Object.keys(req.upvotes).length : 0;
+                                let upvoteBadge = isNew ? ' | <i class="fa-solid fa-arrow-up" style="color:#4ade80;"></i> ' + upvotes : '';
+                                h += `<div class="admin-list-item"><div class="admin-list-text" style="flex:1;"><span class="admin-status-badge admin-status-mod" style="margin-bottom:4px; display:inline-block;">${isNew?'New Game':'Update'}</span><h4 style="margin:2px 0;">${escapeHTML(req.appName)}</h4><p>${escapeHTML(req.requestedVersion)} | ${adminFormatDate(req.timestamp)}${upvoteBadge}</p></div><div class="admin-actions"><button class="admin-action-icon success" onclick="adminResReq('${act}','${aNode.key}','${rNode.key}','${escapeHTML(req.appName.replace(/'/g, "\\'"))}','approve')"><i class="fa-solid fa-check"></i></button><button class="admin-action-icon delete" onclick="adminResReq('${act}','${aNode.key}','${rNode.key}','${escapeHTML(req.appName.replace(/'/g, "\\'"))}','reject')"><i class="fa-solid fa-xmark"></i></button></div></div>`;
+                            }
                         });
                     });
-
-                    allComms.sort((a,b) => b.timestamp - a.timestamp);
-                    document.getElementById('statComments').innerText = totalComments;
-                    
-                    let html = '';
-                    allComms.forEach(c => {
-                        const appName = allAdminMods.find(m => m.id === c.appId)?.title || "Unknown App";
-                        let adminRepliesHtml = '';
-                        
-                        if (c.replies) {
-                            Object.keys(c.replies).forEach(rKey => {
-                                let rep = c.replies[rKey];
-                                adminRepliesHtml += `
-                                    <div class="admin-reply-item">
-                                        <div><b>Reply by ${escapeHTML(rep.name)}:</b> ${escapeHTML(rep.text)}</div>
-                                        <button class="action-btn btn-delete" style="width:24px;height:24px;font-size:10px;" onclick="adminDeleteReply('${c.appId}', '${c.id}', '${rKey}')">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                    </div>
-                                `;
-                            });
-                        }
-
-                        html += `
-                            <div class="msg-card">
-                                <div class="msg-header">
-                                    <div class="msg-user">
-                                        <img src="${c.photo}" onerror="this.src='https://placehold.co/20/1a1a24/fff?text=U'"> 
-                                        ${escapeHTML(c.name)}
-                                    </div>
-                                    <div class="msg-date">${formatDate(c.timestamp)}</div>
-                                </div>
-                                <div class="msg-title" style="font-size:12px; color:#888; margin-bottom:6px;">
-                                    <i class="fa-solid fa-gamepad" style="font-size:10px;"></i> ${escapeHTML(appName)}
-                                </div>
-                                <p style="font-size:13px; color:#fff; margin-bottom:10px; word-wrap: break-word;">
-                                    ${escapeHTML(c.text)}
-                                </p>
-                                ${adminRepliesHtml}
-                                <div class="msg-actions">
-                                    <button class="btn-del-com" onclick="adminDeleteComment('${c.appId}', '${c.id}')">
-                                        <i class="fa-solid fa-trash"></i> Delete Post
-                                    </button>
-                                    <button class="btn-mute-user" onclick="adminMuteUser('${c.uid}', '${escapeHTML(c.name).replace(/'/g, "\\'")}')">
-                                        <i class="fa-solid fa-microphone-lines-slash"></i> Mute
-                                    </button>
-                                    <button class="btn-ban-user" onclick="adminBanUser('${c.uid}', '${escapeHTML(c.name).replace(/'/g, "\\'")}')">
-                                        <i class="fa-solid fa-ban"></i> Ban
-                                    </button>
-                                </div>
-                            </div>
-                        `;
-                    });
-                    
-                    list.innerHTML = allComms.length > 0 ? html : '<p style="text-align:center; color:#666;">No comments yet.</p>';
-                } else {
-                    document.getElementById('statComments').innerText = 0;
-                    list.innerHTML = '<p style="text-align:center; color:#666;">No comments yet.</p>';
                 }
-            }, error => {
-                document.getElementById('allCommentsList').innerHTML = `<p style="text-align:center; color:#ff4c4c;">Error loading comments: ${error.message}</p>`;
+                document.getElementById('adminReqBadge').innerText = t; document.getElementById('adminReqBadge').style.display = t ? 'inline-block' : 'none'; list.innerHTML = t ? h : '<p style="text-align:center; color:var(--text-muted); padding:20px;">No requests.</p>';
             });
-        }
-
-        function adminDeleteComment(appId, commentId) {
-            showConfirmAlert("Delete this comment permanently?", async () => {
-                await db.ref(`comments/${appId}/${commentId}`).remove();
-                await db.ref(`reported_comments/${appId}/${commentId}`).remove();
-                showInfoAlert("Comment deleted.", "success");
-            });
-        }
-
-        function adminDeleteReply(appId, commentId, replyId) {
-            showConfirmAlert("Delete this reply?", async () => {
-                await db.ref(`comments/${appId}/${commentId}/replies/${replyId}`).remove();
-                showInfoAlert("Reply deleted.", "success");
+            db.ref('reports').on('value', snap => {
+                const list = document.getElementById('adminReportsList'); let t = 0, h = '';
+                if(snap.exists()){
+                    snap.forEach(aNode => { 
+                        aNode.forEach(rNode => { 
+                            t++; 
+                            let rep = rNode.val(); 
+                            let reason = rep.reason || 'Broken Link';
+                            h += `<div class="admin-list-item" style="border-left: 3px solid #eab308;"><div class="admin-list-text" style="flex:1;"><h4>${escapeHTML(rep.appName)}</h4><p>${escapeHTML(reason)} | ${adminFormatDate(rep.timestamp)}</p></div><button class="admin-action-icon success" onclick="adminFixRep('${aNode.key}','${rNode.key}', '${escapeHTML(rep.appName.replace(/'/g, "\\'"))}')"><i class="fa-solid fa-check"></i></button></div>`; 
+                        }); 
+                    });
+                }
+                document.getElementById('adminRepBadge').innerText = t; document.getElementById('adminRepBadge').style.display = t ? 'inline-block' : 'none'; list.innerHTML = t ? h : '<p style="text-align:center; color:var(--text-muted); padding:20px;">No links reported.</p>';
             });
         }
         
-        function adminBanUser(uid, name) {
-            if(!uid) return;
-            showConfirmAlert(`Block user ${name} completely?`, async () => {
-                await db.ref(`banned_users/${uid}`).set(true);
-                showInfoAlert(`${name} has been banned.`, "success");
-            });
+        async function adminIgnRep(a, c) { 
+            await db.ref(`reported_comments/${a}/${c}`).remove(); 
+            showToast("Report ignored", "success"); 
+            logAdminAction('mod', 'Ignore Report', 'Comment', 'Ignored a reported comment');
+        }
+        function adminFixRep(a, r, appName) { 
+            adminShowAlert("Confirm", "Mark fixed?", "warning", async () => { 
+                await db.ref(`reports/${a}/${r}`).remove(); 
+                showToast("Marked as fixed", "success"); 
+                logAdminAction('req', 'Solve Report', appName, 'Marked broken link as fixed');
+            }); 
         }
 
-        function adminMuteUser(uid, name) {
-            if(!uid) return;
-            showConfirmAlert(`Mute user ${name} from commenting?`, async () => {
-                await db.ref(`muted_users/${uid}`).set(true);
-                showInfoAlert(`${name} has been muted.`, "success");
-            });
-        }
-
-        function fetchUserInteractions() {
-            // Reported Comments Listener (Diperbaiki menggunakan Promise.all untuk fetch data langsung dari server)
-            db.ref('reported_comments').on('value', async snap => {
-                const list = document.getElementById('reportedList');
-                let totalBad = 0;
-                let html = '';
-
-                if (snap.exists()) {
-                    let promises = [];
-                    snap.forEach(appNode => {
-                        let appId = appNode.key;
-                        appNode.forEach(repNode => {
-                            let commentId = repNode.key;
-                            
-                            // Fetch data komentar yg di-report secara spesifik
-                            let p = db.ref(`comments/${appId}/${commentId}`).once('value').then(cSnap => {
-                                if(cSnap.exists()) {
-                                    totalBad++;
-                                    let cData = cSnap.val();
-                                    return `
-                                        <div class="msg-card" style="border-left: 3px solid #ffcc00;">
-                                            <div class="msg-header">
-                                                <div class="msg-title">
-                                                    <i class="fa-solid fa-flag" style="color:#ffcc00"></i> Reported Comment
-                                                </div>
-                                                <div class="msg-user">${escapeHTML(cData.name)}</div>
-                                            </div>
-                                            <p style="font-size:13px; color:#fff; margin-bottom:10px;">${escapeHTML(cData.text)}</p>
-                                            <div class="msg-actions">
-                                                <button class="btn-del-com" onclick="adminDeleteComment('${appId}', '${commentId}')">
-                                                    <i class="fa-solid fa-trash"></i> Delete
-                                                </button>
-                                                <button class="btn-check" onclick="resolveMsg('reported_comments/${appId}', '', '${commentId}')">
-                                                    <i class="fa-solid fa-check"></i> Ignore Report
-                                                </button>
-                                            </div>
-                                        </div>
-                                    `;
-                                } else {
-                                    // Hapus report jika komentar ternyata sudah terhapus di DB
-                                    db.ref(`reported_comments/${appId}/${commentId}`).remove();
-                                    return '';
-                                }
-                            });
-                            promises.push(p);
-                        });
+        function adminResReq(type, aId, rId, name, dec) { 
+            adminShowAlert("Confirm", `${dec==='approve'?'Approve':'Reject'} ${name}?`, "warning", async () => { 
+                let statusVal = dec === 'approve' ? 'approved' : 'rejected';
+                await db.ref(`requests/${aId}/${rId}`).update({status: statusVal}); 
+                let userUid = "";
+                let reqNodeId = ""; 
+                if (type === 'new_request') {
+                    userUid = rId.split('_')[0];
+                    reqNodeId = rId;
+                } else {
+                    userUid = rId;
+                    reqNodeId = aId;
+                }
+                if (userUid && reqNodeId) {
+                    await db.ref(`users_data/${userUid}/my_requests/${reqNodeId}`).update({status: statusVal});
+                    let notifTitle = dec === 'approve' ? "Request Approved!" : "Request Rejected";
+                    let notifText = dec === 'approve' ? `Good news! Your request for "${name}" has been approved and will be added/updated soon.` : `Sorry, your request for "${name}" was rejected.`;
+                    await db.ref(`notifications/${userUid}`).push({
+                        title: notifTitle,
+                        text: notifText,
+                        time: firebase.database.ServerValue.TIMESTAMP,
+                        read: false
                     });
-                    let results = await Promise.all(promises);
-                    html = results.join('');
                 }
-                
-                document.getElementById('badBadge').innerText = totalBad;
-                document.getElementById('badBadge').style.display = totalBad > 0 ? 'inline-block' : 'none';
-                list.innerHTML = totalBad > 0 ? html : '<p style="text-align:center; color:#666; font-size:12px;">No reported comments.</p>';
-            });
-
-            // Requests Listener
-            db.ref('requests').on('value', snap => { 
-                const list = document.getElementById('requestsList');
-                list.innerHTML = '';
-                let totalReq = 0;
-                let html = '';
-                
-                if (snap.exists()) { 
-                    snap.forEach(appNode => { 
-                        let appId = appNode.key; 
-                        if (appId === "new_requests") {
-                            appNode.forEach(reqNode => {
-                                let req = reqNode.val();
-                                if(req.status === 'pending') { 
-                                    totalReq++;
-                                    let targetUid = reqNode.key.split('_')[0]; 
-                                    html += `
-                                        <div class="msg-card">
-                                            <div class="msg-header">
-                                                <div class="msg-title">
-                                                    <i class="fa-solid fa-gamepad" style="color:#4ade80"></i> ${escapeHTML(req.appName)}
-                                                </div>
-                                                <div class="msg-date">${formatDate(req.timestamp)}</div>
-                                            </div>
-                                            <div class="msg-user">
-                                                <i class="fa-solid fa-envelope"></i> New Game Request
-                                            </div>
-                                            <p style="color:#fff; font-size:12px; margin-bottom:10px;">
-                                                Note/Link: <b>${escapeHTML(req.requestedVersion)}</b>
-                                            </p>
-                                            <div class="msg-actions">
-                                                <button class="btn-check" onclick="resolveAndNotify('new_request', '${appId}', '${reqNode.key}', '${escapeHTML(req.appName)}', '${targetUid}', 'approve')">
-                                                    <i class="fa-solid fa-check"></i> Approve
-                                                </button>
-                                                <button class="btn-cross" onclick="resolveAndNotify('new_request', '${appId}', '${reqNode.key}', '${escapeHTML(req.appName)}', '${targetUid}', 'reject')">
-                                                    <i class="fa-solid fa-xmark"></i> Reject
-                                                </button>
-                                                <button class="btn-del-com" onclick="resolveMsg('requests/${appId}', '', '${reqNode.key}')">
-                                                    <i class="fa-solid fa-trash"></i> Delete
-                                                </button>
-                                            </div>
-                                        </div>
-                                    `;
-                                }
-                            });
-                        } else {
-                            appNode.forEach(reqNode => { 
-                                let req = reqNode.val(); 
-                                if(req.status === 'pending') { 
-                                    totalReq++;
-                                    let targetUid = reqNode.key;
-                                    html += `
-                                        <div class="msg-card">
-                                            <div class="msg-header">
-                                                <div class="msg-title">
-                                                    <i class="fa-solid fa-arrows-rotate" style="color:#4ade80"></i> ${escapeHTML(req.appName)}
-                                                </div>
-                                                <div class="msg-date">${formatDate(req.timestamp)}</div>
-                                            </div>
-                                            <div class="msg-user">
-                                                <i class="fa-solid fa-envelope"></i> Update Request
-                                            </div>
-                                            <p style="color:#fff; font-size:12px; margin-bottom:10px;">
-                                                Requested Version: <b>${escapeHTML(req.requestedVersion)}</b>
-                                            </p>
-                                            <div class="msg-actions">
-                                                <button class="btn-check" onclick="resolveAndNotify('update', '${appId}', '${reqNode.key}', '${escapeHTML(req.appName)}', '${targetUid}', 'approve')">
-                                                    <i class="fa-solid fa-check"></i> Updated
-                                                </button>
-                                                <button class="btn-cross" onclick="resolveAndNotify('update', '${appId}', '${reqNode.key}', '${escapeHTML(req.appName)}', '${targetUid}', 'reject')">
-                                                    <i class="fa-solid fa-xmark"></i> Reject
-                                                </button>
-                                                <button class="btn-del-com" onclick="resolveMsg('requests/${appId}', '', '${reqNode.key}')">
-                                                    <i class="fa-solid fa-trash"></i> Delete
-                                                </button>
-                                            </div>
-                                        </div>
-                                    `; 
-                                }
-                            });
-                        }
-                    }); 
-                }
-                
-                document.getElementById('reqBadge').innerText = totalReq;
-                document.getElementById('reqBadge').style.display = totalReq > 0 ? 'inline-block' : 'none'; 
-                list.innerHTML = totalReq > 0 ? html : '<p style="text-align:center; color:#666; font-size:12px;">No pending requests.</p>'; 
-            });
-
-            // Reports Listener
-            db.ref('reports').on('value', snap => { 
-                const list = document.getElementById('reportsList');
-                list.innerHTML = '';
-                let totalRep = 0;
-                let html = '';
-                
-                if (snap.exists()) { 
-                    snap.forEach(appNode => { 
-                        let appId = appNode.key; 
-                        appNode.forEach(repNode => { 
-                            totalRep++;
-                            let rep = repNode.val(); 
-                            let targetUid = repNode.key;
-                            html += `
-                                <div class="msg-card" style="border-left: 3px solid #ff4c4c;">
-                                    <div class="msg-header">
-                                        <div class="msg-title">
-                                            <i class="fa-solid fa-triangle-exclamation" style="color:#ff4c4c"></i> ${escapeHTML(rep.appName)}
-                                        </div>
-                                        <div class="msg-date">${formatDate(rep.timestamp)}</div>
-                                    </div>
-                                    <div class="msg-user">
-                                        <i class="fa-solid fa-envelope"></i> Broken Link Report
-                                    </div>
-                                    <div class="msg-actions">
-                                        <button class="btn-check" onclick="resolveAndNotify('report', '${appId}', '${repNode.key}', '${escapeHTML(rep.appName)}', '${targetUid}', 'approve')">
-                                            <i class="fa-solid fa-check"></i> Mark as Fixed
-                                        </button>
-                                    </div>
-                                </div>
-                            `; 
-                        }); 
-                    }); 
-                }
-                
-                document.getElementById('repBadge').innerText = totalRep;
-                document.getElementById('repBadge').style.display = totalRep > 0 ? 'inline-block' : 'none'; 
-                list.innerHTML = totalRep > 0 ? html : '<p style="text-align:center; color:#666; font-size:12px;">No error reports.</p>'; 
-            });
+                showToast("Request processed", "success");
+                logAdminAction('req', `${dec==='approve'?'Approve':'Reject'} Request`, name, `Processed user request for game/update`);
+            }); 
         }
-
-        // Fungsi menghapus notifikasi request/report dari list tanpa mengubah status user profile
-        function resolveMsg(type, appId, msgId) {
-            showConfirmAlert("Remove this from the list?", async () => {
-                if(appId) {
-                    await db.ref(`${type}/${appId}/${msgId}`).remove();
-                } else {
-                    await db.ref(`${type}/${msgId}`).remove(); 
-                }
-                showInfoAlert("Removed from list.", "success");
-            });
-        }
-
-        // Resolves request & send notif
-        function resolveAndNotify(actionType, appId, msgId, appName, targetUid, decision) {
-            let confirmMsg = "";
-            let notifTitle = "";
-            let notifText = "";
-            let dbPath = "";
-            let userTrackingPath = "";
-            let newStatus = decision === 'approve' ? 'approved' : 'rejected';
-
-            if (actionType === 'update') {
-                confirmMsg = decision === 'approve' ? `Mark ${appName} as updated?` : `Reject update for ${appName}?`;
-                notifTitle = decision === 'approve' ? "Update Request Completed" : "Update Request Rejected";
-                notifText = decision === 'approve' ? `Your update request for ${appName} has been fulfilled.` : `Your update request for ${appName} could not be fulfilled at this time.`;
-                dbPath = `requests/${appId}/${msgId}`;
-                userTrackingPath = `users_data/${targetUid}/my_requests/${appId}`;
-            } else if (actionType === 'new_request') {
-                confirmMsg = decision === 'approve' ? `Mark ${appName} as added?` : `Reject game request ${appName}?`;
-                notifTitle = decision === 'approve' ? "New Game Added" : "Game Request Rejected";
-                notifText = decision === 'approve' ? `Your request for ${appName} has been added to our catalog.` : `Your request for ${appName} was rejected.`;
-                dbPath = `requests/${appId}/${msgId}`;
-                userTrackingPath = `users_data/${targetUid}/my_requests/${msgId}`;
-            } else if (actionType === 'report') {
-                confirmMsg = `Mark error on ${appName} as fixed and notify the user?`;
-                notifTitle = "Error Fixed";
-                notifText = `The issue you reported for ${appName} has been resolved. Thank you!`;
-                dbPath = `reports/${appId}/${msgId}`;
-            }
-
-            showConfirmAlert(confirmMsg, async () => {
-                try {
-                    if (actionType === 'report') {
-                        await db.ref(dbPath).remove(); // Broken Link hanya butuh dihapus saat solved
-                    } else {
-                        await db.ref(dbPath).update({ status: newStatus });
-                        if(targetUid && userTrackingPath) {
-                            await db.ref(userTrackingPath).update({ status: newStatus });
-                        }
-                    }
-                    
-                    if (targetUid) {
-                        await db.ref(`notifications/${targetUid}`).push({
-                            title: notifTitle,
-                            text: notifText,
-                            time: firebase.database.ServerValue.TIMESTAMP,
-                            read: false
-                        });
-                    }
-                    showInfoAlert("Resolved and user notified!", "success");
-                } catch(e) {
-                    showInfoAlert("Error: " + e.message, "error");
-                }
-            });
-        }
-
-        async function autoFetchPlayStore() {
-            const urlInput = document.getElementById('linkOri').value.trim();
-            if (!urlInput.includes("play.google.com/store/apps/details?id=")) {
-                return showInfoAlert("Please enter a valid Google Play Store URL first.", "error");
-            }
-
-            const btn = document.getElementById('btnAutoFetch');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Fetching...';
-            btn.disabled = true;
-
+        
+        async function adminAutoFetchPlayStore() {
+            const url = document.getElementById('adminLinkOri').value.trim(); if(!url.includes("play.google.com")) return adminShowAlert("Error", "Invalid Play Store URL", "error");
+            const btn = document.getElementById('adminBtnAutoFetch'); const oT = btn.innerHTML; btn.innerHTML = 'Fetching...'; btn.disabled = true;
             try {
-                const response = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(urlInput)}`);
-                if (!response.ok) throw new Error("Failed to fetch page");
-                const html = await response.text();
-                
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, "text/html");
-
-                const titleEl = doc.querySelector('h1[itemprop="name"]');
-                if (titleEl) document.getElementById('title').value = titleEl.innerText.trim();
-
-                const devEl = doc.querySelector('.Vbfug a span');
-                if (devEl) document.getElementById('developer').value = devEl.innerText.trim();
-
-                const imgEl = doc.querySelector('img.T75of.nm4vne') || doc.querySelector('img[alt="Icon image"]');
-                if (imgEl && imgEl.src) document.getElementById('imageUrl').value = imgEl.src.split('=')[0] + '=s256';
-
-                const descEl = doc.querySelector('[data-g-id="description"]');
-                if (descEl) {
-                    let descText = descEl.innerHTML.replace(/<br\s*[\/]?>/gi, "\n").replace(/<[^>]+>/ig, "");
-                    document.getElementById('description').value = descText.trim();
+                const r = await fetch(`https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`); if(!r.ok) throw new Error("Fetch failed");
+                const html = await r.text(); const p = new DOMParser(); const doc = p.parseFromString(html, "text/html");
+                const titleEl = doc.querySelector('h1[itemprop="name"]'); if(titleEl) document.getElementById('adminTitle').value = titleEl.innerText.trim();
+                const devEl = doc.querySelector('.Vbfug a span'); if(devEl) document.getElementById('adminDeveloper').value = devEl.innerText.trim();
+                let iUrl = ""; const imgEl = doc.querySelector('img.T75of.nm4vne') || doc.querySelector('img[alt="Icon image"]');
+                if(imgEl && imgEl.src) { iUrl = imgEl.src.split('=')[0]; document.getElementById('adminImageUrl').value = iUrl + '=s256'; }
+                const descEl = doc.querySelector('[data-g-id="description"]'); if(descEl) document.getElementById('adminDescription').value = descEl.innerHTML.replace(/<br\s*[\/]?>/gi, "\n").replace(/<[^>]+>/ig, "").trim();
+                let tagsArr = []; let m = html.match(/"applicationCategory":"([^"]+)"/);
+                if(m && m[1]) { let cat = m[1].replace('GAME_','').replace('APPLICATION_','').replace('_',' '); cat = cat.charAt(0).toUpperCase() + cat.slice(1).toLowerCase(); tagsArr.push(cat); }
+                let genreEls = doc.querySelectorAll('a[aria-label]');
+                genreEls.forEach(el => { let text = el.innerText.trim(); if(text && text.length < 25 && !text.includes('\n') && el.href && el.href.includes('/store/apps/category/')) { if(!tagsArr.includes(text)) tagsArr.push(text); } });
+                let itemPropGen = doc.querySelectorAll('[itemprop="genre"]');
+                itemPropGen.forEach(el => { let text = (el.innerText || el.getAttribute('content')).trim(); if(text && !tagsArr.includes(text)) tagsArr.push(text); });
+                if(tagsArr.length > 0) {
+                    document.getElementById('adminTags').value = tagsArr.join(', '); let catMatch = adminCategories.find(c => c.toLowerCase() === tagsArr[0].toLowerCase());
+                    if(catMatch) { document.getElementById('adminCategory').value = catMatch; document.getElementById('adminCategoryText').innerText = catMatch; }
                 }
-
-                const screenEls = doc.querySelectorAll('button.QziJze img.T75of.Bzm7h');
-                let screenshots = [];
-                screenEls.forEach((img, index) => {
-                    if (index < 5) {
-                        screenshots.push(img.src.split('=')[0] + '=h500');
-                    }
+                let screens = [];
+                doc.querySelectorAll('img').forEach(img => {
+                    let src = img.getAttribute('src') || img.getAttribute('data-src') || ""; let alt = (img.getAttribute('alt') || "").toLowerCase();
+                    if(src.includes('play-lh') && screens.length < 15 && alt.includes('screenshot')) { let cSrc = src.split(' ')[0].split('=')[0]; if(cSrc && cSrc !== iUrl && !cSrc.includes('s256')) { let f = cSrc + '=w1052-h592-rw'; if(!screens.includes(f)) screens.push(f); } }
                 });
-                if (screenshots.length > 0) {
-                    document.getElementById('screenshots').value = screenshots.join(', ');
+                if(!screens.length) { doc.querySelectorAll('img').forEach(img => { let src = img.getAttribute('src') || img.getAttribute('data-src') || ""; if(src.includes('play-lh') && screens.length < 15) { let cSrc = src.split(' ')[0].split('=')[0]; if(cSrc && cSrc !== iUrl && !src.includes('s256') && !src.includes('s48')) { let f = cSrc + '=w1052-h592-rw'; if(!screens.includes(f)) screens.push(f); } } }); }
+                if(screens.length) document.getElementById('adminScreenshots').value = screens.join(', ');
+                adminShowAlert("Success", "Auto Fetch done.", "success");
+            } catch(e) { adminShowAlert("Error", "Failed to fetch.", "error"); } finally { btn.innerHTML = oT; btn.disabled = false; }
+        }
+        
+        function adminStartEdit(id) {
+            const m = allAdminMods.find(x => x.id === id); if(!m) return; adminEditingId = id;
+            document.getElementById('adminTitle').value = m.title; document.getElementById('adminDeveloper').value = m.developer || ''; document.getElementById('adminCategory').value = m.category || ''; document.getElementById('adminCategoryText').innerText = m.category || 'Select Category'; document.getElementById('adminStatus').value = m.status || 'Published'; document.getElementById('adminStatusText').innerText = m.status === 'Draft' ? 'Draft (Hidden)' : 'Published'; document.getElementById('adminVersion').value = m.version; document.getElementById('adminSize').value = m.size; document.getElementById('adminTags').value = m.tags || ''; document.getElementById('adminFeatures').value = m.features || ''; document.getElementById('adminLinkMod').value = m.linkMod || m.downloadLink || ''; document.getElementById('adminLinkOri').value = m.linkOri || ''; document.getElementById('adminLinkObb').value = m.linkObb || ''; document.getElementById('adminLinkMirror').value = m.linkMirror || ''; document.getElementById('adminImageUrl').value = m.image; document.getElementById('adminScreenshots').value = m.screenshots || ''; document.getElementById('adminOldVersions').value = m.oldVersions || ''; document.getElementById('adminDescription').value = m.description;
+            document.getElementById('adminFormTitle').innerText = `Edit: ${m.title}`; document.getElementById('adminPublishBtn').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Update`; document.getElementById('adminCancelEditBtn').style.display = "inline-flex"; switchAdminTab('upload');
+        }
+        
+        function adminCancelEdit() {
+            adminEditingId = null; document.querySelectorAll('#admin-panel-upload input, #admin-panel-upload textarea').forEach(el => el.value = '');
+            document.getElementById('adminCategory').value = 'Action'; document.getElementById('adminCategoryText').innerText = 'Action'; document.getElementById('adminStatus').value = 'Published'; document.getElementById('adminStatusText').innerText = 'Published'; document.getElementById('adminFormTitle').innerText = 'Upload Mod'; document.getElementById('adminPublishBtn').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Publish`; document.getElementById('adminCancelEditBtn').style.display = "none";
+        }
+        
+        async function adminSaveMod() {
+            const data = {
+                title: document.getElementById('adminTitle').value, developer: document.getElementById('adminDeveloper').value || 'Unknown', category: document.getElementById('adminCategory').value, status: document.getElementById('adminStatus').value, version: document.getElementById('adminVersion').value || 'Latest', size: document.getElementById('adminSize').value || 'Unknown', tags: document.getElementById('adminTags').value, features: document.getElementById('adminFeatures').value || 'Original', description: document.getElementById('adminDescription').value, image: document.getElementById('adminImageUrl').value, screenshots: document.getElementById('adminScreenshots').value, oldVersions: document.getElementById('adminOldVersions').value, linkMod: document.getElementById('adminLinkMod').value, linkOri: document.getElementById('adminLinkOri').value, linkObb: document.getElementById('adminLinkObb').value, linkMirror: document.getElementById('adminLinkMirror').value
+            };
+            if(!data.title || !data.description || !data.image) return adminShowAlert("Error", "Title, Image, and Description required.", "error");
+            if(!data.linkMod && !data.linkOri && !data.linkObb && !data.linkMirror) return adminShowAlert("Error", "Provide at least one link.", "error");
+            if(!data.category) data.category = "Action";
+            
+            const btn = document.getElementById('adminPublishBtn'); const oT = btn.innerHTML; btn.innerHTML = 'Saving...'; btn.disabled = true;
+            try {
+                if(adminEditingId) { 
+                    await db.ref('apks/' + adminEditingId).update(data); 
+                    adminShowAlert("Success", "App updated.", "success"); 
+                    logAdminAction('app', 'Edit App', data.title, `Updated details / Status: ${data.status}`);
+                } else { 
+                    data.downloads = 0; 
+                    data.timestamp = firebase.database.ServerValue.TIMESTAMP; 
+                    await db.ref('apks').push(data); 
+                    adminShowAlert("Success", "App published.", "success"); 
+                    logAdminAction('app', 'Add App', data.title, `Published new app / Status: ${data.status}`);
                 }
-
-                showInfoAlert("Auto Fetch Successful!", "success");
-            } catch (error) {
-                console.error(error);
-                showInfoAlert("Failed to fetch data. Please enter manually.", "error");
-            } finally {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }
+                adminCancelEdit(); switchAdminTab('manage');
+            } catch(e) { adminShowAlert("Error", e.message, "error"); } finally { btn.innerHTML = oT; btn.disabled = false; }
         }
 
-        function startEdit(id) {
-            const mod = allAdminMods.find(m => m.id === id);
-            if (!mod) return;
-            
-            editingId = mod.id;
-            document.getElementById('title').value = mod.title; 
-            document.getElementById('developer').value = mod.developer || ''; 
-            document.getElementById('category').value = mod.category; 
-            document.getElementById('status').value = mod.status || 'Published'; 
-            document.getElementById('version').value = mod.version; 
-            document.getElementById('size').value = mod.size; 
-            document.getElementById('tags').value = mod.tags || '';
-            document.getElementById('features').value = mod.features; 
-            document.getElementById('linkMod').value = mod.linkMod || mod.downloadLink || ''; 
-            document.getElementById('linkOri').value = mod.linkOri || ''; 
-            document.getElementById('linkObb').value = mod.linkObb || ''; 
-            document.getElementById('imageUrl').value = mod.image; 
-            document.getElementById('screenshots').value = mod.screenshots || ''; 
-            document.getElementById('oldVersions').value = mod.oldVersions || '';
-            document.getElementById('description').value = mod.description;
-            
-            document.getElementById('formTitle').innerHTML = `Edit <span>${escapeHTML(mod.title)}</span>`;
-            document.getElementById('publishBtn').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> UPDATE APK`;
-            document.getElementById('cancelEditBtn').style.display = "flex";
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function cancelEdit() {
-            editingId = null;
-            document.getElementById('title').value = '';
-            document.getElementById('developer').value = '';
-            document.getElementById('status').value = 'Published';
-            document.getElementById('version').value = '';
-            document.getElementById('size').value = '';
-            document.getElementById('tags').value = '';
-            document.getElementById('features').value = '';
-            document.getElementById('linkMod').value = '';
-            document.getElementById('linkOri').value = '';
-            document.getElementById('linkObb').value = '';
-            document.getElementById('description').value = '';
-            document.getElementById('imageUrl').value = '';
-            document.getElementById('screenshots').value = '';
-            document.getElementById('oldVersions').value = '';
-            
-            document.getElementById('formTitle').innerHTML = `Upload <span>New Mod</span>`;
-            document.getElementById('publishBtn').innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> PUBLISH APK`;
-            document.getElementById('cancelEditBtn').style.display = "none";
-        }
-
-        async function saveMod() {
-            const title = document.getElementById('title').value;
-            const developer = document.getElementById('developer').value || 'Unknown';
-            const category = document.getElementById('category').value;
-            const status = document.getElementById('status').value;
-            const version = document.getElementById('version').value || 'Latest';
-            const size = document.getElementById('size').value || 'Unknown';
-            const tags = document.getElementById('tags').value;
-            const features = document.getElementById('features').value || 'Original';
-            const desc = document.getElementById('description').value;
-            const linkMod = document.getElementById('linkMod').value;
-            const linkOri = document.getElementById('linkOri').value;
-            const linkObb = document.getElementById('linkObb').value;
-            const imageUrl = document.getElementById('imageUrl').value;
-            const screenshots = document.getElementById('screenshots').value;
-            const oldVersions = document.getElementById('oldVersions').value;
-            
-            if (!title || !desc || !imageUrl) {
-                return showInfoAlert("Title, Description, and Image URL are required!", "error");
-            }
-            if (!linkMod && !linkOri && !linkObb) {
-                return showInfoAlert("At least ONE download link must be provided!", "error");
-            }
-            
-            const btn = document.getElementById('publishBtn');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
-            
-            try { 
-                const modData = {
-                    title: title,
-                    developer: developer,
-                    category: category,
-                    status: status,
-                    version: version,
-                    tags: tags,
-                    features: features,
-                    size: size,
-                    description: desc,
-                    image: imageUrl,
-                    screenshots: screenshots,
-                    oldVersions: oldVersions,
-                    linkMod: linkMod,
-                    linkOri: linkOri,
-                    linkObb: linkObb
-                };
-                
-                if (editingId) {
-                    await db.ref('apks/' + editingId).update(modData);
-                    showInfoAlert("App updated!", "success");
-                    cancelEdit();
-                } else {
-                    modData.downloads = 0;
-                    modData.timestamp = firebase.database.ServerValue.TIMESTAMP;
-                    await db.ref('apks').push(modData);
-                    showInfoAlert("App published!", "success");
-                    cancelEdit();
+        function adminFetchLogs() {
+            db.ref('admin_logs').orderByChild('timestamp').limitToLast(150).on('value', snap => {
+                allAdminLogs = [];
+                if(snap.exists()) {
+                    snap.forEach(child => {
+                        let l = child.val();
+                        l.id = child.key;
+                        allAdminLogs.push(l);
+                    });
+                    allAdminLogs.reverse(); 
                 }
-            } catch (e) {
-                showInfoAlert("Error: " + e.message, "error");
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = editingId ? '<i class="fa-solid fa-floppy-disk"></i> UPDATE APK' : '<i class="fa-solid fa-cloud-arrow-up"></i> PUBLISH APK';
-            }
+                adminRenderLogs();
+                if(document.getElementById('admin-panel-dashboard').style.display === 'block') {
+                    adminRenderActivityChart();
+                }
+            });
         }
 
-        function deleteMod(id) {
-            showConfirmAlert("Delete this app permanently?", async () => {
-                try {
-                    await db.ref('apks/' + id).remove();
-                    await db.ref('comments/' + id).remove();
-                    await db.ref('ratings/' + id).remove();
-                    await db.ref('requests/' + id).remove();
-                    await db.ref('reports/' + id).remove();
-                    await db.ref('votes/' + id).remove();
-                    showInfoAlert("App deleted.", "success");
-                } catch(e) {
-                    showInfoAlert("Error: " + e.message, "error");
-                }
+        function adminFilterLogs() { adminRenderLogs(); }
+
+        function adminRenderLogs() {
+            const list = document.getElementById('adminLogsList');
+            const searchVal = document.getElementById('adminLogSearchInput').value.toLowerCase();
+            
+            let filteredLogs = allAdminLogs;
+            if(searchVal) {
+                filteredLogs = allAdminLogs.filter(l => 
+                    (l.adminName && l.adminName.toLowerCase().includes(searchVal)) || 
+                    (l.action && l.action.toLowerCase().includes(searchVal)) ||
+                    (l.target && l.target.toLowerCase().includes(searchVal))
+                );
+            }
+
+            if(filteredLogs.length === 0) {
+                list.innerHTML = '<p style="text-align:center; color:var(--text-muted); padding:20px;">No logs found.</p>';
+                return;
+            }
+
+            let html = '';
+            filteredLogs.forEach(log => {
+                let icon = 'fa-circle-info';
+                let colorClass = 'log-type-app';
+
+                if(log.category === 'auth') { colorClass = 'log-type-auth'; icon = log.action === 'Login' ? 'fa-right-to-bracket' : 'fa-right-from-bracket'; }
+                if(log.category === 'app') { colorClass = 'log-type-app'; icon = log.action.includes('Delete') ? 'fa-trash' : (log.action.includes('Add') ? 'fa-plus' : 'fa-pen'); }
+                if(log.category === 'user') { colorClass = 'log-type-user'; icon = log.action.includes('Ban') || log.action.includes('Mute') ? 'fa-gavel' : 'fa-user-pen'; }
+                if(log.category === 'mod') { colorClass = 'log-type-mod'; icon = 'fa-comment-slash'; }
+                if(log.category === 'req') { colorClass = 'log-type-req'; icon = log.action.includes('Approve') || log.action.includes('Solve') ? 'fa-check' : 'fa-xmark'; }
+
+                html += `
+                <div class="log-item ${colorClass}">
+                    <div class="log-header">
+                        <span class="log-title"><i class="fa-solid ${icon}"></i> ${escapeHTML(log.action)}: ${escapeHTML(log.target)}</span>
+                        <span class="log-time">${adminFormatDate(log.timestamp)}</span>
+                    </div>
+                    <div class="log-desc">${escapeHTML(log.details)}</div>
+                    <div class="log-admin">By: ${escapeHTML(log.adminName)}</div>
+                </div>`;
+            });
+            list.innerHTML = html;
+        }
+
+        function adminClearLogs() {
+            adminShowAlert("Confirm", "Clear all activity logs? This cannot be undone.", "warning", async () => {
+                await db.ref('admin_logs').remove();
+                showToast("Logs cleared", "success");
+                logAdminAction('auth', 'Clear Logs', 'Admin Panel', 'Cleared all activity logs');
             });
         }
     </script>
 </body>
-  </html>
+</html>
